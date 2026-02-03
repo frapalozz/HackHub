@@ -1,0 +1,15 @@
+# Visual Paradigm
+*.vpp.bak*
+*.vpp.lck
+*.bak.vpp
+*.~vpp
+
+# Java
+bin/
+*.class
+
+# VS Code
+.vscode/
+
+# IntelliJ
+.idea/
