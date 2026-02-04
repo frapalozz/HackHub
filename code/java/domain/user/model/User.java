@@ -16,6 +16,14 @@ public class User {
         return this.name;
     }
 
+    public boolean hasTeam() {
+        return this.team != null;
+    }
+
+    public void setTeam(Team team) {
+        this.team = team;
+    }
+
     @Override
     public boolean equals(Object other) {
         if(other == null || !(other instanceof User)) return false;

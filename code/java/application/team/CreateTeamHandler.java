@@ -4,5 +4,5 @@ import java.util.List;
 
 public interface CreateTeamHandler {
     
-    void createTeam(String userId, String teamName, List<String> invitedUsers);
+    String createTeam(String userId, String teamName, List<String> invitedUsers);
 }

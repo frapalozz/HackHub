@@ -1,0 +1,42 @@
+package code.java.application.team;
+
+import java.util.List;
+
+import code.java.application.invitation.InvitationService;
+import code.java.domain.team.model.Team;
+import code.java.domain.team.repository.TeamRepository;
+import code.java.domain.user.model.User;
+import code.java.domain.user.repository.UserRepository;
+
+public class CreateTeamHandlerImpl implements CreateTeamHandler {
+    
+    private UserRepository userRepository;
+    private TeamRepository teamRepository;
+
+    private InvitationService invitationService;
+
+    @Override
+    public String createTeam(String userId, String teamName, List<String> invitedUsers) {
+        
+        User user = userRepository.findById(userId);
+
+        this.validateTeamCreation(teamName, user);
+
+        Team team = new Team(teamName, user);
+        user.setTeam(team);
+
+        teamRepository.save(team);
+
+        invitationService.createInvitations(team, invitedUsers);
+
+        return "Team Created";
+    }
+
+    private void validateTeamCreation(String teamName, User user) {
+        if(user == null) throw new IllegalArgumentException("User not found");
+
+        if(user.hasTeam()) throw new IllegalStateException("User already in a team");
+
+        if(teamRepository.findById(teamName) != null) throw new IllegalArgumentException("Team name already used");;
+    }
+}

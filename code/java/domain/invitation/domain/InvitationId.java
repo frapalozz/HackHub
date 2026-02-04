@@ -8,6 +8,11 @@ public class InvitationId {
     private Team team;
     private User receiver;
 
+    public InvitationId(Team team, User receiver) {
+        this.team = team;
+        this.receiver = receiver;
+    }
+
     public Team getTeam() {
         return this.team;
     }
