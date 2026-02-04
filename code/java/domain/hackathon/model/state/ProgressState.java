@@ -1,23 +1,27 @@
 package code.java.domain.hackathon.model.state;
 
+import code.java.domain.hackathon.model.Hackathon;
+
 public class ProgressState implements HackathonState {
 
+    private Hackathon context;
+
     @Override
-    public void addTeam(Team team) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'addTeam'");
+    public boolean addTeam(Team team) {
+        throw new IllegalStateException("Hackathon already started");
     }
 
     @Override
-    public void addSubmission(Team team, Submission submission) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'addSubmission'");
+    public boolean addSubmission(Team team, Submission submission) {
+        return true;
     }
 
     @Override
-    public void updateSubmission(Team team, Submission submission) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'updateSubmission'");
+    public boolean updateSubmission(Team team, Submission submission) {
+        if(!this.context.teamHasSubmission(team)) {
+            throw new IllegalArgumentException("Team doesn't have a submission");
+        }
+        return true;
     }
     
 }

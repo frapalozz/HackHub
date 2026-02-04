@@ -2,7 +2,7 @@ package code.java.domain.hackathon.model.state;
 
 public interface HackathonState {
     
-    void addTeam(Team team);
-    void addSubmission(Team team, Submission submission);
-    void updateSubmission(Team team, Submission submission);
+    boolean addTeam(Team team);
+    boolean addSubmission(Team team, Submission submission);
+    boolean updateSubmission(Team team, Submission submission);
 }

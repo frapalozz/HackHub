@@ -1,5 +1,7 @@
 package code.java.domain.hackathon.model;
 import java.util.Date;
+import java.util.Map;
+import java.util.Set;
 
 import code.java.domain.hackathon.model.state.HackathonState;
 import code.java.domain.utils.Period;
@@ -27,14 +29,24 @@ public class Hackathon {
     }
 
     public void addTeam(Team team) {
-        this.state.addTeam(team);
+        if(!this.state.addTeam(team)) return;
+
+        this.teams.add(team);
     }
     
     public void addSubmission(Team team, Submission submission) {
-        this.state.addSubmission(team, submission);
+        if(!this.state.addSubmission(team, submission)) return;
+
+        this.setSubmission(team, submission);
     }
 
     public void updateSubmission(Team team, Submission submission) {
-        this.state.updateSubmission(team, submission);
+        if(!this.state.updateSubmission(team, submission)) return;
+
+        this.setSubmission(team, submission);
+    }
+
+    private void setSubmission(Team team, Submission submission) {
+        this.submissions.put(team, submission);
     }
 }
