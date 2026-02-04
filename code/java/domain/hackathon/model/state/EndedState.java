@@ -1,5 +1,9 @@
 package code.java.domain.hackathon.model.state;
 
+import code.java.domain.hackathon.model.Hackathon;
+import code.java.domain.hackathon.model.Submission;
+import code.java.domain.team.model.Team;
+
 public class EndedState implements HackathonState {
 
     private Hackathon context;

@@ -4,6 +4,7 @@ import java.util.Map;
 import java.util.Set;
 
 import code.java.domain.hackathon.model.state.HackathonState;
+import code.java.domain.team.model.Team;
 import code.java.domain.utils.Period;
 
 public class Hackathon {
@@ -44,6 +45,14 @@ public class Hackathon {
         if(!this.state.updateSubmission(team, submission)) return;
 
         this.setSubmission(team, submission);
+    }
+
+    public boolean hasTeam(Team team) {
+        return teams.contains(team);
+    }
+
+    public boolean teamHasSubmission(Team team) {
+        return submissions.get(team) != null;
     }
 
     private void setSubmission(Team team, Submission submission) {
