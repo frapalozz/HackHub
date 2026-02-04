@@ -28,6 +28,10 @@ public class Hackathon {
     private Map<Team, Submission> submissions;
     private Team winner;
 
+    public long getId() {
+        return this.id;
+    }
+
     public void changeState(HackathonState newState) {
         this.state = newState;
     }
