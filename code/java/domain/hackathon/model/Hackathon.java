@@ -4,6 +4,9 @@ import java.util.Map;
 import java.util.Set;
 
 import code.java.domain.hackathon.model.state.HackathonState;
+import code.java.domain.staffMember.model.Judge;
+import code.java.domain.staffMember.model.Mentor;
+import code.java.domain.staffMember.model.Organizer;
 import code.java.domain.team.model.Team;
 import code.java.domain.utils.Period;
 
@@ -18,9 +21,9 @@ public class Hackathon {
     private Double prize;
     private HackathonState state;
 
-    private StaffMember organizer;
-    private StaffMember judge;
-    private Set<StaffMember> mentors;
+    private Organizer organizer;
+    private Judge judge;
+    private Set<Mentor> mentors;
     private Set<Team> teams;
     private Map<Team, Submission> submissions;
     private Team winner;
