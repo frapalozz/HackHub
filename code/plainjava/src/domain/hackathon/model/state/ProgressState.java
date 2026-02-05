@@ -4,6 +4,8 @@ import plainjava.src.domain.hackathon.model.Hackathon;
 import plainjava.src.domain.hackathon.model.Submission;
 import plainjava.src.domain.team.model.Team;
 
+import java.time.LocalDate;
+
 public class ProgressState implements HackathonState {
 
     private Hackathon context;
@@ -19,7 +21,10 @@ public class ProgressState implements HackathonState {
 
     @Override
     public boolean addSubmission(Team team, Submission submission) {
-        return true;
+        if(this.context.teamHasSubmission(team)) {
+            throw new IllegalArgumentException("Team have a submission");
+        }
+        return context.getHackathonPeriod().isWithinPeriod(LocalDate.now());
     }
 
     @Override
@@ -27,7 +32,7 @@ public class ProgressState implements HackathonState {
         if(!this.context.teamHasSubmission(team)) {
             throw new IllegalArgumentException("Team doesn't have a submission");
         }
-        return true;
+        return context.getHackathonPeriod().isWithinPeriod(LocalDate.now());
     }
     
 }

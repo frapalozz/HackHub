@@ -63,6 +63,10 @@ public class Hackathon {
         return this.maxTeamSize;
     }
 
+    public Period getHackathonPeriod() {
+        return this.hackathonPeriod;
+    }
+
     public LocalDate getSubscriptionDeadline() {
         return this.subscriptionDeadline;
     }

@@ -1,0 +1,48 @@
+package plainjava.src.application.hackathon;
+
+import plainjava.src.domain.hackathon.model.Hackathon;
+import plainjava.src.domain.hackathon.model.Submission;
+import plainjava.src.domain.hackathon.repository.HackathonRepository;
+import plainjava.src.domain.team.model.Team;
+import plainjava.src.domain.team.repository.TeamRepository;
+
+public class SubmissionHandlerImpl implements SubmissionHandler {
+
+    private final HackathonRepository hackathonRepository;
+    private final TeamRepository teamRepository;
+
+    public SubmissionHandlerImpl(HackathonRepository hackathonRepository, TeamRepository teamRepository) {
+        this.hackathonRepository = hackathonRepository;
+        this.teamRepository = teamRepository;
+    }
+
+    @Override
+    public String addSubmission(String teamName, long hackathonId, Submission submission) {
+
+        Hackathon hackathon = hackathonRepository.findById(hackathonId);
+        Team team = teamRepository.findById(teamName);
+
+        if(hackathon == null || team == null) {
+            throw new IllegalArgumentException("Hackathon or Team not found");
+        }
+
+        hackathon.addSubmission(team, submission);
+
+        return "Submission added";
+    }
+
+    @Override
+    public String updateSubmission(String teamName, long hackathonId, Submission submission) {
+
+        Hackathon hackathon = hackathonRepository.findById(hackathonId);
+        Team team = teamRepository.findById(teamName);
+
+        if(hackathon == null || team == null) {
+            throw new IllegalArgumentException("Hackathon or Team not found");
+        }
+
+        hackathon.updateSubmission(team, submission);
+
+        return "Submission updated";
+    }
+}
