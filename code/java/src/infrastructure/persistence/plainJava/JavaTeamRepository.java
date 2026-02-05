@@ -1,5 +1,6 @@
 package code.java.src.infrastructure.persistence.plainJava;
 
+import java.util.HashSet;
 import java.util.Set;
 
 import code.java.src.domain.team.model.Team;
@@ -7,7 +8,7 @@ import code.java.src.domain.team.repository.TeamRepository;
 
 public class JavaTeamRepository implements TeamRepository {
 
-    private Set<Team> teams;
+    private Set<Team> teams = new HashSet<>();
 
     @Override
     public Team findById(String teamName) {

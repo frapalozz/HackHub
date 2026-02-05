@@ -20,6 +20,10 @@ public class Team {
         return this.name;
     }
 
+    public Set<User> getMembers() {
+        return this.members;
+    }
+
     @Override
     public boolean equals(Object other) {
         if(other == null || !(other instanceof Team)) return false;

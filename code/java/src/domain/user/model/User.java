@@ -8,6 +8,11 @@ public class User {
     private String email;
     private Team team;
 
+    public User(String name, String email) {
+        this.name = name;
+        this.email = email;
+    }
+
     public String getEmail() {
         return this.email;
     }

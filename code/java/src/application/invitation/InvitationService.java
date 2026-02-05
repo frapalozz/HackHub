@@ -15,6 +15,11 @@ public class InvitationService {
     private UserRepository userRepository;
     private InvitationRepository invitationRepository;
 
+    public InvitationService(UserRepository ur, InvitationRepository ir) {
+        this.userRepository = ur;
+        this.invitationRepository = ir;
+    }
+
     public void createInvitations(Team team, List<String> invitedUsers) {
         List<User> users = userRepository.findAllById(invitedUsers);
 

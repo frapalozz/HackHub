@@ -15,6 +15,12 @@ public class CreateTeamHandlerImpl implements CreateTeamHandler {
 
     private InvitationService invitationService;
 
+    public CreateTeamHandlerImpl(UserRepository ur, TeamRepository tr, InvitationService is) {
+        this.userRepository = ur;
+        this.teamRepository = tr;
+        this.invitationService = is;
+    }
+
     @Override
     public String createTeam(String userId, String teamName, List<String> invitedUsers) {
         

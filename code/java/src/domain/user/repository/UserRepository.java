@@ -6,6 +6,7 @@ import code.java.src.domain.user.model.User;
 
 public interface UserRepository {
     
+    void save(User user);
     User findById(String email);
     List<User> findAllById(List<String> emails);
 }

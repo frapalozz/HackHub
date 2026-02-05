@@ -1,5 +1,6 @@
 package code.java.src.infrastructure.persistence.plainJava;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -9,7 +10,7 @@ import code.java.src.domain.invitation.repository.InvitationRepository;
 
 public class JavaInvitationRepository implements InvitationRepository {
 
-    private Set<Invitation> invitations;
+    private Set<Invitation> invitations = new HashSet<>();
 
     @Override
     public void save(Invitation invitation) {
