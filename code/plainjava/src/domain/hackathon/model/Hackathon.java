@@ -71,6 +71,10 @@ public class Hackathon {
         return this.subscriptionDeadline;
     }
 
+    public Submission getSubmission(Team team) {
+        return this.submissions.get(team);
+    }
+
     public void changeState(HackathonState newState) {
         this.state = newState;
     }

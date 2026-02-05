@@ -5,4 +5,8 @@ import java.io.File;
 public class Submission {
     
     private File data;
+
+    public Submission(File data) {
+        this.data = data;
+    }
 }

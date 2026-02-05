@@ -2,6 +2,7 @@ package plainjava.test.application.team;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -168,7 +169,7 @@ public class RegisterTeamTest {
         mentors.add(mentor1);
         mentors.add(mentor2);
 
-        return new Hackathon("test", subDeadline, period, maxTeamSize, "", 10.0, organizer, judge, mentors.stream().collect(Collectors.toSet()));
+        return new Hackathon("test", subDeadline, period, maxTeamSize, "", 10.0, organizer, judge, new HashSet<>(mentors));
     }
 
     private static Team createTestTeam(String teamName) {
