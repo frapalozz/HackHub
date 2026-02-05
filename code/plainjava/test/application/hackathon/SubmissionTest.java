@@ -56,7 +56,7 @@ public class SubmissionTest {
         // ASSERT
         System.out.println(
                 hackathon.getSubmission(team) != null ?
-                ":) Success: Add Submission" : ":( Failed: Add Submission");
+                ":) Success Test: Add Submission" : ":( Failed Test: Add Submission");
     }
 
     private static void successUpdateSubmissionTest() {
@@ -78,12 +78,12 @@ public class SubmissionTest {
             handler.addSubmission("test", 1L, submissionTestEntity());
             handler.updateSubmission("test", 1L, submissionTestEntity());
         } catch (Exception e) {
-            System.out.println(":( Failed: Update Submission");
+            System.out.println(":( Failed Test: Update Submission");
             return;
         }
 
         // ASSERT
-        System.out.println(":) Success: Update Submission");
+        System.out.println(":) Success Test: Update Submission");
     }
 
     private static void teamOrHackathonNotFoundAddSubmissionTest() {
@@ -109,7 +109,7 @@ public class SubmissionTest {
         // ASSERT
         System.out.println(
                 hackathon.getSubmission(team) == null ?
-                        ":) Success: Team or Hackathon not found (Add)" : ":( Failed: Team or Hackathon not found (Add)");
+                        ":) Success Test: Team or Hackathon not found (Add)" : ":( Failed Test: Team or Hackathon not found (Add)");
     }
 
     private static void teamOrHackathonNotFoundUpdateSubmissionTest() {
@@ -131,12 +131,12 @@ public class SubmissionTest {
             handler.addSubmission("test", 1L, submissionTestEntity());
             handler.updateSubmission("test2", 3L, submissionTestEntity());
         } catch (Exception e) {
-            System.out.println(":) Success: Team or Hackathon not found (Update)");
+            System.out.println(":) Success Test: Team or Hackathon not found (Update)");
             return;
         }
 
         // ASSERT
-        System.out.println(":( Failed: Team or Hackathon not found (Update)");
+        System.out.println(":( Failed Test: Team or Hackathon not found (Update)");
     }
 
     private static void alreadyAddedSubmissionTest() {
@@ -158,12 +158,12 @@ public class SubmissionTest {
             handler.addSubmission("test", 1L, submissionTestEntity());
             handler.addSubmission("test", 1L, submissionTestEntity());
         } catch (Exception e) {
-            System.out.println(":) Success: Submission already added");
+            System.out.println(":) Success Test: Submission already added");
             return;
         }
 
         // ASSERT
-        System.out.println(":( Failed: Submission already added");
+        System.out.println(":( Failed Test: Submission already added");
     }
 
     private static void submissionNotFoundTest() {
@@ -184,12 +184,12 @@ public class SubmissionTest {
         try {
             handler.updateSubmission("test", 1L, submissionTestEntity());
         } catch (Exception e) {
-            System.out.println(":) Success: Submission not added");
+            System.out.println(":) Success Test: Submission not added");
             return;
         }
 
         // ASSERT
-        System.out.println(":( Success: Submission not added");
+        System.out.println(":( Failed Test: Submission not added");
     }
 
     private static Submission submissionTestEntity() {

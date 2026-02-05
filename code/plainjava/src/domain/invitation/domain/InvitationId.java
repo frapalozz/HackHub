@@ -23,9 +23,7 @@ public class InvitationId {
 
     @Override
     public boolean equals(Object other) {
-        if(other == null || !(other instanceof InvitationId)) return false;
-
-        InvitationId o = (InvitationId) other;
+        if(!(other instanceof InvitationId o)) return false;
 
         return o.getTeam().equals(team) && o.getReceiver().equals(receiver);
     }

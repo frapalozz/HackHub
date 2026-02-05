@@ -4,18 +4,18 @@ import java.time.LocalDate;
 
 public record Period(LocalDate startDate, LocalDate endDate) {
      /**
-     * Return true if the passed dateTime is within this Period, false otherwise
-     * @param dateTime
+     * Return true if the passed date is within this Period, false otherwise
+     * @param date date to confront
      * @return true if dateTime is within this Period, false otherwise
      */
-    public boolean isWithinPeriod(LocalDate dateTime) {
-        return (dateTime.isEqual(startDate) || dateTime.isAfter(startDate)) &&
-                (dateTime.isEqual(endDate) || dateTime.isBefore(endDate));
+    public boolean isWithinPeriod(LocalDate date) {
+        return (date.isEqual(startDate) || date.isAfter(startDate)) &&
+                (date.isEqual(endDate) || date.isBefore(endDate));
     }
 
     /**
      * Return true if the passed Period overlaps with this Period, false otherwise
-     * @param other
+     * @param other other period
      * @return true if the passed Period overlaps with this Period, false otherwise
      */
     public boolean overlapsWith(Period other) {

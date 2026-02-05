@@ -1,13 +1,11 @@
 package plainjava.src.domain.invitation.repository;
 
-import java.util.List;
-
 import plainjava.src.domain.invitation.domain.Invitation;
 import plainjava.src.domain.invitation.domain.InvitationId;
+import plainjava.src.domain.utils.repository.Find;
+import plainjava.src.domain.utils.repository.Save;
 
-public interface InvitationRepository {
-    
-    void save(Invitation invitation);
-    void saveAll(List<Invitation> invitations);
-    Invitation findById(InvitationId id);
+public interface InvitationRepository extends
+        Save<Invitation>,
+        Find<Invitation, InvitationId> {
 }

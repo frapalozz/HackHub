@@ -1,16 +1,13 @@
 package plainjava.src.infrastructure.persistence.plainJava;
 
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Optional;
-import java.util.Set;
+import java.util.*;
 
 import plainjava.src.domain.hackathon.model.Hackathon;
 import plainjava.src.domain.hackathon.repository.HackathonRepository;
 
 public class JavaHackathonRepository implements HackathonRepository {
     
-    private Set<Hackathon> hackathons = new HashSet<>();
+    private final Set<Hackathon> hackathons = new HashSet<>();
 
     @Override
     public Hackathon findById(Long id) {
@@ -21,8 +18,15 @@ public class JavaHackathonRepository implements HackathonRepository {
     }
 
     @Override
-    public void save(Hackathon hackathon) {
-        if(hackathon == null) return;
+    public List<Hackathon> findAll(List<Long> ids) {
+        return hackathons.stream()
+                .filter(h -> ids.contains(h.getId()))
+                .toList();
+    }
+
+    @Override
+    public Hackathon save(Hackathon hackathon) {
+        if(hackathon == null) return null;
         Hackathon hackathonPresent = this.findById(hackathon.getId());
 
         if(hackathonPresent == null) {
@@ -34,5 +38,12 @@ public class JavaHackathonRepository implements HackathonRepository {
             this.hackathons.remove(hackathonPresent);
             this.hackathons.add(hackathon);
         }
+
+        return hackathon;
+    }
+
+    @Override
+    public void saveAll(List<Hackathon> entities) {
+        entities.forEach(this::save);
     }
 }

@@ -30,9 +30,7 @@ public class Team {
 
     @Override
     public boolean equals(Object other) {
-        if(other == null || !(other instanceof Team)) return false;
-
-        Team o = (Team) other;
+        if(!(other instanceof Team o)) return false;
 
         return name.equals(o.getName());
     }

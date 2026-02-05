@@ -1,6 +1,7 @@
 package plainjava.src.infrastructure.persistence.plainJava;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import plainjava.src.domain.team.model.Team;
@@ -8,7 +9,7 @@ import plainjava.src.domain.team.repository.TeamRepository;
 
 public class JavaTeamRepository implements TeamRepository {
 
-    private Set<Team> teams = new HashSet<>();
+    private final Set<Team> teams = new HashSet<>();
 
     @Override
     public Team findById(String teamName) {
@@ -19,7 +20,14 @@ public class JavaTeamRepository implements TeamRepository {
     }
 
     @Override
-    public void save(Team team) {
+    public List<Team> findAll(List<String> ids) {
+        return teams.stream()
+                .filter(t -> ids.contains(t.getName()))
+                .toList();
+    }
+
+    @Override
+    public Team save(Team team) {
         Team teamPresent = this.findById(team.getName());
 
         if(teamPresent == null) {
@@ -28,6 +36,13 @@ public class JavaTeamRepository implements TeamRepository {
             this.teams.remove(teamPresent);
             this.teams.add(team);
         }
+
+        return team;
     }
-    
+
+    @Override
+    public void saveAll(List<Team> entities) {
+        entities.forEach(this::save);
+    }
+
 }

@@ -1,12 +1,9 @@
 package plainjava.src.domain.user.repository;
 
-import java.util.List;
-
 import plainjava.src.domain.user.model.User;
+import plainjava.src.domain.utils.repository.Find;
+import plainjava.src.domain.utils.repository.Save;
 
-public interface UserRepository {
-    
-    void save(User user);
-    User findById(String email);
-    List<User> findAllById(List<String> emails);
+public interface UserRepository extends
+        Save<User>, Find<User, String> {
 }

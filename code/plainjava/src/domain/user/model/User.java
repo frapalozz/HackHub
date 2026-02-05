@@ -31,9 +31,7 @@ public class User {
 
     @Override
     public boolean equals(Object other) {
-        if(other == null || !(other instanceof User)) return false;
-
-        User o = (User) other;
+        if(!(other instanceof User o)) return false;
 
         return name.equals(o.getName()) && email.equals(o.getEmail());
     }

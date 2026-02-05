@@ -13,17 +13,17 @@ public class EndedState implements HackathonState {
     }
 
     @Override
-    public boolean registerTeam(Team team) {
+    public void registerTeam(Team team) {
         throw new IllegalStateException("Hackathon ended");
     }
 
     @Override
-    public boolean addSubmission(Team team, Submission submission) {
+    public void addSubmission(Team team, Submission submission) {
         throw new IllegalStateException("Hackathon ended");
     }
 
     @Override
-    public boolean updateSubmission(Team team, Submission submission) {
+    public void updateSubmission(Team team, Submission submission) {
         throw new IllegalStateException("Hackathon ended");
     }
     

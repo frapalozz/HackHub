@@ -7,8 +7,8 @@ import plainjava.src.domain.team.repository.TeamRepository;
 
 public class RegisterTeamHandlerImpl implements RegisterTeamHandler {
 
-    private HackathonRepository hackathonRepo;
-    private TeamRepository teamRepo;
+    private final HackathonRepository hackathonRepo;
+    private final TeamRepository teamRepo;
 
     public RegisterTeamHandlerImpl(HackathonRepository hr, TeamRepository tr) {
         this.hackathonRepo = hr;

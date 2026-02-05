@@ -9,7 +9,7 @@ import plainjava.src.domain.user.repository.UserRepository;
 
 public class JavaUserRepository implements UserRepository {
 
-    private Set<User> users = new HashSet<>();
+    private final Set<User> users = new HashSet<>();
 
     @Override
     public User findById(String email) {
@@ -20,14 +20,15 @@ public class JavaUserRepository implements UserRepository {
     }
 
     @Override
-    public List<User> findAllById(List<String> emails) {
+    public List<User> findAll(List<String> emails) {
         return this.users.stream()
         .filter(u -> emails.contains(u.getEmail()))
         .toList();
     }
 
     @Override
-    public void save(User user) {
+    public User save(User user) {
+        if(user == null) return null;
         User userPresent = this.findById(user.getEmail());
 
         if(userPresent == null) {
@@ -36,6 +37,13 @@ public class JavaUserRepository implements UserRepository {
             this.users.remove(userPresent);
             this.users.add(user);
         }
+
+        return user;
     }
-    
+
+    @Override
+    public void saveAll(List<User> entities) {
+        entities.forEach(this::save);
+    }
+
 }

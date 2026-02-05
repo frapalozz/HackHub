@@ -15,24 +15,28 @@ public class ProgressState implements HackathonState {
     }
 
     @Override
-    public boolean registerTeam(Team team) {
+    public void registerTeam(Team team) {
         throw new IllegalStateException("Hackathon already started");
     }
 
     @Override
-    public boolean addSubmission(Team team, Submission submission) {
+    public void addSubmission(Team team, Submission submission) {
+        if(!context.getHackathonPeriod().isWithinPeriod(LocalDate.now()))
+            throw new IllegalArgumentException("Hackathon not in progress");
+
         if(this.context.teamHasSubmission(team)) {
             throw new IllegalArgumentException("Team have a submission");
         }
-        return context.getHackathonPeriod().isWithinPeriod(LocalDate.now());
     }
 
     @Override
-    public boolean updateSubmission(Team team, Submission submission) {
+    public void updateSubmission(Team team, Submission submission) {
+        if(!context.getHackathonPeriod().isWithinPeriod(LocalDate.now()))
+            throw new IllegalArgumentException("Hackathon not in progress");
+
         if(!this.context.teamHasSubmission(team)) {
             throw new IllegalArgumentException("Team doesn't have a submission");
         }
-        return context.getHackathonPeriod().isWithinPeriod(LocalDate.now());
     }
     
 }

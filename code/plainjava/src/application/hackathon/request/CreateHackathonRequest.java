@@ -5,6 +5,18 @@ import java.util.List;
 
 import plainjava.src.domain.utils.Period;
 
+/**
+ * Request to create a new Hackathon
+ * @param name hackathon name
+ * @param subscriptionDeadline subscription deadline
+ * @param hackathonPeriod hackathon period
+ * @param maxTeamSize max team size
+ * @param requirements hackathon requirements
+ * @param prize prize
+ * @param organizerEmail email of the creator of the hackathon
+ * @param judgeEmail email of the judge of the hackathon
+ * @param mentorsEmails emails of the mentors of the hackathon
+ */
 public record CreateHackathonRequest(
     String name, 
     LocalDate subscriptionDeadline, 

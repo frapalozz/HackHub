@@ -10,10 +10,10 @@ import plainjava.src.domain.invitation.repository.InvitationRepository;
 
 public class JavaInvitationRepository implements InvitationRepository {
 
-    private Set<Invitation> invitations = new HashSet<>();
+    private final Set<Invitation> invitations = new HashSet<>();
 
     @Override
-    public void save(Invitation invitation) {
+    public Invitation save(Invitation invitation) {
         Invitation invitationPresent = this.findById(invitation.getId());
 
         if(invitationPresent == null) {
@@ -22,11 +22,13 @@ public class JavaInvitationRepository implements InvitationRepository {
             this.invitations.remove(invitationPresent);
             this.invitations.add(invitation);
         }
+
+        return invitation;
     }
 
     @Override
     public void saveAll(List<Invitation> invitations) {
-        invitations.forEach(i -> this.save(i));
+        invitations.forEach(this::save);
     }
 
     @Override
@@ -36,5 +38,12 @@ public class JavaInvitationRepository implements InvitationRepository {
             .findFirst()
             .orElse(null);
     }
-    
+
+    @Override
+    public List<Invitation> findAll(List<InvitationId> ids) {
+        return invitations.stream()
+                .filter(i -> ids.contains(i.getId()))
+                .toList();
+    }
+
 }

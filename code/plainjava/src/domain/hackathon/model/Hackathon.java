@@ -1,4 +1,5 @@
 package plainjava.src.domain.hackathon.model;
+
 import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -80,19 +81,18 @@ public class Hackathon {
     }
 
     public void registerTeam(Team team) {
-        if(!this.state.registerTeam(team)) return;
-
+        this.state.registerTeam(team);
         this.teams.add(team);
     }
     
     public void addSubmission(Team team, Submission submission) {
-        if(!this.state.addSubmission(team, submission)) return;
+        this.state.addSubmission(team, submission);
 
         this.setSubmission(team, submission);
     }
 
     public void updateSubmission(Team team, Submission submission) {
-        if(!this.state.updateSubmission(team, submission)) return;
+        this.state.updateSubmission(team, submission);
 
         this.setSubmission(team, submission);
     }

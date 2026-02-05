@@ -1,7 +1,8 @@
 package plainjava.src.application.hackathon;
 
+import java.util.HashSet;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Objects;
 
 import plainjava.src.application.hackathon.request.CreateHackathonRequest;
 import plainjava.src.domain.hackathon.model.Hackathon;
@@ -13,8 +14,8 @@ import plainjava.src.domain.staffMember.repository.StaffMemberRepository;
 
 public class CreateHackathonHandlerImpl implements CreateHackathonHandler {
 
-    private StaffMemberRepository staffMemberRepo;
-    private HackathonRepository hackathonRepo;
+    private final StaffMemberRepository staffMemberRepo;
+    private final HackathonRepository hackathonRepo;
 
     public CreateHackathonHandlerImpl(StaffMemberRepository smr, HackathonRepository hr) {
         this.staffMemberRepo = smr;
@@ -30,14 +31,22 @@ public class CreateHackathonHandlerImpl implements CreateHackathonHandler {
         Judge judge = (Judge) staffMemberRepo.findById(request.judgeEmail());
         List<Mentor> mentors = request.mentorsEmails().stream()
             .map(e -> (Mentor) staffMemberRepo.findById(e))
-            .filter(m -> m != null)
+            .filter(Objects::nonNull)
             .toList();
 
         if(organizer == null || judge == null || mentors.size() != request.mentorsEmails().size()) {
             throw new IllegalArgumentException("Staffmember not found");
         }
 
-        Hackathon hackathon = new Hackathon(request.name(), request.subscriptionDeadline(), request.hackathonPeriod(), request.maxTeamSize(), request.requirements(), request.prize(), organizer, judge, mentors.stream().collect(Collectors.toSet()));
+        Hackathon hackathon = new Hackathon(
+                request.name(),
+                request.subscriptionDeadline(),
+                request.hackathonPeriod(),
+                request.maxTeamSize(),
+                request.requirements(),
+                request.prize(), organizer,
+                judge,
+                new HashSet<>(mentors));
 
         hackathonRepo.save(hackathon);
         

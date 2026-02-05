@@ -10,10 +10,10 @@ import plainjava.src.domain.user.repository.UserRepository;
 
 public class CreateTeamHandlerImpl implements CreateTeamHandler {
     
-    private UserRepository userRepository;
-    private TeamRepository teamRepository;
+    private final UserRepository userRepository;
+    private final TeamRepository teamRepository;
 
-    private InvitationService invitationService;
+    private final InvitationService invitationService;
 
     public CreateTeamHandlerImpl(UserRepository ur, TeamRepository tr, InvitationService is) {
         this.userRepository = ur;

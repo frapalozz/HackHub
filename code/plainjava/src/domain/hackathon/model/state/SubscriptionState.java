@@ -15,7 +15,7 @@ public class SubscriptionState implements HackathonState {
     }
 
     @Override
-    public boolean registerTeam(Team team) {
+    public void registerTeam(Team team) {
         if(this.context.getSubscriptionDeadline().isBefore(LocalDate.now()))
             throw new IllegalArgumentException("Subscription closed");
 
@@ -25,19 +25,15 @@ public class SubscriptionState implements HackathonState {
         if(this.context.hasTeam(team)) {
             throw new IllegalArgumentException("Team already present");
         }
-
-
-
-        return true;
     }
 
     @Override
-    public boolean addSubmission(Team team, Submission submission) {
+    public void addSubmission(Team team, Submission submission) {
         throw new IllegalStateException("Hackathon not yet started");
     }
 
     @Override
-    public boolean updateSubmission(Team team, Submission submission) {
+    public void updateSubmission(Team team, Submission submission) {
         throw new IllegalStateException("Hackathon not yet started");
     }
     
