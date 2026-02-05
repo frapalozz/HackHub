@@ -8,6 +8,10 @@ public class EndedState implements HackathonState {
 
     private Hackathon context;
 
+    public EndedState(Hackathon context) {
+        this.context = context;
+    }
+
     @Override
     public boolean addTeam(Team team) {
         throw new IllegalStateException("Hackathon ended");

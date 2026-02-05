@@ -1,6 +1,9 @@
 package code.java.src.application.hackathon;
 
+import code.java.src.application.hackathon.request.CreateHackathonRequest;
+import code.java.src.domain.hackathon.model.Hackathon;
+
 public interface CreateHackathonHandler {
     
-    void createHackathon();
+    Hackathon createHackathon(CreateHackathonRequest request);
 }

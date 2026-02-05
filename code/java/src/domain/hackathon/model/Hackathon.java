@@ -1,9 +1,12 @@
 package code.java.src.domain.hackathon.model;
-import java.util.Date;
+import java.time.LocalDate;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
 import code.java.src.domain.hackathon.model.state.HackathonState;
+import code.java.src.domain.hackathon.model.state.SubscriptionState;
 import code.java.src.domain.staffMember.model.Judge;
 import code.java.src.domain.staffMember.model.Mentor;
 import code.java.src.domain.staffMember.model.Organizer;
@@ -14,7 +17,7 @@ public class Hackathon {
 
     private long id;
     private String name;
-    private Date subscriptionDeadline;
+    private LocalDate subscriptionDeadline;
     private Period hackathonPeriod;
     private int maxTeamSize;
     private String requirements;
@@ -28,8 +31,28 @@ public class Hackathon {
     private Map<Team, Submission> submissions;
     private Team winner;
 
+    public Hackathon(String name, LocalDate subDeadline, Period period, int mxtsize, String req, Double prize, Organizer organizer, Judge judge, Set<Mentor> mentors) {
+        this.name = name;
+        this.subscriptionDeadline = subDeadline;
+        this.hackathonPeriod = period;
+        this.maxTeamSize = mxtsize;
+        this.requirements = req;
+        this.prize = prize;
+        this.organizer = organizer;
+        this.judge = judge;
+        this.mentors = mentors;
+
+        this.state = new SubscriptionState(this);
+        this.teams = new HashSet<>();
+        this.submissions = new HashMap<>();
+    }
+
     public long getId() {
         return this.id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public void changeState(HackathonState newState) {

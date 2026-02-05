@@ -8,6 +8,10 @@ public class SubscriptionState implements HackathonState {
 
     private Hackathon context;
 
+    public SubscriptionState(Hackathon context) {
+        this.context = context;
+    }
+
     @Override
     public boolean addTeam(Team team) {
         if(this.context.hasTeam(team)) {

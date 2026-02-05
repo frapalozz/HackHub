@@ -8,6 +8,10 @@ public class ProgressState implements HackathonState {
 
     private Hackathon context;
 
+    public ProgressState(Hackathon context) {
+        this.context = context;
+    }
+
     @Override
     public boolean addTeam(Team team) {
         throw new IllegalStateException("Hackathon already started");
