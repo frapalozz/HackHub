@@ -59,8 +59,8 @@ public class Hackathon {
         this.state = newState;
     }
 
-    public void addTeam(Team team) {
-        if(!this.state.addTeam(team)) return;
+    public void registerTeam(Team team) {
+        if(!this.state.registerTeam(team)) return;
 
         this.teams.add(team);
     }

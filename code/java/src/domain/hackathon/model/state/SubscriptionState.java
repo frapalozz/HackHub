@@ -13,7 +13,7 @@ public class SubscriptionState implements HackathonState {
     }
 
     @Override
-    public boolean addTeam(Team team) {
+    public boolean registerTeam(Team team) {
         if(this.context.hasTeam(team)) {
             throw new IllegalArgumentException("Team already present");
         }

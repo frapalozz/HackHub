@@ -13,7 +13,7 @@ public class ProgressState implements HackathonState {
     }
 
     @Override
-    public boolean addTeam(Team team) {
+    public boolean registerTeam(Team team) {
         throw new IllegalStateException("Hackathon already started");
     }
 
