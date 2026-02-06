@@ -48,6 +48,16 @@ public class SubmissionHandlerImpl implements SubmissionHandler {
 
     @Override
     public String valuateSubmission(Long hackathonId, String teamName, int vote, String description) {
-        return "";
+        if((vote < 0 || vote > 10) || description.isEmpty()) {
+            throw new IllegalArgumentException("Invalid vote");
+        }
+
+        Hackathon hackathon = hackathonRepository.findById(hackathonId);
+
+        hackathon.valuateSubmission(teamName, vote, description);
+
+        hackathonRepository.save(hackathon);
+
+        return "Valuation added";
     }
 }

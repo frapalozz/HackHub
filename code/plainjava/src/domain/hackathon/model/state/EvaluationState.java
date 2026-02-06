@@ -2,6 +2,7 @@ package plainjava.src.domain.hackathon.model.state;
 
 import plainjava.src.domain.hackathon.model.Hackathon;
 import plainjava.src.domain.hackathon.model.Submission;
+import plainjava.src.domain.hackathon.model.Valuation;
 import plainjava.src.domain.team.model.Team;
 
 public class EvaluationState implements HackathonState {
@@ -30,6 +31,11 @@ public class EvaluationState implements HackathonState {
     @Override
     public boolean active() {
         return true;
+    }
+
+    @Override
+    public void valuateSubmission(String teamName, int vote, String description) {
+        this.context.getSubmission(teamName).setValuation(new Valuation(vote, description));
     }
 
 }

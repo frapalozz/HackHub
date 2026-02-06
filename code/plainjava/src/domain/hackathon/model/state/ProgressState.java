@@ -44,4 +44,9 @@ public class ProgressState implements HackathonState {
         return false;
     }
 
+    @Override
+    public void valuateSubmission(String teamName, int vote, String description) {
+        throw new IllegalStateException("Hackathon not in evaluation");
+    }
+
 }

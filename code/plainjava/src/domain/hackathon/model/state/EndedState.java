@@ -32,4 +32,9 @@ public class EndedState implements HackathonState {
         return false;
     }
 
+    @Override
+    public void valuateSubmission(String teamName, int vote, String description) {
+        throw new IllegalStateException("Hackathon ended");
+    }
+
 }

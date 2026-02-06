@@ -30,4 +30,12 @@ public interface HackathonState {
      * @return true if hackathon is active, false otherwise
      */
     boolean active();
+
+    /**
+     * Valuate a submission
+     * @param teamName team to valuate the submission for
+     * @param vote vote of the valuation
+     * @param description description of the valuation
+     */
+    void valuateSubmission(String teamName, int vote, String description);
 }
