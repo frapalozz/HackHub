@@ -38,4 +38,9 @@ public class EvaluationState implements HackathonState {
         this.context.getSubmission(teamName).setValuation(new Valuation(vote, description));
     }
 
+    @Override
+    public void declareWinner(Team team) {
+        this.context.setWinner(team);
+    }
+
 }

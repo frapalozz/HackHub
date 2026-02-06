@@ -49,4 +49,9 @@ public class ProgressState implements HackathonState {
         throw new IllegalStateException("Hackathon not in evaluation");
     }
 
+    @Override
+    public void declareWinner(Team team) {
+        throw new IllegalStateException("Hackathon in progress");
+    }
+
 }

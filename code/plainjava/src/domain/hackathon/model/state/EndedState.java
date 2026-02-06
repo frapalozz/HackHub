@@ -37,4 +37,9 @@ public class EndedState implements HackathonState {
         throw new IllegalStateException("Hackathon ended");
     }
 
+    @Override
+    public void declareWinner(Team team) {
+        throw new IllegalStateException("Hackathon ended");
+    }
+
 }

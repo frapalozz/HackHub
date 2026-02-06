@@ -76,6 +76,22 @@ public class Hackathon {
         return this.submissions.get(team);
     }
 
+    public void declareWinner(String teamName) {
+        Team team = this.teams.stream()
+                .filter(t -> t.getName().equals(teamName))
+                .findFirst().orElse(null);
+
+        if (team == null) {
+            throw new IllegalArgumentException("Team not found");
+        }
+
+        this.state.declareWinner(team);
+    }
+
+    public void setWinner(Team winner) {
+        this.winner = winner;
+    }
+
     public Submission getSubmission(String teamName) {
         Team team = this.submissions
                 .keySet()
