@@ -71,7 +71,7 @@ public class InvitationHandlerImpl implements InvitationHandler {
     }
 
     private boolean validateEmail(String email) {
-        Pattern pattern = Pattern.compile("^[A-Za-z0-9+_.-]+@[A-Za-z0-9.-]+$");
+        Pattern pattern = Pattern.compile("^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@"+"(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$");
         if(email == null || email.isEmpty()) return false;
 
         Matcher matcher = pattern.matcher(email);

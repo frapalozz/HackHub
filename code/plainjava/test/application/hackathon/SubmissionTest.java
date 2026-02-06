@@ -24,7 +24,9 @@ import java.util.List;
 
 public class SubmissionTest {
 
-    public static void submissionTest() {
+    public static void test() {
+        System.out.println("=====================================================");
+        System.out.println("SubmissionTest");
         successAddSubmissionTest();
         successUpdateSubmissionTest();
         teamOrHackathonNotFoundAddSubmissionTest();

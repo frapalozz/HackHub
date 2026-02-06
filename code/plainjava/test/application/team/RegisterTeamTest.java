@@ -22,7 +22,9 @@ import plainjava.src.infrastructure.persistence.plainJava.JavaTeamRepository;
 
 public class RegisterTeamTest {
     
-    public static void registerTeamTest() {
+    public static void test() {
+        System.out.println("=====================================================");
+        System.out.println("RegisterTeamTest");
         successRegisterTeamTest();
         teamOrHackathonNotFoundTest();
         hackathonSubscriptionClosedTest();

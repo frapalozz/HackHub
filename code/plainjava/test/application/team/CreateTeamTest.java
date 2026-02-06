@@ -14,7 +14,9 @@ import plainjava.src.infrastructure.persistence.plainJava.JavaUserRepository;
 
 public class CreateTeamTest {
     
-    public static void createTeamTest() {
+    public static void test() {
+        System.out.println("=====================================================");
+        System.out.println("CreateTeamTest");
         userAlreadyInTeamTest();
         userNotFoundTest();
         teamNameAlreadyUsedTest();

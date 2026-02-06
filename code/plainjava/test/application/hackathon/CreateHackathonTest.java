@@ -19,7 +19,9 @@ import plainjava.src.infrastructure.persistence.plainJava.JavaStaffMemberReposit
 
 public class CreateHackathonTest {
     
-    public static void createHackathonTest() {
+    public static void test() {
+        System.out.println("=====================================================");
+        System.out.println("CreateHackathonTest");
         successCreateHackathonTest();
         staffMembersNotFoundTest();
         datesNotInOrderTest();
