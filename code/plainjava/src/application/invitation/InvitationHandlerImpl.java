@@ -62,7 +62,16 @@ public class InvitationHandlerImpl implements InvitationHandler {
 
     @Override
     public String declineInvitation(InvitationId invitationId) {
-        return "";
+
+        Invitation invitation = invitationRepository.findById(invitationId);
+
+        if(invitation == null) {
+            throw new IllegalArgumentException("Invitation not found");
+        }
+
+        invitationRepository.delete(invitation);
+
+        return "Invitation deleted";
     }
 
     @Override

@@ -57,4 +57,9 @@ public class JavaInvitationRepository implements InvitationRepository {
                 .filter(i -> i.getId().getReceiver().getEmail().equals(userId))
                 .toList();
     }
+
+    @Override
+    public void delete(Invitation entity) {
+        this.invitations.remove(entity);
+    }
 }
