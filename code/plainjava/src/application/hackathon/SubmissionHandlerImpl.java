@@ -45,4 +45,9 @@ public class SubmissionHandlerImpl implements SubmissionHandler {
 
         return "Submission updated";
     }
+
+    @Override
+    public String valuateSubmission(Long hackathonId, String teamName, int vote, String description) {
+        return "";
+    }
 }
