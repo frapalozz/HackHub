@@ -8,4 +8,6 @@ import plainjava.src.domain.utils.repository.Save;
 public interface InvitationRepository extends
         Save<Invitation>,
         Find<Invitation, InvitationId> {
+
+    boolean existsById(InvitationId id);
 }

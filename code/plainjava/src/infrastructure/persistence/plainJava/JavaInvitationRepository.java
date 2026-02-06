@@ -46,4 +46,8 @@ public class JavaInvitationRepository implements InvitationRepository {
                 .toList();
     }
 
+    @Override
+    public boolean existsById(InvitationId id) {
+        return invitations.stream().anyMatch(i -> i.getId().equals(id));
+    }
 }
