@@ -21,6 +21,10 @@ public class User {
         return this.name;
     }
 
+    public Team getTeam() {
+        return this.team;
+    }
+
     public boolean hasTeam() {
         return this.team != null;
     }

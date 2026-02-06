@@ -18,4 +18,8 @@ public class Invitation {
     public InvitationId getId() {
         return this.id;
     }
+
+    public void accept() {
+        this.getId().accept();
+    }
 }

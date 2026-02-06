@@ -26,5 +26,10 @@ public class EvaluationState implements HackathonState {
     public void updateSubmission(Team team, Submission submission) {
         throw new IllegalStateException("Hackathon ended");
     }
-    
+
+    @Override
+    public boolean active() {
+        return true;
+    }
+
 }

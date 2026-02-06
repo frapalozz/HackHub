@@ -76,6 +76,10 @@ public class Hackathon {
         return this.submissions.get(team);
     }
 
+    public boolean active() {
+        return state.active();
+    }
+
     public void changeState(HackathonState newState) {
         this.state = newState;
     }

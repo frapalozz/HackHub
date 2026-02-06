@@ -4,6 +4,7 @@ import java.util.*;
 
 import plainjava.src.domain.hackathon.model.Hackathon;
 import plainjava.src.domain.hackathon.repository.HackathonRepository;
+import plainjava.src.domain.team.model.Team;
 
 public class JavaHackathonRepository implements HackathonRepository {
     
@@ -45,5 +46,11 @@ public class JavaHackathonRepository implements HackathonRepository {
     @Override
     public void saveAll(List<Hackathon> entities) {
         entities.forEach(this::save);
+    }
+
+    @Override
+    public boolean inActiveHackathon(Team team) {
+        return hackathons.stream()
+                .anyMatch(h -> h.hasTeam(team) && h.active());
     }
 }

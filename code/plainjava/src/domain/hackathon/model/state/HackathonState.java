@@ -24,4 +24,10 @@ public interface HackathonState {
      * @param submission the new submission
      */
     void updateSubmission(Team team, Submission submission);
+
+    /**
+     * Check if a hackathon is active
+     * @return true if hackathon is active, false otherwise
+     */
+    boolean active();
 }

@@ -36,5 +36,10 @@ public class SubscriptionState implements HackathonState {
     public void updateSubmission(Team team, Submission submission) {
         throw new IllegalStateException("Hackathon not yet started");
     }
-    
+
+    @Override
+    public boolean active() {
+        return true;
+    }
+
 }

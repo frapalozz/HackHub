@@ -57,17 +57,24 @@ public class InvitationHandlerImpl implements InvitationHandler {
 
     @Override
     public String acceptInvitation(InvitationId invitationId) {
-        return "";
+
+        Invitation invitation = findInvitation(invitationId);
+
+        if(hackathonRepository.inActiveHackathon(invitation.getId().getTeam())) {
+            throw new IllegalArgumentException("Can't accept, team in a active hackathon");
+        }
+
+        invitation.accept();
+
+        invitationRepository.delete(invitation);
+
+        return "Invitation accepted";
     }
 
     @Override
     public String declineInvitation(InvitationId invitationId) {
 
-        Invitation invitation = invitationRepository.findById(invitationId);
-
-        if(invitation == null) {
-            throw new IllegalArgumentException("Invitation not found");
-        }
+        Invitation invitation = findInvitation(invitationId);
 
         invitationRepository.delete(invitation);
 
@@ -85,5 +92,15 @@ public class InvitationHandlerImpl implements InvitationHandler {
 
         Matcher matcher = pattern.matcher(email);
         return matcher.matches();
+    }
+
+    private Invitation findInvitation(InvitationId invitationId) {
+        Invitation invitation = invitationRepository.findById(invitationId);
+
+        if(invitation == null) {
+            throw new IllegalArgumentException("Invitation not found");
+        }
+
+        return invitation;
     }
 }

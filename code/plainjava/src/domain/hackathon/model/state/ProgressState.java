@@ -38,5 +38,10 @@ public class ProgressState implements HackathonState {
             throw new IllegalArgumentException("Team doesn't have a submission");
         }
     }
-    
+
+    @Override
+    public boolean active() {
+        return false;
+    }
+
 }
