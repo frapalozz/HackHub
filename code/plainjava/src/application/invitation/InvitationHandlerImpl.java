@@ -67,7 +67,7 @@ public class InvitationHandlerImpl implements InvitationHandler {
 
     @Override
     public List<Invitation> getInvitations(String userId) {
-        return List.of();
+        return invitationRepository.findAll(userId);
     }
 
     private boolean validateEmail(String email) {
