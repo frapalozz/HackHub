@@ -38,5 +38,20 @@ public class ProgressState implements HackathonState {
             throw new IllegalArgumentException("Team doesn't have a submission");
         }
     }
-    
+
+    @Override
+    public boolean active() {
+        return false;
+    }
+
+    @Override
+    public void valuateSubmission(String teamName, int vote, String description) {
+        throw new IllegalStateException("Hackathon not in evaluation");
+    }
+
+    @Override
+    public void declareWinner(Team team) {
+        throw new IllegalStateException("Hackathon in progress");
+    }
+
 }

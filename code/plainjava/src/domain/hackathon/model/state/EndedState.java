@@ -6,12 +6,6 @@ import plainjava.src.domain.team.model.Team;
 
 public class EndedState implements HackathonState {
 
-    private Hackathon context;
-
-    public EndedState(Hackathon context) {
-        this.context = context;
-    }
-
     @Override
     public void registerTeam(Team team) {
         throw new IllegalStateException("Hackathon ended");
@@ -26,5 +20,20 @@ public class EndedState implements HackathonState {
     public void updateSubmission(Team team, Submission submission) {
         throw new IllegalStateException("Hackathon ended");
     }
-    
+
+    @Override
+    public boolean active() {
+        return false;
+    }
+
+    @Override
+    public void valuateSubmission(String teamName, int vote, String description) {
+        throw new IllegalStateException("Hackathon ended");
+    }
+
+    @Override
+    public void declareWinner(Team team) {
+        throw new IllegalStateException("Hackathon ended");
+    }
+
 }

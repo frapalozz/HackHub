@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import plainjava.src.domain.hackathon.model.state.EndedState;
 import plainjava.src.domain.hackathon.model.state.HackathonState;
 import plainjava.src.domain.hackathon.model.state.SubscriptionState;
 import plainjava.src.domain.staffMember.model.Judge;
@@ -74,6 +75,50 @@ public class Hackathon {
 
     public Submission getSubmission(Team team) {
         return this.submissions.get(team);
+    }
+
+    public void declareWinner(String teamName) {
+        Team team = this.teams.stream()
+                .filter(t -> t.getName().equals(teamName))
+                .findFirst().orElse(null);
+
+        if (team == null) {
+            throw new IllegalArgumentException("Team not found");
+        }
+
+        this.state.declareWinner(team);
+
+        this.changeState(new EndedState());
+    }
+
+    public void setWinner(Team winner) {
+        this.winner = winner;
+    }
+
+    public Submission getSubmission(String teamName) {
+        Team team = this.submissions
+                .keySet()
+                .stream()
+                .filter(t -> t.getName().equals(teamName))
+                .findFirst().orElse(null);
+
+        if (team == null) {
+            throw new IllegalArgumentException("Team not found");
+        }
+
+        return this.submissions.get(team);
+    }
+
+    public Team getWinner() {
+        return this.winner;
+    }
+
+    public boolean active() {
+        return state.active();
+    }
+
+    public void valuateSubmission(String teamName, int vote, String description) {
+        this.state.valuateSubmission(teamName, vote, description);
     }
 
     public void changeState(HackathonState newState) {

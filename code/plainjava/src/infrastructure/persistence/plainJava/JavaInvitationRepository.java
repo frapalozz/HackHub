@@ -46,4 +46,20 @@ public class JavaInvitationRepository implements InvitationRepository {
                 .toList();
     }
 
+    @Override
+    public boolean existsById(InvitationId id) {
+        return invitations.stream().anyMatch(i -> i.getId().equals(id));
+    }
+
+    @Override
+    public List<Invitation> findAll(String userId) {
+        return invitations.stream()
+                .filter(i -> i.getId().getReceiver().getEmail().equals(userId))
+                .toList();
+    }
+
+    @Override
+    public void delete(Invitation entity) {
+        this.invitations.remove(entity);
+    }
 }

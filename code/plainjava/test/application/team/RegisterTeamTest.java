@@ -22,7 +22,9 @@ import plainjava.src.infrastructure.persistence.plainJava.JavaTeamRepository;
 
 public class RegisterTeamTest {
     
-    public static void registerTeamTest() {
+    public static void test() {
+        System.out.println("=====================================================");
+        System.out.println("RegisterTeamTest");
         successRegisterTeamTest();
         teamOrHackathonNotFoundTest();
         hackathonSubscriptionClosedTest();
@@ -52,7 +54,7 @@ public class RegisterTeamTest {
         // ASSERT
         System.out.println(
             hackathon.getTeams().contains(team) ?
-                ":) Success Test: Team registered to hackathon" : ":( Failed Test: Team registered to hackathon"
+                ":) Success Test: Team registered to hackathon" : "X Failed Test: Team registered to hackathon"
         );
     }
 
@@ -78,7 +80,7 @@ public class RegisterTeamTest {
         // ASSERT
         System.out.println(
                 !hackathon.getTeams().contains(team) ?
-                        ":) Success Test: Team or Hackathon not found" : ":( Failed Test: Team or Hackathon not found"
+                        ":) Success Test: Team or Hackathon not found" : "X Failed Test: Team or Hackathon not found"
         );
     }
 
@@ -104,7 +106,7 @@ public class RegisterTeamTest {
         // ASSERT
         System.out.println(
                 !hackathon.getTeams().contains(team) ?
-                        ":) Success Test: subscription closed" : ":( Failed Test: subscription closed"
+                        ":) Success Test: subscription closed" : "X Failed Test: subscription closed"
         );
     }
 
@@ -130,7 +132,7 @@ public class RegisterTeamTest {
         // ASSERT
         System.out.println(
                 !hackathon.getTeams().contains(team) ?
-                        ":) Success Test: requirements not met" : ":( Failed Test: requirements not met"
+                        ":) Success Test: requirements not met" : "X Failed Test: requirements not met"
         );
     }
 
@@ -157,7 +159,7 @@ public class RegisterTeamTest {
         }
 
         // ASSERT
-        System.out.println(":( Failed Test: team already registered");
+        System.out.println("X Failed Test: team already registered");
     }
 
     private static Hackathon createTestHackathon(LocalDate subDeadline, Period period, int maxTeamSize) {

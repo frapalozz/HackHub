@@ -24,7 +24,9 @@ import java.util.List;
 
 public class SubmissionTest {
 
-    public static void submissionTest() {
+    public static void test() {
+        System.out.println("=====================================================");
+        System.out.println("SubmissionTest");
         successAddSubmissionTest();
         successUpdateSubmissionTest();
         teamOrHackathonNotFoundAddSubmissionTest();
@@ -56,7 +58,7 @@ public class SubmissionTest {
         // ASSERT
         System.out.println(
                 hackathon.getSubmission(team) != null ?
-                ":) Success Test: Add Submission" : ":( Failed Test: Add Submission");
+                ":) Success Test: Add Submission" : "X Failure Test: Add Submission");
     }
 
     private static void successUpdateSubmissionTest() {
@@ -78,7 +80,7 @@ public class SubmissionTest {
             handler.addSubmission("test", 1L, submissionTestEntity());
             handler.updateSubmission("test", 1L, submissionTestEntity());
         } catch (Exception e) {
-            System.out.println(":( Failed Test: Update Submission");
+            System.out.println("X Failure Test: Update Submission");
             return;
         }
 
@@ -109,7 +111,7 @@ public class SubmissionTest {
         // ASSERT
         System.out.println(
                 hackathon.getSubmission(team) == null ?
-                        ":) Success Test: Team or Hackathon not found (Add)" : ":( Failed Test: Team or Hackathon not found (Add)");
+                        ":) Success Test: Team or Hackathon not found (Add)" : "X Failure Test: Team or Hackathon not found (Add)");
     }
 
     private static void teamOrHackathonNotFoundUpdateSubmissionTest() {
@@ -136,7 +138,7 @@ public class SubmissionTest {
         }
 
         // ASSERT
-        System.out.println(":( Failed Test: Team or Hackathon not found (Update)");
+        System.out.println("X Failure Test: Team or Hackathon not found (Update)");
     }
 
     private static void alreadyAddedSubmissionTest() {
@@ -163,7 +165,7 @@ public class SubmissionTest {
         }
 
         // ASSERT
-        System.out.println(":( Failed Test: Submission already added");
+        System.out.println("X Failure Test: Submission already added");
     }
 
     private static void submissionNotFoundTest() {
@@ -189,7 +191,7 @@ public class SubmissionTest {
         }
 
         // ASSERT
-        System.out.println(":( Failed Test: Submission not added");
+        System.out.println("X Failure Test: Submission not added");
     }
 
     private static Submission submissionTestEntity() {

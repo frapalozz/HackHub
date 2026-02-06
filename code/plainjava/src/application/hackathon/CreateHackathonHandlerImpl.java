@@ -59,7 +59,8 @@ public class CreateHackathonHandlerImpl implements CreateHackathonHandler {
             throw new IllegalStateException("Dates order not valid");
         }
 
-        if (request.subscriptionDeadline().isAfter(request.hackathonPeriod().startDate())) {
+        if (request.subscriptionDeadline().isAfter(request.hackathonPeriod().startDate()) ||
+            request.subscriptionDeadline().isEqual(request.hackathonPeriod().startDate())) {
             throw new IllegalStateException("Dates order not valid");
         }
     }

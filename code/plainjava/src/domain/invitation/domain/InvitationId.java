@@ -21,6 +21,14 @@ public class InvitationId {
         return this.receiver;
     }
 
+    public void accept() {
+        if(receiver.hasTeam()) {
+            throw new IllegalArgumentException("Can't accept, user already has team");
+        }
+        this.team.addMember(receiver);
+        this.receiver.setTeam(team);
+    }
+
     @Override
     public boolean equals(Object other) {
         if(!(other instanceof InvitationId o)) return false;
