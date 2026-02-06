@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
+import plainjava.src.domain.hackathon.model.state.EndedState;
 import plainjava.src.domain.hackathon.model.state.HackathonState;
 import plainjava.src.domain.hackathon.model.state.SubscriptionState;
 import plainjava.src.domain.staffMember.model.Judge;
@@ -86,6 +87,8 @@ public class Hackathon {
         }
 
         this.state.declareWinner(team);
+
+        this.changeState(new EndedState());
     }
 
     public void setWinner(Team winner) {
@@ -104,6 +107,10 @@ public class Hackathon {
         }
 
         return this.submissions.get(team);
+    }
+
+    public Team getWinner() {
+        return this.winner;
     }
 
     public boolean active() {
