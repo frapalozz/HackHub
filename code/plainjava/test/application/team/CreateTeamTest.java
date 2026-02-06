@@ -50,7 +50,7 @@ public class CreateTeamTest {
         // ASSERT
         System.out.println(
             teamRepo.findById("test2") == null ?
-                ":) Success Test: User already in Team" : ":( Failed Test: User already in Team"
+                ":) Success Test: User already in Team" : "X Failed Test: User already in Team"
         );
     }
 
@@ -80,7 +80,7 @@ public class CreateTeamTest {
         // ASSERT
         System.out.println(
             teamRepo.findById("test2") == null ?
-                ":) Success Test: User not Found" : ":( Failed Test: User not Found"
+                ":) Success Test: User not Found" : "X Failed Test: User not Found"
         );
     }
 
@@ -112,7 +112,7 @@ public class CreateTeamTest {
         // ASSERT
         System.out.println(
             (!teamRepo.findById("test").getMembers().contains(user2) && !user2.hasTeam()) ?
-                ":) Success Test: Team name already used" : ":( Failed Test: Team name already used"
+                ":) Success Test: Team name already used" : "X Failed Test: Team name already used"
         );
     }
 
@@ -143,7 +143,7 @@ public class CreateTeamTest {
         // ASSERT
         System.out.println(
             (teamRepo.findById("test2").getMembers().contains(user2) && user2.hasTeam()) ?
-                ":) Success Test: Success team creation" : ":( Failed Test: Success team creation"
+                ":) Success Test: Success team creation" : "X Failed Test: Success team creation"
         );
     }
 }

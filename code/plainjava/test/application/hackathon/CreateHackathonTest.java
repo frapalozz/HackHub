@@ -63,7 +63,7 @@ public class CreateHackathonTest {
         // ASSERT
         System.out.println(
             (hackathon != null && hackathonRepo.findById(hackathon.getId()) != null) ?
-                ":) Success Test: Hackathon created" : ":( Failed Test: Hackathon created"
+                ":) Success Test: Hackathon created" : "X Failed Test: Hackathon created"
         );
     }
 
@@ -103,7 +103,7 @@ public class CreateHackathonTest {
         // ASSERT
         System.out.println(
             hackathon == null ?
-                ":) Success Test: Staff Members not found" : ":( Failed Test: Staff Members not found"
+                ":) Success Test: Staff Members not found" : "X Failed Test: Staff Members not found"
         );
     }
 
@@ -143,7 +143,7 @@ public class CreateHackathonTest {
         // ASSERT
         System.out.println(
             hackathon == null ?
-                ":) Success Test: Dates not in order" : ":( Failed Test: Dates not in order"
+                ":) Success Test: Dates not in order" : "X Failed Test: Dates not in order"
         );
     }
 }

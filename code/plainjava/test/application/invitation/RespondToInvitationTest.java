@@ -64,7 +64,7 @@ public class RespondToInvitationTest {
         if(invitationsFound.isEmpty()) {
             System.out.println(":) Success Test: Invitation Declined");
         } else {
-            System.out.println(":( Failure Test: Invitation Declined");
+            System.out.println("X Failure Test: Invitation Declined");
         }
     }
 
@@ -99,7 +99,7 @@ public class RespondToInvitationTest {
         if(invitationsFound.size() == 1) {
             System.out.println(":) Success Test: Invitation not found");
         } else {
-            System.out.println(":( Failure Test: Invitation not found");
+            System.out.println("X Failure Test: Invitation not found");
         }
     }
 
@@ -130,7 +130,7 @@ public class RespondToInvitationTest {
         if(invitationsFound.isEmpty() && user2.hasTeam()) {
             System.out.println(":) Success Test: Invitation Accepted");
         } else {
-            System.out.println(":( Failure Test: Invitation Accepted");
+            System.out.println("X Failure Test: Invitation Accepted");
         }
     }
 
@@ -165,7 +165,7 @@ public class RespondToInvitationTest {
         if(invitationsFound.size() == 1 && !user2.hasTeam()) {
             System.out.println(":) Success Test: Invitation not found2");
         } else {
-            System.out.println(":( Failure Test: Invitation not found2");
+            System.out.println("X Failure Test: Invitation not found2");
         }
     }
 
@@ -202,7 +202,7 @@ public class RespondToInvitationTest {
         if(invitationsFound.size() == 1 && !user2.hasTeam()) {
             System.out.println(":) Success Test: Can't accept invitation, team in active hackathon");
         } else {
-            System.out.println(":( Failure Test: Can't accept invitation, team in active hackathon");
+            System.out.println("X Failure Test: Can't accept invitation, team in active hackathon");
         }
     }
 
@@ -238,7 +238,7 @@ public class RespondToInvitationTest {
         if(invitationsFound.size() == 1 && user2.getTeam().equals(team2)) {
             System.out.println(":) Success Test: Already in a Team");
         } else {
-            System.out.println(":( Failure Test: Already in a Team");
+            System.out.println("X Failure Test: Already in a Team");
         }
     }
 

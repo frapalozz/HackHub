@@ -2,6 +2,7 @@ package plainjava;
 
 import plainjava.test.application.hackathon.CreateHackathonTest;
 import plainjava.test.application.hackathon.SubmissionTest;
+import plainjava.test.application.hackathon.ValuateSubmissionTest;
 import plainjava.test.application.invitation.InviteUserTest;
 import plainjava.test.application.invitation.QueryInvitationsTest;
 import plainjava.test.application.invitation.RespondToInvitationTest;
@@ -17,6 +18,7 @@ public class Main {
         InviteUserTest.test();
         QueryInvitationsTest.test();
         RespondToInvitationTest.test();
+        ValuateSubmissionTest.test();
         System.out.println("End Test");
     }
 }

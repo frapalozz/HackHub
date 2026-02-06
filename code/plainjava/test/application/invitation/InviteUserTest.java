@@ -49,7 +49,7 @@ public class InviteUserTest {
         if(invitationRepo.existsById(new InvitationId(team1, user2))) {
             System.out.println(":) Success Test: Invite User");
         } else {
-            System.out.println(":( Failure Test: Invite User");
+            System.out.println("X Failure Test: Invite User");
         }
     }
 
@@ -76,7 +76,7 @@ public class InviteUserTest {
         if(!invitationRepo.existsById(new InvitationId(team1, user2))) {
             System.out.println(":) Success Test: Invalid Email");
         } else {
-            System.out.println(":( Failure Test: Invalid Email");
+            System.out.println("X Failure Test: Invalid Email");
         }
     }
 
@@ -103,7 +103,7 @@ public class InviteUserTest {
         if(!invitationRepo.existsById(new InvitationId(team1, user2))) {
             System.out.println(":) Success Test: User not found");
         } else {
-            System.out.println(":( Failure Test: User not found");
+            System.out.println("X Failure Test: User not found");
         }
     }
 
@@ -131,7 +131,7 @@ public class InviteUserTest {
         if((invitationRepo.findAll(List.of(new InvitationId(team1, user2))).size() == 1)) {
             System.out.println(":) Success Test: Invitation already exist");
         } else {
-            System.out.println(":( Failure Test: Invitation already exist");
+            System.out.println("X Failure Test: Invitation already exist");
         }
     }
 }

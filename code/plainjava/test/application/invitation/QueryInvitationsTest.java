@@ -48,7 +48,7 @@ public class QueryInvitationsTest {
         if(invitationsFound.isEmpty()) {
             System.out.println(":) Success Test: Zero Invitations");
         } else {
-            System.out.println(":( Failure Test: Zero Invitations");
+            System.out.println("X Failure Test: Zero Invitations");
         }
     }
 
@@ -78,7 +78,7 @@ public class QueryInvitationsTest {
         if(invitationsFound.size() == 1) {
             System.out.println(":) Success Test: One Invitations");
         } else {
-            System.out.println(":( Failure Test: One Invitations");
+            System.out.println("X Failure Test: One Invitations");
         }
     }
 
@@ -114,7 +114,7 @@ public class QueryInvitationsTest {
         if(invitationsFound.size() == 2) {
             System.out.println(":) Success Test: Two Invitations");
         } else {
-            System.out.println(":( Failure Test: Two Invitations");
+            System.out.println("X Failure Test: Two Invitations");
         }
     }
 }

@@ -54,6 +54,10 @@ public class SubmissionHandlerImpl implements SubmissionHandler {
 
         Hackathon hackathon = hackathonRepository.findById(hackathonId);
 
+        if(hackathon == null) {
+            throw new IllegalArgumentException("Hackathon not found");
+        }
+
         hackathon.valuateSubmission(teamName, vote, description);
 
         hackathonRepository.save(hackathon);

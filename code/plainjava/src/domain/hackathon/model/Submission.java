@@ -14,4 +14,8 @@ public class Submission {
     public void setValuation(Valuation valuation) {
         this.valuation = valuation;
     }
+
+    public Valuation getValuation() {
+        return valuation;
+    }
 }
