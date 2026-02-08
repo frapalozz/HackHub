@@ -12,7 +12,7 @@ public class HackathonStateFactory {
             case SUBSCRIPTION -> new SubscriptionState(hackathon);
             case PROGRESS -> new ProgressState(hackathon);
             case EVALUATION -> new EvaluationState(hackathon);
-            case ENDED -> new EndedState();
+            case ENDED -> new EndedState(hackathon);
         };
     }
 }

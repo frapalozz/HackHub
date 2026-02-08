@@ -1,38 +1,10 @@
 package unicam.hackhub.domain.hackathon.model.state;
 
-import unicam.hackhub.domain.hackathon.model.Submission;
-import unicam.hackhub.domain.team.model.Team;
+import unicam.hackhub.domain.hackathon.model.Hackathon;
 
-public class EndedState implements HackathonState {
+public class EndedState extends AbstractHackathonState {
 
-    @Override
-    public void registerTeam(Team team) {
-        throw new IllegalStateException("Hackathon ended");
+    protected EndedState(Hackathon hackathon) {
+        super(hackathon);
     }
-
-    @Override
-    public void addSubmission(Team team, Submission submission) {
-        throw new IllegalStateException("Hackathon ended");
-    }
-
-    @Override
-    public void updateSubmission(Team team, Submission submission) {
-        throw new IllegalStateException("Hackathon ended");
-    }
-
-    @Override
-    public boolean active() {
-        return false;
-    }
-
-    @Override
-    public void valuateSubmission(String teamName, int vote, String description) {
-        throw new IllegalStateException("Hackathon ended");
-    }
-
-    @Override
-    public void declareWinner(Team team) {
-        throw new IllegalStateException("Hackathon ended");
-    }
-
 }

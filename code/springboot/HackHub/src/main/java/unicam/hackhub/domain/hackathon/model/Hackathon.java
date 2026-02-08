@@ -3,12 +3,8 @@ package unicam.hackhub.domain.hackathon.model;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import unicam.hackhub.domain.hackathon.model.state.EndedState;
-import unicam.hackhub.domain.hackathon.model.state.HackathonState;
-import unicam.hackhub.domain.hackathon.model.state.SubscriptionState;
-import unicam.hackhub.domain.staffMember.model.Judge;
-import unicam.hackhub.domain.staffMember.model.Mentor;
-import unicam.hackhub.domain.staffMember.model.Organizer;
+import unicam.hackhub.domain.hackathon.model.state.*;
+import unicam.hackhub.domain.staffMember.model.StaffMember;
 import unicam.hackhub.domain.team.model.Team;
 import unicam.hackhub.domain.utils.Period;
 import lombok.Setter;
@@ -32,13 +28,13 @@ public class Hackathon {
     @Column(nullable = false)
     private String name;
 
-    @Column(name = "subscription_deadline", nullable = false)
+    @Column(nullable = false)
     private LocalDate subscriptionDeadline;
 
     @Embedded
     private Period hackathonPeriod;
 
-    @Column(name = "max_team_size", nullable = false)
+    @Column(nullable = false)
     private int maxTeamSize;
 
     @Column(columnDefinition = "TEXT")
@@ -46,18 +42,33 @@ public class Hackathon {
     private Double prize;
 
     @Embedded
-    private HackathonState state;
+    private HackathonStatus status;
 
-    private Organizer organizer;
-    private Judge judge;
-    private Set<Mentor> mentors;
+    @ManyToOne(fetch = FetchType.LAZY)
+    private StaffMember organizer;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    private StaffMember judge;
+
+    @ManyToMany(fetch = FetchType.LAZY)
+    private Set<StaffMember> mentors;
+
+    @OneToMany(cascade = CascadeType.ALL)
     private Set<Team> teams;
+
+    @OneToMany(cascade = CascadeType.ALL)
+    @MapKey(name = "team")
     private Map<Team, Submission> submissions;
+
+    @ManyToOne(fetch = FetchType.LAZY)
     private Team winner;
 
+    @Transient
+    private HackathonState state;
+
     public Hackathon(String name, LocalDate subDeadline, Period period, int maxsize,
-                     String req, Double prize, Organizer organizer, Judge judge,
-                     Set<Mentor> mentors) {
+                     String req, Double prize, StaffMember organizer, StaffMember judge,
+                     Set<StaffMember> mentors) {
         this.name = name;
         this.subscriptionDeadline = subDeadline;
         this.hackathonPeriod = period;
@@ -68,9 +79,20 @@ public class Hackathon {
         this.judge = judge;
         this.mentors = mentors;
 
-        this.state = new SubscriptionState(this);
+        this.status = new HackathonStatus();
         this.teams = new HashSet<>();
         this.submissions = new HashMap<>();
+        initializeStateObject();
+    }
+
+    @PostLoad
+    @PostPersist
+    @PostUpdate
+    private void initializeStateObject() {
+        this.state = HackathonStateFactory.createState(
+                this.status.getCurrentState(),
+                this
+        );
     }
 
     public Submission getSubmission(Team team) {
@@ -88,7 +110,7 @@ public class Hackathon {
 
         this.state.declareWinner(team);
 
-        this.changeState(new EndedState());
+        this.changeState(HackathonStatus.HackathonStateType.ENDED);
     }
 
     public Submission getSubmission(String teamName) {
@@ -113,8 +135,9 @@ public class Hackathon {
         this.state.valuateSubmission(teamName, vote, description);
     }
 
-    public void changeState(HackathonState newState) {
-        this.state = newState;
+    public void changeState(HackathonStatus.HackathonStateType newStateTyoe) {
+        this.status.setCurrentState(newStateTyoe);
+        this.state = HackathonStateFactory.createState(newStateTyoe, this);
     }
 
     public void registerTeam(Team team) {
