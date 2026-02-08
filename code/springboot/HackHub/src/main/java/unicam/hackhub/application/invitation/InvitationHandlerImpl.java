@@ -42,13 +42,13 @@ public class InvitationHandlerImpl implements InvitationHandler {
             throw new IllegalArgumentException("Invalid email address");
         }
 
-        User user = userRepository.findById(userId);
+        User user = userRepository.findById(userId).orElse(null);
 
         if(user == null) {
             throw new IllegalArgumentException("User not found");
         }
 
-        Team team = teamRepository.findById(teamName);
+        Team team = teamRepository.findById(teamName).orElse(null);
 
         if(invitationRepository.existsById(new InvitationId(team, user))) {
             throw new IllegalArgumentException("Invitation already exists");
@@ -101,7 +101,7 @@ public class InvitationHandlerImpl implements InvitationHandler {
     }
 
     private Invitation findInvitation(InvitationId invitationId) {
-        Invitation invitation = invitationRepository.findById(invitationId);
+        Invitation invitation = invitationRepository.findById(invitationId).orElse(null);
 
         if(invitation == null) {
             throw new IllegalArgumentException("Invitation not found");

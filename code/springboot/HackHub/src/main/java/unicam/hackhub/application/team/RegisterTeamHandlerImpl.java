@@ -24,8 +24,8 @@ public class RegisterTeamHandlerImpl implements RegisterTeamHandler {
     @Override
     public String registerTeam(String teamName, Long hackathonId) {
         
-        Team team = teamRepo.findById(teamName);
-        Hackathon hackathon = hackathonRepo.findById(hackathonId);
+        Team team = teamRepo.findById(teamName).orElse(null);
+        Hackathon hackathon = hackathonRepo.findById(hackathonId).orElse(null);
 
         if(team == null) throw new IllegalArgumentException("Team not found");
         if(hackathon == null) throw new IllegalArgumentException("Hackathon not found");

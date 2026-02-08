@@ -1,6 +1,7 @@
 package unicam.hackhub.domain.utils.repository;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface Find<T, K> {
 
@@ -9,7 +10,7 @@ public interface Find<T, K> {
      * @param id id of the entity
      * @return the entity found or null if nothing is found
      */
-    T findById(K id);
+    Optional<T> findById(K id);
 
     /**
      * Find all the entities by their IDs

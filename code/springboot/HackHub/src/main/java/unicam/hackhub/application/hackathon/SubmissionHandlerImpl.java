@@ -25,8 +25,8 @@ public class SubmissionHandlerImpl implements SubmissionHandler {
     @Override
     public String addSubmission(String teamName, long hackathonId, Submission submission) {
 
-        Hackathon hackathon = hackathonRepository.findById(hackathonId);
-        Team team = teamRepository.findById(teamName);
+        Hackathon hackathon = hackathonRepository.findById(hackathonId).orElse(null);
+        Team team = teamRepository.findById(teamName).orElse(null);
 
         if(hackathon == null || team == null) {
             throw new IllegalArgumentException("Hackathon or Team not found");
@@ -40,8 +40,8 @@ public class SubmissionHandlerImpl implements SubmissionHandler {
     @Override
     public String updateSubmission(String teamName, long hackathonId, Submission submission) {
 
-        Hackathon hackathon = hackathonRepository.findById(hackathonId);
-        Team team = teamRepository.findById(teamName);
+        Hackathon hackathon = hackathonRepository.findById(hackathonId).orElse(null);
+        Team team = teamRepository.findById(teamName).orElse(null);
 
         if(hackathon == null || team == null) {
             throw new IllegalArgumentException("Hackathon or Team not found");
@@ -58,7 +58,7 @@ public class SubmissionHandlerImpl implements SubmissionHandler {
             throw new IllegalArgumentException("Invalid vote");
         }
 
-        Hackathon hackathon = hackathonRepository.findById(hackathonId);
+        Hackathon hackathon = hackathonRepository.findById(hackathonId).orElse(null);
 
         if(hackathon == null) {
             throw new IllegalArgumentException("Hackathon not found");

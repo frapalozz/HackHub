@@ -20,7 +20,7 @@ public class HackathonHandlerImpl implements HackathonHandler {
     @Override
     public String declareWinner(Long hackathonId, String teamName) {
 
-        Hackathon hackathon = hackathonRepository.findById(hackathonId);
+        Hackathon hackathon = hackathonRepository.findById(hackathonId).orElse(null);
 
         hackathon.declareWinner(teamName);
 

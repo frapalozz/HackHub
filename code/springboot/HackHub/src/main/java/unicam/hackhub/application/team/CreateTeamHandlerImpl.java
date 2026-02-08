@@ -30,7 +30,7 @@ public class CreateTeamHandlerImpl implements CreateTeamHandler {
     @Override
     public String createTeam(String userId, String teamName, List<String> invitedUsers) {
         
-        User user = userRepository.findById(userId);
+        User user = userRepository.findById(userId).orElse(null);
 
         this.validateTeamCreation(teamName, user);
 
@@ -49,6 +49,6 @@ public class CreateTeamHandlerImpl implements CreateTeamHandler {
 
         if(user.hasTeam()) throw new IllegalStateException("User already in a team");
 
-        if(teamRepository.findById(teamName) != null) throw new IllegalArgumentException("Team name already used");;
+        if(teamRepository.findById(teamName).isPresent()) throw new IllegalArgumentException("Team name already used");;
     }
 }

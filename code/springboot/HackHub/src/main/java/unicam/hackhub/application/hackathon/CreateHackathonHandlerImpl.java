@@ -33,10 +33,10 @@ public class CreateHackathonHandlerImpl implements CreateHackathonHandler {
 
         checkLogicDateOrder(request);
 
-        Organizer organizer = (Organizer) staffMemberRepo.findById(request.organizerEmail());
-        Judge judge = (Judge) staffMemberRepo.findById(request.judgeEmail());
+        Organizer organizer = (Organizer) staffMemberRepo.findById(request.organizerEmail()).orElse(null);
+        Judge judge = (Judge) staffMemberRepo.findById(request.judgeEmail()).orElse(null);
         List<Mentor> mentors = request.mentorsEmails().stream()
-            .map(e -> (Mentor) staffMemberRepo.findById(e))
+            .map(e -> (Mentor) staffMemberRepo.findById(e).orElse(null))
             .filter(Objects::nonNull)
             .toList();
 
