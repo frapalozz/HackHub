@@ -1,0 +1,65 @@
+package unicam.hackhub.infrastructure.persistence.plainJava;
+
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+import unicam.hackhub.domain.invitation.domain.Invitation;
+import unicam.hackhub.domain.invitation.domain.InvitationId;
+import unicam.hackhub.domain.invitation.repository.InvitationRepository;
+
+public class JavaInvitationRepository implements InvitationRepository {
+
+    private final Set<Invitation> invitations = new HashSet<>();
+
+    @Override
+    public Invitation save(Invitation invitation) {
+        Invitation invitationPresent = this.findById(invitation.getId());
+
+        if(invitationPresent == null) {
+            this.invitations.add(invitation);
+        } else {
+            this.invitations.remove(invitationPresent);
+            this.invitations.add(invitation);
+        }
+
+        return invitation;
+    }
+
+    @Override
+    public void saveAll(List<Invitation> invitations) {
+        invitations.forEach(this::save);
+    }
+
+    @Override
+    public Invitation findById(InvitationId id) {
+        return this.invitations.stream()
+            .filter(i -> i.getId().equals(id))
+            .findFirst()
+            .orElse(null);
+    }
+
+    @Override
+    public List<Invitation> findAll(List<InvitationId> ids) {
+        return invitations.stream()
+                .filter(i -> ids.contains(i.getId()))
+                .toList();
+    }
+
+    @Override
+    public boolean existsById(InvitationId id) {
+        return invitations.stream().anyMatch(i -> i.getId().equals(id));
+    }
+
+    @Override
+    public List<Invitation> findAll(String userId) {
+        return invitations.stream()
+                .filter(i -> i.getId().getReceiver().getEmail().equals(userId))
+                .toList();
+    }
+
+    @Override
+    public void delete(Invitation entity) {
+        this.invitations.remove(entity);
+    }
+}
