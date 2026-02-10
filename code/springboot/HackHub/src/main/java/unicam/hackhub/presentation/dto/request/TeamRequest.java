@@ -1,4 +1,4 @@
-package unicam.hackhub.presentation.models.request;
+package unicam.hackhub.presentation.dto.request;
 
 import java.util.List;
 

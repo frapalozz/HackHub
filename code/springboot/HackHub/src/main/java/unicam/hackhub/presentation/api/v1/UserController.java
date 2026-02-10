@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import unicam.hackhub.application.team.CreateTeamHandler;
-import unicam.hackhub.presentation.models.request.TeamRequest;
+import unicam.hackhub.presentation.dto.request.TeamRequest;
 
 @Validated
 @RestController
