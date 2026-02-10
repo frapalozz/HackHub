@@ -57,7 +57,6 @@ public class Hackathon {
     private Set<Team> teams;
 
     @OneToMany(cascade = CascadeType.ALL)
-    @MapKey(name = "team")
     private Map<Team, Submission> submissions;
 
     @ManyToOne(fetch = FetchType.LAZY)

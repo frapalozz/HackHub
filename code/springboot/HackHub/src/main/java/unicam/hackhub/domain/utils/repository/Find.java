@@ -17,5 +17,5 @@ public interface Find<T, K> {
      * @param ids ids to search for
      * @return a list of all the entities founds
      */
-    List<T> findAll(List<K> ids);
+    List<T> findAllById(Iterable<K> ids);
 }

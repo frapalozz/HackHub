@@ -9,11 +9,11 @@ public interface Save<T> {
      * @param entity entity to save
      * @return the saved entity
      */
-    T save(T entity);
+    <E extends T> E save(E entity);
 
     /**
      * Save all entities
      * @param entities entities to save
      */
-    void saveAll(List<T> entities);
+    <E extends T> List<E> saveAll(Iterable<E> entities);
 }

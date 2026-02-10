@@ -13,7 +13,7 @@ import lombok.Setter;
 @Entity
 @NoArgsConstructor
 @Table(name = "staff_members")
-public abstract class StaffMember {
+public class StaffMember {
 
     @Column(nullable = false)
     private String name;
