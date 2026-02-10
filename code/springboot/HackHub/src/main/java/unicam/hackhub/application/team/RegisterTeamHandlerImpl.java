@@ -1,6 +1,5 @@
 package unicam.hackhub.application.team;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import unicam.hackhub.domain.hackathon.model.Hackathon;
@@ -15,7 +14,6 @@ public class RegisterTeamHandlerImpl implements RegisterTeamHandler {
     private final HackathonRepository hackathonRepo;
     private final TeamRepository teamRepo;
 
-    @Autowired
     public RegisterTeamHandlerImpl(HackathonRepository hr, TeamRepository tr) {
         this.hackathonRepo = hr;
         this.teamRepo = tr;

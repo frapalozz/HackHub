@@ -8,7 +8,7 @@ import java.util.List;
 public interface InvitationHandler {
 
     String inviteUser(String userId, String teamName);
-    String acceptInvitation(InvitationId invitationId);
-    String declineInvitation(InvitationId invitationId);
+    String acceptInvitation(String userEmail, String teamName);
+    String declineInvitation(String userEmail, String teamName);
     List<Invitation> getInvitations(String userId);
 }

@@ -1,6 +1,5 @@
 package unicam.hackhub.application.hackathon;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import unicam.hackhub.domain.hackathon.model.Hackathon;
@@ -16,7 +15,6 @@ public class SubmissionHandlerImpl implements SubmissionHandler {
     private final HackathonRepository hackathonRepository;
     private final TeamRepository teamRepository;
 
-    @Autowired
     public SubmissionHandlerImpl(HackathonRepository hackathonRepository, TeamRepository teamRepository) {
         this.hackathonRepository = hackathonRepository;
         this.teamRepository = teamRepository;

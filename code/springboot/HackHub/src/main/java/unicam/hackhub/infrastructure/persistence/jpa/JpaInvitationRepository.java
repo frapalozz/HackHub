@@ -14,6 +14,6 @@ import java.util.List;
 public interface JpaInvitationRepository extends JpaRepository<Invitation, InvitationId>, InvitationRepository {
 
     @Override
-    @Query("SELECT i FROM Invitation i WHERE i.id.receiver = :userId")
+    @Query("SELECT i FROM Invitation i WHERE i.id.receiver.email = :userId")
     List<Invitation> findAll(@Param("userId") String userId);
 }

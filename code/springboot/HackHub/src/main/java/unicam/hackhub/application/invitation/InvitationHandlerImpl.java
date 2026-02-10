@@ -1,6 +1,5 @@
 package unicam.hackhub.application.invitation;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import unicam.hackhub.domain.hackathon.repository.HackathonRepository;
@@ -26,7 +25,6 @@ public class InvitationHandlerImpl implements InvitationHandler {
     private final TeamRepository teamRepository;
     private final HackathonRepository hackathonRepository;
 
-    @Autowired
     public InvitationHandlerImpl(UserRepository userRepository, InvitationRepository invitationRepository,
                                  TeamRepository teamRepository, HackathonRepository HackathonRepository) {
         this.userRepository = userRepository;
@@ -62,7 +60,11 @@ public class InvitationHandlerImpl implements InvitationHandler {
     }
 
     @Override
-    public String acceptInvitation(InvitationId invitationId) {
+    public String acceptInvitation(String userEmail, String teamName) {
+
+        User user = userRepository.findById(userEmail).orElse(null);
+        Team team = teamRepository.findById(teamName).orElse(null);
+        InvitationId invitationId = new InvitationId(team, user);
 
         Invitation invitation = findInvitation(invitationId);
 
@@ -78,7 +80,11 @@ public class InvitationHandlerImpl implements InvitationHandler {
     }
 
     @Override
-    public String declineInvitation(InvitationId invitationId) {
+    public String declineInvitation(String userEmail, String teamName) {
+
+        User user = userRepository.findById(userEmail).orElse(null);
+        Team team = teamRepository.findById(teamName).orElse(null);
+        InvitationId invitationId = new InvitationId(team, user);
 
         Invitation invitation = findInvitation(invitationId);
 

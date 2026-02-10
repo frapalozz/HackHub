@@ -1,6 +1,5 @@
 package unicam.hackhub.application.team;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import unicam.hackhub.domain.team.model.Team;
@@ -20,7 +19,6 @@ public class CreateTeamHandlerImpl implements CreateTeamHandler {
 
     private final InvitationService invitationService;
 
-    @Autowired
     public CreateTeamHandlerImpl(UserRepository ur, TeamRepository tr, InvitationService is) {
         this.userRepository = ur;
         this.teamRepository = tr;

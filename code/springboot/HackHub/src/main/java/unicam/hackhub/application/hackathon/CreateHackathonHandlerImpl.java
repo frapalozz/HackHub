@@ -1,6 +1,5 @@
 package unicam.hackhub.application.hackathon;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import unicam.hackhub.domain.hackathon.model.Hackathon;
@@ -22,7 +21,6 @@ public class CreateHackathonHandlerImpl implements CreateHackathonHandler {
     private final StaffMemberRepository staffMemberRepo;
     private final HackathonRepository hackathonRepo;
 
-    @Autowired
     public CreateHackathonHandlerImpl(StaffMemberRepository smr, HackathonRepository hr) {
         this.staffMemberRepo = smr;
         this.hackathonRepo = hr;
