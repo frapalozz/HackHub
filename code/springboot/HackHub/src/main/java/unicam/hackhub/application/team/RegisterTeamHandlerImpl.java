@@ -21,7 +21,7 @@ public class RegisterTeamHandlerImpl implements RegisterTeamHandler {
 
     @Override
     public String registerTeam(String teamName, Long hackathonId) {
-        
+        System.out.println("Registering team " + teamName);
         Team team = teamRepo.findById(teamName).orElse(null);
         Hackathon hackathon = hackathonRepo.findById(hackathonId).orElse(null);
 

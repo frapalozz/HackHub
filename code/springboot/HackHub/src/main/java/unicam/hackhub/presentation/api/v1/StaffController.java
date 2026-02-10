@@ -3,10 +3,7 @@ package unicam.hackhub.presentation.api.v1;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import unicam.hackhub.application.hackathon.CreateHackathonHandler;
 import unicam.hackhub.application.hackathon.HackathonHandler;
 import unicam.hackhub.application.hackathon.SubmissionHandler;
@@ -33,5 +30,22 @@ public class StaffController {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(createHackathonHandler.createHackathon(request));
+    }
+
+    @RequestMapping(value = "/hackathon/{hackathonId}", method = RequestMethod.POST)
+    public ResponseEntity<Object> declareWinner(@PathVariable Long hackathonId, @RequestParam String teamName) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(hackathonHandler.declareWinner(hackathonId, teamName));
+    }
+
+    @RequestMapping(value = "/hackathon/{hackathonId}/{teamName}", method = RequestMethod.POST)
+    public ResponseEntity<Object> valuateSubmission(@PathVariable Long hackathonId,
+                                                    @PathVariable String teamName,
+                                                    @RequestParam int vote,
+                                                    @RequestParam String message) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(submissionHandler.valuateSubmission(hackathonId, teamName, vote, message));
     }
 }
