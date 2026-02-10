@@ -30,7 +30,9 @@ public class InvitationService {
      * @param invitedUsers invited email list
      */
     public void createInvitations(Team team, List<String> invitedUsers) {
-        List<User> users = userRepository.findAll(invitedUsers);
+        if(invitedUsers == null || invitedUsers.isEmpty()) return;
+
+        List<User> users = userRepository.findAllById(invitedUsers);
 
         List<Invitation> invitations = users.stream()
             .map(user -> new Invitation(LocalDate.now(), team, user))
