@@ -4,7 +4,7 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import unicam.hackhub.domain.hackathon.model.state.*;
-import unicam.hackhub.domain.staffMember.model.StaffMember;
+import unicam.hackhub.domain.staff.model.Staff;
 import unicam.hackhub.domain.team.model.Team;
 import unicam.hackhub.domain.utils.Period;
 import lombok.Setter;
@@ -45,13 +45,13 @@ public class Hackathon {
     private HackathonStatus status;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private StaffMember organizer;
+    private Staff organizer;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    private StaffMember judge;
+    private Staff judge;
 
     @ManyToMany(fetch = FetchType.LAZY)
-    private Set<StaffMember> mentors;
+    private Set<Staff> mentors;
 
     @OneToMany(cascade = CascadeType.ALL)
     private Set<Team> teams;
@@ -66,8 +66,8 @@ public class Hackathon {
     private HackathonState state;
 
     public Hackathon(String name, LocalDate subDeadline, Period period, int maxsize,
-                     String req, Double prize, StaffMember organizer, StaffMember judge,
-                     Set<StaffMember> mentors) {
+                     String req, Double prize, Staff organizer, Staff judge,
+                     Set<Staff> mentors) {
         this.name = name;
         this.subscriptionDeadline = subDeadline;
         this.hackathonPeriod = period;

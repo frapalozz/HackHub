@@ -3,8 +3,8 @@ package unicam.hackhub.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Component;
-import unicam.hackhub.domain.staffMember.model.StaffMember;
-import unicam.hackhub.domain.staffMember.repository.StaffMemberRepository;
+import unicam.hackhub.domain.staff.model.Staff;
+import unicam.hackhub.domain.staff.repository.StaffRepository;
 import unicam.hackhub.domain.user.model.User;
 import unicam.hackhub.domain.user.repository.UserRepository;
 
@@ -14,12 +14,12 @@ import java.util.Arrays;
 public class DataInitializer implements CommandLineRunner {
 
     @Autowired private UserRepository userRepository;
-    @Autowired private StaffMemberRepository staffMemberRepository;
+    @Autowired private StaffRepository staffRepository;
 
-    private final static StaffMember[] staffMembers = {
-            new StaffMember("john", "john.doe@tech.com"),
-            new StaffMember("jane", "jane.smith@innovate.com"),
-            new StaffMember("alex", "alex.wong@ai-labs.com")
+    private final static Staff[] STAFF = {
+            new Staff("john", "john.doe@tech.com"),
+            new Staff("jane", "jane.smith@innovate.com"),
+            new Staff("alex", "alex.wong@ai-labs.com")
     };
 
     private final static User[] users = {
@@ -29,7 +29,7 @@ public class DataInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        staffMemberRepository.saveAll(Arrays.asList(staffMembers));
+        staffRepository.saveAll(Arrays.asList(STAFF));
         userRepository.saveAll(Arrays.asList(users));
     }
 }

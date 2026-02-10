@@ -4,10 +4,11 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import unicam.hackhub.domain.hackathon.model.Hackathon;
 import unicam.hackhub.domain.hackathon.repository.HackathonRepository;
-import unicam.hackhub.domain.staffMember.model.Judge;
-import unicam.hackhub.domain.staffMember.model.Mentor;
-import unicam.hackhub.domain.staffMember.model.Organizer;
-import unicam.hackhub.domain.staffMember.repository.StaffMemberRepository;
+import unicam.hackhub.domain.staff.model.Judge;
+import unicam.hackhub.domain.staff.model.Mentor;
+import unicam.hackhub.domain.staff.model.Organizer;
+import unicam.hackhub.domain.staff.model.Staff;
+import unicam.hackhub.domain.staff.repository.StaffRepository;
 import unicam.hackhub.application.hackathon.request.CreateHackathonRequest;
 
 import java.util.HashSet;
@@ -18,10 +19,10 @@ import java.util.Objects;
 @Primary
 public class CreateHackathonHandlerImpl implements CreateHackathonHandler {
 
-    private final StaffMemberRepository staffMemberRepo;
+    private final StaffRepository staffMemberRepo;
     private final HackathonRepository hackathonRepo;
 
-    public CreateHackathonHandlerImpl(StaffMemberRepository smr, HackathonRepository hr) {
+    public CreateHackathonHandlerImpl(StaffRepository smr, HackathonRepository hr) {
         this.staffMemberRepo = smr;
         this.hackathonRepo = hr;
     }
@@ -31,10 +32,10 @@ public class CreateHackathonHandlerImpl implements CreateHackathonHandler {
 
         checkLogicDateOrder(request);
 
-        Organizer organizer = (Organizer) staffMemberRepo.findById(request.organizerEmail()).orElse(null);
-        Judge judge = (Judge) staffMemberRepo.findById(request.judgeEmail()).orElse(null);
-        List<Mentor> mentors = request.mentorsEmails().stream()
-            .map(e -> (Mentor) staffMemberRepo.findById(e).orElse(null))
+        Staff organizer = staffMemberRepo.findById(request.organizerEmail()).orElse(null);
+        Staff judge = staffMemberRepo.findById(request.judgeEmail()).orElse(null);
+        List<Staff> mentors = request.mentorsEmails().stream()
+            .map(e -> staffMemberRepo.findById(e).orElse(null))
             .filter(Objects::nonNull)
             .toList();
 

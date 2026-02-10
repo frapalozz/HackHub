@@ -1,4 +1,4 @@
-package unicam.hackhub.domain.staffMember.model;
+package unicam.hackhub.domain.staff.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -12,8 +12,8 @@ import lombok.Setter;
 @Setter
 @Entity
 @NoArgsConstructor
-@Table(name = "staff_members")
-public class StaffMember {
+@Table(name = "staff")
+public class Staff {
 
     @Column(nullable = false)
     private String name;
@@ -22,7 +22,7 @@ public class StaffMember {
     @Column(nullable = false, unique = true)
     private String email;
 
-    public StaffMember(String name, String email) {
+    public Staff(String name, String email) {
         this.name = name;
         this.email = email;
     }
