@@ -1,12 +1,10 @@
 package unicam.hackhub.presentation.api.v1;
 
-import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import unicam.hackhub.application.hackathon.SubmissionHandler;
-import unicam.hackhub.application.hackathon.request.CreateHackathonRequest;
 import unicam.hackhub.application.invitation.InvitationHandler;
 import unicam.hackhub.application.team.RegisterTeamHandler;
 import unicam.hackhub.domain.hackathon.model.Submission;

@@ -53,10 +53,10 @@ public class Hackathon {
     @ManyToMany(fetch = FetchType.LAZY)
     private Set<Staff> mentors;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH})
     private Set<Team> teams;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH})
     private Map<Team, Submission> submissions;
 
     @ManyToOne(fetch = FetchType.LAZY)

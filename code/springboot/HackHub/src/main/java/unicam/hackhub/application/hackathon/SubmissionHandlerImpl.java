@@ -4,7 +4,10 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import unicam.hackhub.domain.hackathon.model.Hackathon;
 import unicam.hackhub.domain.hackathon.model.Submission;
+import unicam.hackhub.domain.hackathon.model.Valuation;
 import unicam.hackhub.domain.hackathon.repository.HackathonRepository;
+import unicam.hackhub.domain.hackathon.repository.SubmissionRepository;
+import unicam.hackhub.domain.hackathon.repository.ValuationRepository;
 import unicam.hackhub.domain.team.model.Team;
 import unicam.hackhub.domain.team.repository.TeamRepository;
 
@@ -14,10 +17,17 @@ public class SubmissionHandlerImpl implements SubmissionHandler {
 
     private final HackathonRepository hackathonRepository;
     private final TeamRepository teamRepository;
+    private final SubmissionRepository submissionRepository;
+    private final ValuationRepository valuationRepository;
 
-    public SubmissionHandlerImpl(HackathonRepository hackathonRepository, TeamRepository teamRepository) {
+    public SubmissionHandlerImpl(HackathonRepository hackathonRepository,
+                                 TeamRepository teamRepository,
+                                 SubmissionRepository submissionRepository,
+                                 ValuationRepository valuationRepository) {
         this.hackathonRepository = hackathonRepository;
         this.teamRepository = teamRepository;
+        this.submissionRepository = submissionRepository;
+        this.valuationRepository = valuationRepository;
     }
 
     @Override
@@ -32,6 +42,8 @@ public class SubmissionHandlerImpl implements SubmissionHandler {
 
         hackathon.addSubmission(team, submission);
 
+        hackathonRepository.save(hackathon);
+
         return "Submission added";
     }
 
@@ -45,7 +57,10 @@ public class SubmissionHandlerImpl implements SubmissionHandler {
             throw new IllegalArgumentException("Hackathon or Team not found");
         }
 
-        hackathon.updateSubmission(team, submission);
+        Submission oldSubmission = hackathon.getSubmission(team);
+        oldSubmission.setUrl(submission.getUrl());
+
+        submissionRepository.save(oldSubmission);
 
         return "Submission updated";
     }
@@ -63,6 +78,10 @@ public class SubmissionHandlerImpl implements SubmissionHandler {
         }
 
         hackathon.valuateSubmission(teamName, vote, description);
+
+        Valuation valuation = hackathon.getSubmission(teamName).getValuation();
+
+        valuationRepository.save(valuation);
 
         hackathonRepository.save(hackathon);
 

@@ -5,8 +5,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.io.File;
-
 @Getter
 @Setter
 @Entity
@@ -16,12 +14,12 @@ public class Submission {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long submissionId;
-    private File data;
+    private String url;
 
     @OneToOne
     private Valuation valuation;
 
-    public Submission(File data) {
-        this.data = data;
+    public Submission(String url) {
+        this.url = url;
     }
 }

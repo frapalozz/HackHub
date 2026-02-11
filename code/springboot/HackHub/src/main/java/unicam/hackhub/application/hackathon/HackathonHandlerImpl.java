@@ -20,7 +20,13 @@ public class HackathonHandlerImpl implements HackathonHandler {
 
         Hackathon hackathon = hackathonRepository.findById(hackathonId).orElse(null);
 
+        if(hackathon == null) {
+            throw new IllegalArgumentException("Hackathon not found");
+        }
+
         hackathon.declareWinner(teamName);
+
+        hackathonRepository.save(hackathon);
 
         return "winner added";
     }
