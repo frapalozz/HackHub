@@ -3,7 +3,7 @@ package unicam.hackhub.presentation.dto.request;
 import jakarta.validation.constraints.*;
 import lombok.Getter;
 import lombok.Setter;
-import unicam.hackhub.application.hackathon.request.CreateHackathonRequest;
+import unicam.hackhub.application.hackathon.dto.request.CreateHackathonRequest;
 import unicam.hackhub.domain.utils.Period;
 
 import java.time.LocalDate;

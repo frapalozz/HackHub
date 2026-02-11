@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.*;
 import unicam.hackhub.application.hackathon.CreateHackathonHandler;
 import unicam.hackhub.application.hackathon.HackathonHandler;
 import unicam.hackhub.application.hackathon.SubmissionHandler;
-import unicam.hackhub.application.hackathon.request.CreateHackathonRequest;
 import unicam.hackhub.presentation.dto.request.HackathonRequest;
 
 @Validated

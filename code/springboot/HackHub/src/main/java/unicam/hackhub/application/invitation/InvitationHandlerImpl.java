@@ -2,6 +2,7 @@ package unicam.hackhub.application.invitation;
 
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
+import unicam.hackhub.application.invitation.dto.response.InvitationResponse;
 import unicam.hackhub.domain.hackathon.repository.HackathonRepository;
 import unicam.hackhub.domain.invitation.domain.Invitation;
 import unicam.hackhub.domain.invitation.domain.InvitationId;
@@ -15,6 +16,7 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.util.stream.Collectors;
 
 @Service
 @Primary
@@ -94,8 +96,13 @@ public class InvitationHandlerImpl implements InvitationHandler {
     }
 
     @Override
-    public List<Invitation> getInvitations(String userId) {
-        return invitationRepository.findAll(userId);
+    public List<InvitationResponse> getInvitations(String userId) {
+        return invitationRepository.findAll(userId).stream()
+                .map(i -> new InvitationResponse(
+                        i.getDate(),
+                        i.getId().getTeam().getName(),
+                        i.getId().getReceiver())
+                ).collect(Collectors.toList());
     }
 
     private boolean validateEmail(String email) {
