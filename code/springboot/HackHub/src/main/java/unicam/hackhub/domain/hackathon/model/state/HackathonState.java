@@ -41,7 +41,7 @@ public interface HackathonState {
 
     /**
      * Declare the team winner
-     * @param team the winning team
+     * @param teamName the winning team
      */
-    void declareWinner(Team team);
+    void declareWinner(String teamName);
 }

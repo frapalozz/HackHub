@@ -99,15 +99,7 @@ public class Hackathon {
     }
 
     public void declareWinner(String teamName) {
-        Team team = this.teams.stream()
-                .filter(t -> t.getName().equals(teamName))
-                .findFirst().orElse(null);
-
-        if (team == null) {
-            throw new IllegalArgumentException("Team not found");
-        }
-
-        this.state.declareWinner(team);
+        this.state.declareWinner(teamName);
 
         this.changeState(HackathonStatus.HackathonStateType.ENDED);
     }

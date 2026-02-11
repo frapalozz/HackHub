@@ -38,7 +38,7 @@ public abstract class AbstractHackathonState implements HackathonState {
     }
 
     @Override
-    public void declareWinner(Team team) {
+    public void declareWinner(String teamName) {
         throw new IllegalStateException("Can't declare winner in this state");
     }
 }

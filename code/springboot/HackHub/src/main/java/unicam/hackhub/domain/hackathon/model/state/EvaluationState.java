@@ -32,7 +32,23 @@ public class EvaluationState extends AbstractHackathonState {
     }
 
     @Override
-    public void declareWinner(Team team) {
+    public void declareWinner(String teamName) {
+
+        boolean anyMissingValuation = hackathon.getSubmissions().values().stream()
+                .anyMatch(s -> s.getValuation() == null);
+        
+        if (anyMissingValuation) {
+            throw new RuntimeException("No missing valuation");
+        }
+
+        Team team = hackathon.getTeams().stream()
+                .filter(t -> t.getName().equals(teamName))
+                .findFirst().orElse(null);
+
+        if (team == null) {
+            throw new IllegalArgumentException("Team not found");
+        }
+
         this.hackathon.setWinner(team);
     }
 
