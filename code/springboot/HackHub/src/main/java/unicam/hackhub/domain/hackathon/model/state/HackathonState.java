@@ -34,6 +34,14 @@ public interface HackathonState {
     void valuateSubmission(String teamName, int vote, String description);
 
     /**
+     * Valuate a submission
+     * @param teamName team to valuate the submission for
+     * @param vote vote of the valuation
+     * @param description description of the valuation
+     */
+    void updateValuation(String teamName, int vote, String description);
+
+    /**
      * Declare the team winner
      * @param teamName the winning team
      */

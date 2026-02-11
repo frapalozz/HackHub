@@ -65,4 +65,27 @@ public class StaffController {
                 .status(HttpStatus.OK)
                 .body(submissionHandler.valuateSubmission(hackathonId, teamName, vote, message));
     }
+
+    @RequestMapping(value = "/hackathon/{hackathonId}/{teamName}", method = RequestMethod.PUT)
+    public ResponseEntity<Object> editValuation(
+            @PathVariable
+            @NotNull(message = "Hackathon ID è obbligatorio")
+            @Positive(message = "Hackathon ID deve essere positivo")
+            Long hackathonId,
+            @PathVariable
+            @NotBlank(message = "Team name è obbligatorio")
+            String teamName,
+            @RequestParam
+            @Min(value = 0, message = "Il voto deve essere almeno 0")
+            @Max(value = 10, message = "Il voto non può superare 10")
+            int vote,
+            @RequestParam
+            @NotBlank(message = "Il messaggio è obbligatorio")
+            @Size(max = 500, message = "Il messaggio non può superare 500 caratteri")
+            String message
+    ) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(submissionHandler.editValuation(hackathonId, teamName, vote, message));
+    }
 }

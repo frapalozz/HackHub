@@ -33,6 +33,11 @@ public abstract class AbstractHackathonState implements HackathonState {
     }
 
     @Override
+    public void updateValuation(String teamName, int vote, String description) {
+        throw new IllegalStateException("Can't update valuation submission in this state");
+    }
+
+    @Override
     public void declareWinner(String teamName) {
         throw new IllegalStateException("Can't declare winner in this state");
     }

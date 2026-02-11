@@ -25,12 +25,8 @@ public class SubmissionHandlerImpl implements SubmissionHandler {
     @Override
     public String addSubmission(String teamName, long hackathonId, Submission submission) {
 
-        Hackathon hackathon = hackathonRepository.findById(hackathonId).orElse(null);
-        Team team = teamRepository.findById(teamName).orElse(null);
-
-        if(hackathon == null || team == null) {
-            throw new IllegalArgumentException("Hackathon or Team not found");
-        }
+        Hackathon hackathon = getHackathon(hackathonId);
+        Team team = getTeam(teamName);
 
         hackathon.addSubmission(team, submission);
 
@@ -42,12 +38,8 @@ public class SubmissionHandlerImpl implements SubmissionHandler {
     @Override
     public String updateSubmission(String teamName, long hackathonId, Submission submission) {
 
-        Hackathon hackathon = hackathonRepository.findById(hackathonId).orElse(null);
-        Team team = teamRepository.findById(teamName).orElse(null);
-
-        if(hackathon == null || team == null) {
-            throw new IllegalArgumentException("Hackathon or Team not found");
-        }
+        Hackathon hackathon = getHackathon(hackathonId);
+        Team team = getTeam(teamName);
 
         hackathon.updateSubmission(team, submission);
 
@@ -58,15 +50,9 @@ public class SubmissionHandlerImpl implements SubmissionHandler {
 
     @Override
     public String valuateSubmission(Long hackathonId, String teamName, int vote, String description) {
-        if((vote < 0 || vote > 10) || description.isEmpty()) {
-            throw new IllegalArgumentException("Invalid vote");
-        }
+        checkValuation(vote, description);
 
-        Hackathon hackathon = hackathonRepository.findById(hackathonId).orElse(null);
-
-        if(hackathon == null) {
-            throw new IllegalArgumentException("Hackathon not found");
-        }
+        Hackathon hackathon = getHackathon(hackathonId);
 
         hackathon.valuateSubmission(teamName, vote, description);
 
@@ -77,5 +63,48 @@ public class SubmissionHandlerImpl implements SubmissionHandler {
         hackathonRepository.save(hackathon);
 
         return "Valuation added";
+    }
+
+    @Override
+    public String editValuation(Long hackathonId, String teamName, int vote, String description) {
+        checkValuation(vote, description);
+
+        Hackathon hackathon = getHackathon(hackathonId);
+
+        hackathon.updateValuation(teamName, vote, description);
+
+        Valuation valuation = hackathon.getSubmission(teamName).getValuation();
+
+        valuationRepository.save(valuation);
+
+        hackathonRepository.save(hackathon);
+
+        return "Valuation updated";
+    }
+
+    private void checkValuation(int vote, String description) {
+        if((vote < 0 || vote > 10) || description.isEmpty()) {
+            throw new IllegalArgumentException("Invalid vote");
+        }
+    }
+
+    private Hackathon getHackathon(Long hackathonId) {
+        Hackathon hackathon = hackathonRepository.findById(hackathonId).orElse(null);
+
+        if(hackathon == null) {
+            throw new IllegalArgumentException("Hackathon not found");
+        }
+
+        return hackathon;
+    }
+
+    private Team getTeam(String teamName) {
+        Team team = teamRepository.findById(teamName).orElse(null);
+
+        if(team == null) {
+            throw new IllegalArgumentException("Team not found");
+        }
+
+        return team;
     }
 }

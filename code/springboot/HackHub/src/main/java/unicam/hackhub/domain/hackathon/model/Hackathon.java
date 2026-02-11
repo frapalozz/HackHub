@@ -122,6 +122,10 @@ public class Hackathon {
         this.state.valuateSubmission(teamName, vote, description);
     }
 
+    public void updateValuation(String teamName, int vote, String description) {
+        this.state.updateValuation(teamName, vote, description);
+    }
+
     public void changeState(HackathonStatus.HackathonStateType newStateTyoe) {
         this.status.setCurrentState(newStateTyoe);
         this.state = HackathonStateFactory.createState(newStateTyoe, this);

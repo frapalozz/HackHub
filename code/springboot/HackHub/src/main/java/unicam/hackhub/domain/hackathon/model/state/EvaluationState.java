@@ -27,6 +27,22 @@ public class EvaluationState extends AbstractHackathonState {
     }
 
     @Override
+    public void updateValuation(String teamName, int vote, String description) {
+        Submission submission = this.hackathon.getSubmission(teamName);
+
+        if (submission == null) {
+            throw new RuntimeException("Submission not found");
+        }
+
+        if (submission.getValuation() == null) {
+            throw new RuntimeException("Submission not valuated");
+        }
+
+        submission.getValuation().setVote(vote);
+        submission.getValuation().setDescription(description);
+    }
+
+    @Override
     public void declareWinner(String teamName) {
 
         boolean anyMissingValuation = hackathon.getSubmissions().values().stream()
