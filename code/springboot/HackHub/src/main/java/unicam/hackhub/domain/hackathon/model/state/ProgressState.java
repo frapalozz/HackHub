@@ -30,10 +30,8 @@ public class ProgressState extends AbstractHackathonState {
         if(!this.hackathon.teamHasSubmission(team)) {
             throw new IllegalArgumentException("Team doesn't have a submission");
         }
-    }
 
-    @Override
-    public boolean active() {
-        return true;
+        Submission oldSubmission = hackathon.getSubmission(team);
+        oldSubmission.setUrl(submission.getUrl());
     }
 }

@@ -49,10 +49,9 @@ public class SubmissionHandlerImpl implements SubmissionHandler {
             throw new IllegalArgumentException("Hackathon or Team not found");
         }
 
-        Submission oldSubmission = hackathon.getSubmission(team);
-        oldSubmission.setUrl(submission.getUrl());
+        hackathon.updateSubmission(team, submission);
 
-        submissionRepository.save(oldSubmission);
+        hackathonRepository.save(hackathon);
 
         return "Submission updated";
     }

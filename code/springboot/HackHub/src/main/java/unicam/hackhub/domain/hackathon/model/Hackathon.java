@@ -56,7 +56,7 @@ public class Hackathon {
     @OneToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH})
     private Set<Team> teams;
 
-    @OneToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH})
+    @OneToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
     private Map<Team, Submission> submissions;
 
     @ManyToOne(fetch = FetchType.LAZY)
@@ -118,10 +118,6 @@ public class Hackathon {
         return this.submissions.get(team);
     }
 
-    public boolean active() {
-        return state.active();
-    }
-
     public void valuateSubmission(String teamName, int vote, String description) {
         this.state.valuateSubmission(teamName, vote, description);
     }
@@ -144,8 +140,6 @@ public class Hackathon {
 
     public void updateSubmission(Team team, Submission submission) {
         this.state.updateSubmission(team, submission);
-
-        this.setSubmission(team, submission);
     }
 
     public boolean hasTeam(Team team) {

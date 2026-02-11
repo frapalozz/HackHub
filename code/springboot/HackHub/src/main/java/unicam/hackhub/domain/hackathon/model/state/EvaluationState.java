@@ -12,11 +12,6 @@ public class EvaluationState extends AbstractHackathonState {
     }
 
     @Override
-    public boolean active() {
-        return true;
-    }
-
-    @Override
     public void valuateSubmission(String teamName, int vote, String description) {
         Submission submission = this.hackathon.getSubmission(teamName);
 

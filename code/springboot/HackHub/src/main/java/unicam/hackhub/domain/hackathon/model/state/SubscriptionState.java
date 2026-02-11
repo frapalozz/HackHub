@@ -23,9 +23,4 @@ public class SubscriptionState extends AbstractHackathonState {
             throw new IllegalArgumentException("Team already present");
         }
     }
-
-    @Override
-    public boolean active() {
-        return true;
-    }
 }

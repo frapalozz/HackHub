@@ -28,11 +28,6 @@ public abstract class AbstractHackathonState implements HackathonState {
     }
 
     @Override
-    public boolean active() {
-        return false;
-    }
-
-    @Override
     public void valuateSubmission(String teamName, int vote, String description) {
         throw new IllegalStateException("Can't valuate submission in this state");
     }

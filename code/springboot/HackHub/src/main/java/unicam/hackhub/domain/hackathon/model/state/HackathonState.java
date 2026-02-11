@@ -26,12 +26,6 @@ public interface HackathonState {
     void updateSubmission(Team team, Submission submission);
 
     /**
-     * Check if a hackathon is active
-     * @return true if hackathon is active, false otherwise
-     */
-    boolean active();
-
-    /**
      * Valuate a submission
      * @param teamName team to valuate the submission for
      * @param vote vote of the valuation
