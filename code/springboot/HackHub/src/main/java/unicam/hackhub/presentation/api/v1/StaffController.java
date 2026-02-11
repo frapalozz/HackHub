@@ -1,5 +1,6 @@
 package unicam.hackhub.presentation.api.v1;
 
+import jakarta.validation.constraints.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -8,6 +9,7 @@ import unicam.hackhub.application.hackathon.CreateHackathonHandler;
 import unicam.hackhub.application.hackathon.HackathonHandler;
 import unicam.hackhub.application.hackathon.SubmissionHandler;
 import unicam.hackhub.application.hackathon.request.CreateHackathonRequest;
+import unicam.hackhub.presentation.dto.request.HackathonRequest;
 
 @Validated
 @RestController
@@ -26,24 +28,45 @@ public class StaffController {
     }
 
     @RequestMapping(value = "/hackathon", method = RequestMethod.POST)
-    public ResponseEntity<Object> createHackathon(@Validated @RequestBody CreateHackathonRequest request) {
+    public ResponseEntity<Object> createHackathon(@Validated @RequestBody HackathonRequest request) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(createHackathonHandler.createHackathon(request));
+                .body(createHackathonHandler.createHackathon(request.toCreateHackathonRequest()));
     }
 
     @RequestMapping(value = "/hackathon/{hackathonId}", method = RequestMethod.POST)
-    public ResponseEntity<Object> declareWinner(@PathVariable Long hackathonId, @RequestParam String teamName) {
+    public ResponseEntity<Object> declareWinner(
+            @PathVariable
+            @NotNull(message = "Hackathon ID è obbligatorio")
+            @Positive(message = "Hackathon ID deve essere positivo")
+            Long hackathonId,
+            @RequestParam
+            @NotBlank(message = "Team name è obbligatorio")
+            String teamName
+    ) {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(hackathonHandler.declareWinner(hackathonId, teamName));
     }
 
     @RequestMapping(value = "/hackathon/{hackathonId}/{teamName}", method = RequestMethod.POST)
-    public ResponseEntity<Object> valuateSubmission(@PathVariable Long hackathonId,
-                                                    @PathVariable String teamName,
-                                                    @RequestParam int vote,
-                                                    @RequestParam String message) {
+    public ResponseEntity<Object> valuateSubmission(
+            @PathVariable
+            @NotNull(message = "Hackathon ID è obbligatorio")
+            @Positive(message = "Hackathon ID deve essere positivo")
+            Long hackathonId,
+            @PathVariable
+            @NotBlank(message = "Team name è obbligatorio")
+            String teamName,
+            @RequestParam
+            @Min(value = 0, message = "Il voto deve essere almeno 0")
+            @Max(value = 10, message = "Il voto non può superare 10")
+            int vote,
+            @RequestParam
+            @NotBlank(message = "Il messaggio è obbligatorio")
+            @Size(max = 500, message = "Il messaggio non può superare 500 caratteri")
+            String message
+    ) {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(submissionHandler.valuateSubmission(hackathonId, teamName, vote, message));

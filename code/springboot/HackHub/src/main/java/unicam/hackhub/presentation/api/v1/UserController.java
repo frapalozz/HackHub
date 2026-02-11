@@ -1,5 +1,6 @@
 package unicam.hackhub.presentation.api.v1;
 
+import jakarta.validation.constraints.NotBlank;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -22,28 +23,44 @@ public class UserController {
     }
 
     @RequestMapping(value = "/team", method = RequestMethod.POST)
-    public ResponseEntity<Object> createTeam(@RequestBody TeamRequest teamRequest) {
+    public ResponseEntity<Object> createTeam(@Validated @RequestBody TeamRequest teamRequest) {
          return ResponseEntity
                  .status(HttpStatus.CREATED)
                  .body(createTeamHandler.createTeam(teamRequest.user(), teamRequest.teamName(), teamRequest.emails()));
     }
 
     @RequestMapping(value = "/{userId}/invitation", method = RequestMethod.GET)
-    public ResponseEntity<Object> getInvitations(@PathVariable String userId) {
+    public ResponseEntity<Object> getInvitations(
+            @PathVariable
+            @NotBlank(message = "Userid è obbligatorio")
+            String userId) {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(invitationHandler.getInvitations(userId));
     }
 
     @RequestMapping(value = "/{userId}/invitation/{teamName}", method = RequestMethod.GET)
-    public ResponseEntity<Object> acceptInvitation(@PathVariable String userId, @PathVariable String teamName) {
+    public ResponseEntity<Object> acceptInvitation(
+            @PathVariable
+            @NotBlank(message = "Userid è obbligatorio")
+            String userId,
+            @PathVariable
+            @NotBlank(message = "Team name è obbligatorio")
+            String teamName) {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(invitationHandler.acceptInvitation(userId, teamName));
     }
 
     @RequestMapping(value = "/{userId}/invitation/{teamName}", method = RequestMethod.DELETE)
-    public ResponseEntity<Object> declineInvitation(@PathVariable String userId, @PathVariable String teamName) {
+    public ResponseEntity<Object> declineInvitation(
+            @PathVariable
+            @NotBlank(message = "Userid è obbligatorio")
+            String userId,
+            @PathVariable
+            @NotBlank(message = "Team name è obbligatorio")
+            String teamName
+    ) {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(invitationHandler.declineInvitation(userId, teamName));
