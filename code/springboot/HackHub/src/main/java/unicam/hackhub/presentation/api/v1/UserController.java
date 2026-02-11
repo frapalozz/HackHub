@@ -7,6 +7,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import unicam.hackhub.application.invitation.InvitationHandler;
 import unicam.hackhub.application.team.CreateTeamHandler;
+import unicam.hackhub.application.user.UserHandler;
 import unicam.hackhub.presentation.dto.request.TeamRequest;
 
 @Validated
@@ -16,10 +17,14 @@ public class UserController {
 
     private final CreateTeamHandler createTeamHandler;
     private final InvitationHandler invitationHandler;
+    private final UserHandler userHandler;
 
-    public UserController(CreateTeamHandler createTeamHandler, InvitationHandler invitationHandler) {
+    public UserController(CreateTeamHandler createTeamHandler,
+                          InvitationHandler invitationHandler,
+                          UserHandler userHandler) {
         this.createTeamHandler = createTeamHandler;
         this.invitationHandler = invitationHandler;
+        this.userHandler = userHandler;
     }
 
     @RequestMapping(value = "/team", method = RequestMethod.POST)
@@ -64,5 +69,16 @@ public class UserController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(invitationHandler.declineInvitation(userId, teamName));
+    }
+
+    @RequestMapping(value = "/removeprofile", method = RequestMethod.DELETE)
+    public ResponseEntity<Object> removeProfile(
+            @RequestParam
+            @NotBlank(message = "userEmail è obbligatorio") String userEmail
+    ) {
+        userHandler.deleteUser(userEmail);
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body("Account deleted");
     }
 }
