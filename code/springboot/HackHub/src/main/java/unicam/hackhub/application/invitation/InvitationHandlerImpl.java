@@ -1,5 +1,6 @@
 package unicam.hackhub.application.invitation;
 
+import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import unicam.hackhub.application.invitation.dto.response.InvitationResponse;
@@ -20,20 +21,13 @@ import java.util.stream.Collectors;
 
 @Service
 @Primary
+@AllArgsConstructor
 public class InvitationHandlerImpl implements InvitationHandler {
 
     private final UserRepository userRepository;
     private final InvitationRepository invitationRepository;
     private final TeamRepository teamRepository;
     private final HackathonRepository hackathonRepository;
-
-    public InvitationHandlerImpl(UserRepository userRepository, InvitationRepository invitationRepository,
-                                 TeamRepository teamRepository, HackathonRepository HackathonRepository) {
-        this.userRepository = userRepository;
-        this.invitationRepository = invitationRepository;
-        this.teamRepository = teamRepository;
-        this.hackathonRepository = HackathonRepository;
-    }
 
     @Override
     public String inviteUser(String userId, String teamName) {

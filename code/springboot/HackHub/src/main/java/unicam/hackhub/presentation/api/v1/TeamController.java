@@ -3,6 +3,7 @@ package unicam.hackhub.presentation.api.v1;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -15,18 +16,13 @@ import unicam.hackhub.presentation.dto.request.SubmissionRequest;
 
 @Validated
 @RestController
+@AllArgsConstructor
 @RequestMapping("/api/v1/team")
 public class TeamController {
 
     private final InvitationHandler invitationHandler;
     private final SubmissionHandler submissionHandler;
     private final RegisterTeamHandler registerTeamHandler;
-
-    public TeamController(InvitationHandler invitationHandler, SubmissionHandler submissionHandler, RegisterTeamHandler registerTeamHandler) {
-        this.invitationHandler = invitationHandler;
-        this.submissionHandler = submissionHandler;
-        this.registerTeamHandler = registerTeamHandler;
-    }
 
     @RequestMapping(value = "/{teamName}/invite", method = RequestMethod.POST)
     public ResponseEntity<Object> inviteUser(

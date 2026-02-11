@@ -1,5 +1,6 @@
 package unicam.hackhub.application.hackathon;
 
+import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import unicam.hackhub.domain.hackathon.model.Hackathon;
@@ -13,22 +14,13 @@ import unicam.hackhub.domain.team.repository.TeamRepository;
 
 @Service
 @Primary
+@AllArgsConstructor
 public class SubmissionHandlerImpl implements SubmissionHandler {
 
     private final HackathonRepository hackathonRepository;
     private final TeamRepository teamRepository;
     private final SubmissionRepository submissionRepository;
     private final ValuationRepository valuationRepository;
-
-    public SubmissionHandlerImpl(HackathonRepository hackathonRepository,
-                                 TeamRepository teamRepository,
-                                 SubmissionRepository submissionRepository,
-                                 ValuationRepository valuationRepository) {
-        this.hackathonRepository = hackathonRepository;
-        this.teamRepository = teamRepository;
-        this.submissionRepository = submissionRepository;
-        this.valuationRepository = valuationRepository;
-    }
 
     @Override
     public String addSubmission(String teamName, long hackathonId, Submission submission) {

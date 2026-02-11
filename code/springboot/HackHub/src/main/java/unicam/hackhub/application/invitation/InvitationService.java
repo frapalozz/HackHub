@@ -1,5 +1,6 @@
 package unicam.hackhub.application.invitation;
 
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import unicam.hackhub.domain.invitation.domain.Invitation;
@@ -13,16 +14,11 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
+@AllArgsConstructor
 public class InvitationService {
     
     private final UserRepository userRepository;
     private final InvitationRepository invitationRepository;
-
-    @Autowired
-    public InvitationService(UserRepository ur, InvitationRepository ir) {
-        this.userRepository = ur;
-        this.invitationRepository = ir;
-    }
 
     /**
      * Create bulk invitations

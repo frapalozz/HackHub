@@ -1,6 +1,7 @@
 package unicam.hackhub.presentation.api.v1;
 
 import jakarta.validation.constraints.*;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -12,19 +13,13 @@ import unicam.hackhub.presentation.dto.request.HackathonRequest;
 
 @Validated
 @RestController
+@AllArgsConstructor
 @RequestMapping("/api/v1/staff")
 public class StaffController {
 
     private final CreateHackathonHandler createHackathonHandler;
     private final SubmissionHandler submissionHandler;
     private final HackathonHandler hackathonHandler;
-
-    public StaffController(CreateHackathonHandler createHackathonHandler,
-                           SubmissionHandler submissionHandler, HackathonHandler hackathonHandler) {
-        this.createHackathonHandler = createHackathonHandler;
-        this.submissionHandler = submissionHandler;
-        this.hackathonHandler = hackathonHandler;
-    }
 
     @RequestMapping(value = "/hackathon", method = RequestMethod.POST)
     public ResponseEntity<Object> createHackathon(@Validated @RequestBody HackathonRequest request) {

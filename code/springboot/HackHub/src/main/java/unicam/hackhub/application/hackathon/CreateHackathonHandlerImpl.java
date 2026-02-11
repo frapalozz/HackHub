@@ -1,5 +1,6 @@
 package unicam.hackhub.application.hackathon;
 
+import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import unicam.hackhub.domain.hackathon.model.Hackathon;
@@ -14,25 +15,21 @@ import java.util.Objects;
 
 @Service
 @Primary
+@AllArgsConstructor
 public class CreateHackathonHandlerImpl implements CreateHackathonHandler {
 
-    private final StaffRepository staffMemberRepo;
-    private final HackathonRepository hackathonRepo;
-
-    public CreateHackathonHandlerImpl(StaffRepository smr, HackathonRepository hr) {
-        this.staffMemberRepo = smr;
-        this.hackathonRepo = hr;
-    }
+    private final StaffRepository staffRepository;
+    private final HackathonRepository hackathonRepository;
 
     @Override
     public Hackathon createHackathon(CreateHackathonRequest request) {
 
         checkLogicDateOrder(request);
 
-        Staff organizer = staffMemberRepo.findById(request.organizerEmail()).orElse(null);
-        Staff judge = staffMemberRepo.findById(request.judgeEmail()).orElse(null);
+        Staff organizer = staffRepository.findById(request.organizerEmail()).orElse(null);
+        Staff judge = staffRepository.findById(request.judgeEmail()).orElse(null);
         List<Staff> mentors = request.mentorsEmails().stream()
-            .map(e -> staffMemberRepo.findById(e).orElse(null))
+            .map(e -> staffRepository.findById(e).orElse(null))
             .filter(Objects::nonNull)
             .toList();
 
@@ -50,7 +47,7 @@ public class CreateHackathonHandlerImpl implements CreateHackathonHandler {
                 judge,
                 new HashSet<>(mentors));
 
-        hackathonRepo.save(hackathon);
+        hackathonRepository.save(hackathon);
         
         return hackathon;
     }

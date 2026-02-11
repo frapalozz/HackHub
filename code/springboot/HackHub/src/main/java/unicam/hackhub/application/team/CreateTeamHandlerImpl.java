@@ -1,5 +1,6 @@
 package unicam.hackhub.application.team;
 
+import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import unicam.hackhub.domain.team.model.Team;
@@ -12,18 +13,13 @@ import java.util.List;
 
  @Service
  @Primary
+ @AllArgsConstructor
 public class CreateTeamHandlerImpl implements CreateTeamHandler {
     
     private final UserRepository userRepository;
     private final TeamRepository teamRepository;
 
     private final InvitationService invitationService;
-
-    public CreateTeamHandlerImpl(UserRepository ur, TeamRepository tr, InvitationService is) {
-        this.userRepository = ur;
-        this.teamRepository = tr;
-        this.invitationService = is;
-    }
 
     @Override
     public String createTeam(String userId, String teamName, List<String> invitedUsers) {
