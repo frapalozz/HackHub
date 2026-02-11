@@ -15,12 +15,32 @@ public class UserHandlerImpl implements UserHandler{
 
     @Override
     public void deleteUser(String userEmail) {
+        User user = getUser(userEmail);
+
+        userRepository.delete(user);
+    }
+
+    @Override
+    public void editProfile(String userEmail, String name, String email) {
+        User user = getUser(userEmail);
+
+        if(name != null && !name.isEmpty()) {
+            user.setName(name);
+        }
+        if(email != null && !email.isEmpty()) {
+            user.setEmail(email);
+        }
+
+        userRepository.save(user);
+    }
+
+    private User getUser(String userEmail) {
         User user = userRepository.findById(userEmail).orElse(null);
 
         if(user == null) {
             throw new IllegalArgumentException("User not found");
         }
 
-        userRepository.delete(user);
+        return user;
     }
 }

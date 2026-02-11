@@ -10,6 +10,7 @@ import unicam.hackhub.application.invitation.InvitationHandler;
 import unicam.hackhub.application.team.CreateTeamHandler;
 import unicam.hackhub.application.user.UserHandler;
 import unicam.hackhub.presentation.dto.request.TeamRequest;
+import unicam.hackhub.presentation.dto.request.UserRequest;
 
 @Validated
 @RestController
@@ -74,5 +75,13 @@ public class UserController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body("Account deleted");
+    }
+
+    @RequestMapping(value = "/updateprofile", method = RequestMethod.PUT)
+    public ResponseEntity<Object> updateProfile(@Validated @RequestBody UserRequest userRequest) {
+        userHandler.editProfile(userRequest.userId(), userRequest.name(), userRequest.email());
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body("User updated");
     }
 }
