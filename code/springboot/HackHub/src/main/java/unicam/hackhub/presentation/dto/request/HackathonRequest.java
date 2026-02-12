@@ -15,8 +15,13 @@ public record HackathonRequest(
         @Future(message = "Subscription deadline deve essere nel futuro")
         LocalDate subscriptionDeadline,
 
-        @NotNull(message = "Hackathon period is required")
-        Period hackathonPeriod,
+        @NotNull(message = "end date è obbligatoria")
+        @Future(message = "end date deve essere nel futuro")
+        LocalDate startDate,
+
+        @NotNull(message = "start date è obbligatoria")
+        @Future(message = "start date deve essere nel futuro")
+        LocalDate endDate,
 
         @NotNull(message = "Max team size è obbligatorio")
         @Min(value = 1, message = "MaxTeamSize almeno di 1")

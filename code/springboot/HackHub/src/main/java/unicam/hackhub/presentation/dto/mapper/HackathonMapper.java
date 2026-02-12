@@ -2,6 +2,7 @@ package unicam.hackhub.presentation.dto.mapper;
 
 import org.springframework.stereotype.Component;
 import unicam.hackhub.application.hackathon.dto.request.CreateHackathonRequest;
+import unicam.hackhub.domain.utils.Period;
 import unicam.hackhub.presentation.dto.request.HackathonRequest;
 
 @Component
@@ -11,7 +12,7 @@ public class HackathonMapper {
             return new CreateHackathonRequest(
                     request.name(),
                     request.subscriptionDeadline(),
-                    request.hackathonPeriod(),
+                    new Period(request.startDate(), request.endDate()),
                     request.maxTeamSize(),
                     request.requirements(),
                     request.prize(),
