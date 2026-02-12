@@ -10,6 +10,7 @@ import unicam.hackhub.application.hackathon.CreateHackathonHandler;
 import unicam.hackhub.application.hackathon.HackathonHandler;
 import unicam.hackhub.application.hackathon.SubmissionHandler;
 import unicam.hackhub.application.report.ReportHandler;
+import unicam.hackhub.presentation.dto.request.AddMentorsRequest;
 import unicam.hackhub.presentation.dto.request.HackathonRequest;
 import unicam.hackhub.presentation.dto.request.ReportRequest;
 
@@ -98,5 +99,12 @@ public class StaffController {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(reportHandler.report(request.teamName(), request.hackathonId(), request.description()));
+    }
+
+    @RequestMapping(value = "/hackathon/{hackathonId}/addMentors", method = RequestMethod.POST)
+    public ResponseEntity<Object> addMentors(@PathVariable Long hackathonId, @Validated @RequestBody AddMentorsRequest request) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(hackathonHandler.addMentors(hackathonId, request.emailList()));
     }
 }

@@ -10,10 +10,7 @@ import unicam.hackhub.domain.utils.Period;
 import lombok.Setter;
 
 import java.time.LocalDate;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 @Getter
 @Setter
@@ -102,6 +99,10 @@ public class Hackathon {
         this.state.declareWinner(teamName);
 
         this.changeState(HackathonStatus.HackathonStateType.ENDED);
+    }
+
+    public void addMentors(List<Staff> mentors) {
+        this.mentors.addAll(mentors);
     }
 
     public Submission getSubmission(String teamName) {
