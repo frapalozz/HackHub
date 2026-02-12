@@ -1,8 +1,6 @@
 package unicam.hackhub.application.invitation;
 
-import unicam.hackhub.application.invitation.dto.response.InvitationResponse;
-import unicam.hackhub.domain.invitation.domain.Invitation;
-import unicam.hackhub.domain.invitation.domain.InvitationId;
+import unicam.hackhub.application.dto.request.InvitationResponse;
 
 import java.util.List;
 

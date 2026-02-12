@@ -1,7 +1,7 @@
 package unicam.hackhub.application.hackathon;
 
 import unicam.hackhub.domain.hackathon.model.Hackathon;
-import unicam.hackhub.application.hackathon.dto.request.CreateHackathonRequest;
+import unicam.hackhub.application.dto.request.CreateHackathonRequest;
 
 public interface CreateHackathonHandler {
 

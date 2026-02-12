@@ -7,7 +7,7 @@ import unicam.hackhub.domain.hackathon.model.Hackathon;
 import unicam.hackhub.domain.hackathon.repository.HackathonRepository;
 import unicam.hackhub.domain.staff.model.Staff;
 import unicam.hackhub.domain.staff.repository.StaffRepository;
-import unicam.hackhub.application.hackathon.dto.request.CreateHackathonRequest;
+import unicam.hackhub.application.dto.request.CreateHackathonRequest;
 
 import java.util.HashSet;
 import java.util.List;

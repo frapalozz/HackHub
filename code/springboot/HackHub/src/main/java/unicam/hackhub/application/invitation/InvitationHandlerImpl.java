@@ -3,7 +3,7 @@ package unicam.hackhub.application.invitation;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
-import unicam.hackhub.application.invitation.dto.response.InvitationResponse;
+import unicam.hackhub.application.dto.request.InvitationResponse;
 import unicam.hackhub.domain.hackathon.repository.HackathonRepository;
 import unicam.hackhub.domain.invitation.domain.Invitation;
 import unicam.hackhub.domain.invitation.domain.InvitationId;

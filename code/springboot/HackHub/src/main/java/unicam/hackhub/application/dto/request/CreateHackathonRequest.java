@@ -1,4 +1,4 @@
-package unicam.hackhub.application.hackathon.dto.request;
+package unicam.hackhub.application.dto.request;
 
 import unicam.hackhub.domain.utils.Period;
 
