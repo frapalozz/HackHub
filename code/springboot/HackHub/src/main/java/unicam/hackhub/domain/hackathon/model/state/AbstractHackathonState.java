@@ -41,4 +41,9 @@ public abstract class AbstractHackathonState implements HackathonState {
     public void declareWinner(String teamName) {
         throw new IllegalStateException("Can't declare winner in this state");
     }
+
+    @Override
+    public boolean inProgress() {
+        return false;
+    }
 }

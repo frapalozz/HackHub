@@ -34,4 +34,9 @@ public class ProgressState extends AbstractHackathonState {
         Submission oldSubmission = hackathon.getSubmission(team);
         oldSubmission.setUrl(submission.getUrl());
     }
+
+    @Override
+    public boolean inProgress() {
+        return true;
+    }
 }

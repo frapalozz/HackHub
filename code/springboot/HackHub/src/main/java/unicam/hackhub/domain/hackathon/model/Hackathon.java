@@ -118,6 +118,10 @@ public class Hackathon {
         return this.submissions.get(team);
     }
 
+    public boolean inProgress() {
+        return this.state.inProgress();
+    }
+
     public void valuateSubmission(String teamName, int vote, String description) {
         this.state.valuateSubmission(teamName, vote, description);
     }

@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.*;
 import unicam.hackhub.application.hackathon.CreateHackathonHandler;
 import unicam.hackhub.application.hackathon.HackathonHandler;
 import unicam.hackhub.application.hackathon.SubmissionHandler;
+import unicam.hackhub.application.report.ReportHandler;
 import unicam.hackhub.presentation.dto.request.HackathonRequest;
+import unicam.hackhub.presentation.dto.request.ReportRequest;
 
 @Validated
 @RestController
@@ -20,6 +22,7 @@ public class StaffController {
     private final CreateHackathonHandler createHackathonHandler;
     private final SubmissionHandler submissionHandler;
     private final HackathonHandler hackathonHandler;
+    private final ReportHandler reportHandler;
 
     @RequestMapping(value = "/hackathon", method = RequestMethod.POST)
     public ResponseEntity<Object> createHackathon(@Validated @RequestBody HackathonRequest request) {
@@ -87,5 +90,13 @@ public class StaffController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(submissionHandler.editValuation(hackathonId, teamName, vote, message));
+    }
+
+    @RequestMapping(value = "/report", method = RequestMethod.POST)
+    public ResponseEntity<Object> reportTeam(@Validated @RequestBody ReportRequest request) {
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(reportHandler.report(request.teamName(), request.hackathonId(), request.description()));
     }
 }

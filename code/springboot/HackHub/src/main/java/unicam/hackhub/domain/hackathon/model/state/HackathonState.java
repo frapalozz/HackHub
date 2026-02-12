@@ -46,4 +46,10 @@ public interface HackathonState {
      * @param teamName the winning team
      */
     void declareWinner(String teamName);
+
+    /**
+     * Return true if the hackathon is in PROGRESS
+     * @return true if the hackathon is in PROGRESS, otherwise false
+     */
+    boolean inProgress();
 }
