@@ -32,11 +32,4 @@ public class User {
     public boolean hasTeam() {
         return this.team != null;
     }
-
-    @Override
-    public boolean equals(Object other) {
-        if(!(other instanceof User o)) return false;
-
-        return name.equals(o.getName()) && email.equals(o.getEmail());
-    }
 }

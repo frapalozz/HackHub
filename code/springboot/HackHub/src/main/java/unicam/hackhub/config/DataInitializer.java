@@ -71,7 +71,6 @@ public class DataInitializer implements CommandLineRunner {
         staffRepository.saveAll(Arrays.asList(STAFF));
         userRepository.saveAll(Arrays.asList(USERS));
         teamRepository.saveAll(Arrays.asList(TEAMS));
-        submissionRepository.saveAll(Arrays.asList(SUBMISSIONS));
 
         Set<Team> teams = new HashSet<>();
         teams.add(teamRepository.findById(TEAMS[0].getName()).orElse(null));

@@ -32,11 +32,4 @@ public class Team {
     public void addMember(User user) {
         this.members.add(user);
     }
-
-    @Override
-    public boolean equals(Object other) {
-        if(!(other instanceof Team o)) return false;
-
-        return name.equals(o.getName());
-    }
 }

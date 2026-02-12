@@ -81,28 +81,13 @@ public class Hackathon {
         initializeStateObject();
     }
 
-    @PostLoad
-    @PostPersist
-    @PostUpdate
-    private void initializeStateObject() {
-        this.state = HackathonStateFactory.createState(
-                this.status.getCurrentState(),
-                this
-        );
-    }
+
+    // =====================================
+    // Submission methods
+    // =====================================
 
     public Submission getSubmission(Team team) {
         return this.submissions.get(team);
-    }
-
-    public void declareWinner(String teamName) {
-        this.state.declareWinner(teamName);
-
-        this.changeState(HackathonStatus.HackathonStateType.ENDED);
-    }
-
-    public void addMentors(List<Staff> mentors) {
-        this.mentors.addAll(mentors);
     }
 
     public Submission getSubmission(String teamName) {
@@ -119,28 +104,14 @@ public class Hackathon {
         return this.submissions.get(team);
     }
 
-    public boolean inProgress() {
-        return this.state.inProgress();
+    public boolean teamHasSubmission(Team team) {
+        return getSubmission(team) != null;
     }
 
-    public void valuateSubmission(String teamName, int vote, String description) {
-        this.state.valuateSubmission(teamName, vote, description);
+    private void setSubmission(Team team, Submission submission) {
+        this.submissions.put(team, submission);
     }
 
-    public void updateValuation(String teamName, int vote, String description) {
-        this.state.updateValuation(teamName, vote, description);
-    }
-
-    public void changeState(HackathonStatus.HackathonStateType newStateTyoe) {
-        this.status.setCurrentState(newStateTyoe);
-        this.state = HackathonStateFactory.createState(newStateTyoe, this);
-    }
-
-    public void registerTeam(Team team) {
-        this.state.registerTeam(team);
-        this.teams.add(team);
-    }
-    
     public void addSubmission(Team team, Submission submission) {
         this.state.addSubmission(team, submission);
 
@@ -151,15 +122,70 @@ public class Hackathon {
         this.state.updateSubmission(team, submission);
     }
 
+    public void valuateSubmission(String teamName, int vote, String description) {
+        this.state.valuateSubmission(teamName, vote, description);
+    }
+
+    public void updateValuation(String teamName, int vote, String description) {
+        this.state.updateValuation(teamName, vote, description);
+    }
+
+
+    // =====================================
+    // Team methods
+    // =====================================
+
+    public void registerTeam(Team team) {
+        this.state.registerTeam(team);
+        this.teams.add(team);
+    }
+
     public boolean hasTeam(Team team) {
         return teams.contains(team);
     }
 
-    public boolean teamHasSubmission(Team team) {
-        return submissions.get(team) != null;
+    public void declareWinner(String teamName) {
+        this.state.declareWinner(teamName);
+
+        this.changeState(HackathonStatus.HackathonStateType.ENDED);
     }
 
-    private void setSubmission(Team team, Submission submission) {
-        this.submissions.put(team, submission);
+
+    // =====================================
+    // Staff methods
+    // =====================================
+
+    public void addMentors(List<Staff> mentors) {
+        this.mentors.addAll(mentors);
+    }
+
+
+    // =====================================
+    // State Methods
+    // =====================================
+
+    public void changeState(HackathonStatus.HackathonStateType newStateType) {
+        this.status.setCurrentState(newStateType);
+        this.state = HackathonStateFactory.createState(newStateType, this);
+    }
+
+
+    public boolean inProgress() {
+        return this.state.inProgress();
+    }
+
+
+    // =====================================
+    // Private Methods
+    // =====================================
+
+    @PostLoad
+    @PostPersist
+    @PostUpdate
+    private void initializeStateObject() {
+        this.state = HackathonStateFactory.createState(
+                this.status.getCurrentState(),
+                this
+        );
     }
 }
