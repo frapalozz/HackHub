@@ -10,6 +10,7 @@ import unicam.hackhub.application.hackathon.CreateHackathonHandler;
 import unicam.hackhub.application.hackathon.HackathonHandler;
 import unicam.hackhub.application.hackathon.SubmissionHandler;
 import unicam.hackhub.application.report.ReportHandler;
+import unicam.hackhub.presentation.dto.mapper.HackathonMapper;
 import unicam.hackhub.presentation.dto.request.AddMentorsRequest;
 import unicam.hackhub.presentation.dto.request.HackathonRequest;
 import unicam.hackhub.presentation.dto.request.ReportRequest;
@@ -24,12 +25,13 @@ public class StaffController {
     private final SubmissionHandler submissionHandler;
     private final HackathonHandler hackathonHandler;
     private final ReportHandler reportHandler;
+    private final HackathonMapper hackathonMapper;
 
     @RequestMapping(value = "/hackathon", method = RequestMethod.POST)
     public ResponseEntity<Object> createHackathon(@Validated @RequestBody HackathonRequest request) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(createHackathonHandler.createHackathon(request.toCreateHackathonRequest()));
+                .body(createHackathonHandler.createHackathon(hackathonMapper.toCreateHackathonRequest(request)));
     }
 
     @RequestMapping(value = "/hackathon/{hackathonId}", method = RequestMethod.POST)
