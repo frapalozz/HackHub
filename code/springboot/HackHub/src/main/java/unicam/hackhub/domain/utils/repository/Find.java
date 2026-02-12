@@ -18,4 +18,10 @@ public interface Find<T, K> {
      * @return a list of all the entities founds
      */
     List<T> findAllById(Iterable<K> ids);
+
+    /**
+     * Find all entities
+     * @return all entities
+     */
+    List<T> findAll();
 }

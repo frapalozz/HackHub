@@ -14,13 +14,13 @@ public class SubscriptionState extends AbstractHackathonState {
     @Override
     public void registerTeam(Team team) {
         if(this.hackathon.getSubscriptionDeadline().isBefore(LocalDate.now()))
-            throw new IllegalArgumentException("Subscription closed");
+            throw new IllegalStateException("Subscription closed");
 
         if(this.hackathon.getMaxTeamSize() < team.getMembers().size())
             throw new IllegalArgumentException("Max team size exceeded");
 
         if(this.hackathon.hasTeam(team)) {
-            throw new IllegalArgumentException("Team already present");
+            throw new IllegalStateException("Team already present");
         }
     }
 }

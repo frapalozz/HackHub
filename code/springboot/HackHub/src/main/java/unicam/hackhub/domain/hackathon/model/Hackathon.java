@@ -41,13 +41,13 @@ public class Hackathon {
     @Embedded
     private HackathonStatus status;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.REFRESH})
     private Staff organizer;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.REFRESH})
     private Staff judge;
 
-    @ManyToMany(fetch = FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.REFRESH})
     private Set<Staff> mentors;
 
     @OneToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH})
