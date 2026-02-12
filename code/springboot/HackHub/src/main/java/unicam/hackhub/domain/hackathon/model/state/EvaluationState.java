@@ -49,7 +49,7 @@ public class EvaluationState extends AbstractHackathonState {
                 .anyMatch(s -> s.getValuation() == null);
         
         if (anyMissingValuation) {
-            throw new RuntimeException("No missing valuation");
+            throw new IllegalStateException("Missing valuation");
         }
 
         Team team = hackathon.getTeams().stream()

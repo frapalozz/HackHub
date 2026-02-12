@@ -34,7 +34,7 @@ public class CreateHackathonHandlerImpl implements CreateHackathonHandler {
             .toList();
 
         if(organizer == null || judge == null || mentors.size() != request.mentorsEmails().size()) {
-            throw new IllegalArgumentException("Staffmember not found");
+            throw new IllegalArgumentException("Staff not found");
         }
 
         Hackathon hackathon = new Hackathon(

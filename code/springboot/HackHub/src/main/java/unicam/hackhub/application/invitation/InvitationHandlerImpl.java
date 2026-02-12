@@ -36,13 +36,8 @@ public class InvitationHandlerImpl implements InvitationHandler {
             throw new IllegalArgumentException("Invalid email address");
         }
 
-        User user = userRepository.findById(userId).orElse(null);
-
-        if(user == null) {
-            throw new IllegalArgumentException("User not found");
-        }
-
-        Team team = teamRepository.findById(teamName).orElse(null);
+        User user = getUser(userId);
+        Team team = getTeam(teamName);
 
         if(invitationRepository.existsById(new InvitationId(team, user))) {
             throw new IllegalArgumentException("Invitation already exists");
@@ -58,8 +53,8 @@ public class InvitationHandlerImpl implements InvitationHandler {
     @Override
     public String acceptInvitation(String userEmail, String teamName) {
 
-        User user = userRepository.findById(userEmail).orElse(null);
-        Team team = teamRepository.findById(teamName).orElse(null);
+        User user = getUser(userEmail);
+        Team team = getTeam(teamName);
         InvitationId invitationId = new InvitationId(team, user);
 
         Invitation invitation = findInvitation(invitationId);
@@ -78,8 +73,8 @@ public class InvitationHandlerImpl implements InvitationHandler {
     @Override
     public String declineInvitation(String userEmail, String teamName) {
 
-        User user = userRepository.findById(userEmail).orElse(null);
-        Team team = teamRepository.findById(teamName).orElse(null);
+        User user = getUser(userEmail);
+        Team team = getTeam(teamName);
         InvitationId invitationId = new InvitationId(team, user);
 
         Invitation invitation = findInvitation(invitationId);
@@ -115,5 +110,24 @@ public class InvitationHandlerImpl implements InvitationHandler {
         }
 
         return invitation;
+    }
+
+    private User getUser(String email) {
+        User user = userRepository.findById(email).orElse(null);
+
+        if(user == null) {
+            throw new IllegalArgumentException("User not found");
+        }
+
+        return user;
+    }
+
+    private Team getTeam(String teamName) {
+        Team team = teamRepository.findById(teamName).orElse(null);
+        if(team == null) {
+            throw new IllegalArgumentException("Team not found");
+        }
+
+        return team;
     }
 }
