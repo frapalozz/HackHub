@@ -66,8 +66,7 @@ public class DataInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) {
-
-
+        /*
         staffRepository.saveAll(Arrays.asList(STAFF));
         userRepository.saveAll(Arrays.asList(USERS));
         teamRepository.saveAll(Arrays.asList(TEAMS));
@@ -80,5 +79,7 @@ public class DataInitializer implements CommandLineRunner {
         sub.put(TEAMS[0], SUBMISSIONS[0]);
         HACKATHONS[0].setSubmissions(sub);
         hackathonRepository.saveAll(Arrays.asList(HACKATHONS));
+
+         */
     }
 }

@@ -6,6 +6,7 @@ import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import unicam.hackhub.application.hackathon.SubmissionHandler;
@@ -24,6 +25,7 @@ public class TeamController {
     private final SubmissionHandler submissionHandler;
     private final RegisterTeamHandler registerTeamHandler;
 
+    @PreAuthorize("hasRole('TEAM_MEMBER')")
     @RequestMapping(value = "/{teamName}/invite", method = RequestMethod.POST)
     public ResponseEntity<Object> inviteUser(
             @RequestParam
@@ -38,6 +40,7 @@ public class TeamController {
                 .body(invitationHandler.inviteUser(userEmail, teamName));
     }
 
+    @PreAuthorize("hasRole('TEAM_MEMBER')")
     @RequestMapping(value = "/register/{hackathonId}", method = RequestMethod.POST)
     public ResponseEntity<Object> registerTeam(
             @PathVariable
@@ -53,6 +56,7 @@ public class TeamController {
                 .body(registerTeamHandler.registerTeam(teamName, hackathonId));
     }
 
+    @PreAuthorize("hasRole('TEAM_MEMBER')")
     @RequestMapping(value = "/hackathon/{hackathonId}", method = RequestMethod.POST)
     public ResponseEntity<Object> addSubmission(
             @PathVariable
@@ -69,6 +73,7 @@ public class TeamController {
                 .body(submissionHandler.addSubmission(teamName, hackathonId, new Submission(request.url())));
     }
 
+    @PreAuthorize("hasRole('TEAM_MEMBER')")
     @RequestMapping(value = "/hackathon/{hackathonId}", method = RequestMethod.PUT)
     public ResponseEntity<Object> updateSubmission(
             @PathVariable

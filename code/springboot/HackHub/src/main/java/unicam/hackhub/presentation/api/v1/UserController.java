@@ -4,6 +4,9 @@ import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import unicam.hackhub.application.invitation.InvitationHandler;
@@ -11,6 +14,8 @@ import unicam.hackhub.application.team.CreateTeamHandler;
 import unicam.hackhub.application.user.UserHandler;
 import unicam.hackhub.presentation.dto.request.TeamRequest;
 import unicam.hackhub.presentation.dto.request.UserRequest;
+
+import java.security.Principal;
 
 @Validated
 @RestController
@@ -22,6 +27,7 @@ public class UserController {
     private final InvitationHandler invitationHandler;
     private final UserHandler userHandler;
 
+    @PreAuthorize("hasRole('USER')")
     @RequestMapping(value = "/team", method = RequestMethod.POST)
     public ResponseEntity<Object> createTeam(@Validated @RequestBody TeamRequest teamRequest) {
          return ResponseEntity
@@ -29,6 +35,7 @@ public class UserController {
                  .body(createTeamHandler.createTeam(teamRequest.user(), teamRequest.teamName(), teamRequest.emails()));
     }
 
+    @PreAuthorize("hasRole('USER')")
     @RequestMapping(value = "/{userId}/invitation", method = RequestMethod.GET)
     public ResponseEntity<Object> getInvitations(
             @PathVariable
@@ -39,6 +46,7 @@ public class UserController {
                 .body(invitationHandler.getInvitations(userId));
     }
 
+    @PreAuthorize("hasRole('USER')")
     @RequestMapping(value = "/{userId}/invitation/{teamName}", method = RequestMethod.GET)
     public ResponseEntity<Object> acceptInvitation(
             @PathVariable
@@ -52,6 +60,7 @@ public class UserController {
                 .body(invitationHandler.acceptInvitation(userId, teamName));
     }
 
+    @PreAuthorize("hasRole('USER')")
     @RequestMapping(value = "/{userId}/invitation/{teamName}", method = RequestMethod.DELETE)
     public ResponseEntity<Object> declineInvitation(
             @PathVariable
@@ -66,6 +75,7 @@ public class UserController {
                 .body(invitationHandler.declineInvitation(userId, teamName));
     }
 
+    @PreAuthorize("hasRole('USER')")
     @RequestMapping(value = "/removeprofile", method = RequestMethod.DELETE)
     public ResponseEntity<Object> removeProfile(
             @RequestParam
@@ -77,6 +87,7 @@ public class UserController {
                 .body("Account deleted");
     }
 
+    @PreAuthorize("hasRole('USER')")
     @RequestMapping(value = "/updateprofile", method = RequestMethod.PUT)
     public ResponseEntity<Object> updateProfile(@Validated @RequestBody UserRequest userRequest) {
         userHandler.editProfile(userRequest.userId(), userRequest.name(), userRequest.email());

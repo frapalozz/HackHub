@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import unicam.hackhub.domain.team.model.Team;
+import unicam.hackhub.domain.utils.Role;
 
 @Getter
 @Setter
@@ -19,6 +20,11 @@ public class User {
     @Id
     @Column(nullable = false, unique = true)
     private String email;
+
+    @Column(nullable = false)
+    private String password;
+
+    private Role role = Role.USER;
 
     @ManyToOne
     @JoinColumn(name = "team_name", referencedColumnName = "name")

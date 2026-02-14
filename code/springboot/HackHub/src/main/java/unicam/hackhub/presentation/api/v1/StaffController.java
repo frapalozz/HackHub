@@ -4,6 +4,7 @@ import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import unicam.hackhub.application.hackathon.CreateHackathonHandler;
@@ -27,6 +28,7 @@ public class StaffController {
     private final ReportHandler reportHandler;
     private final HackathonMapper hackathonMapper;
 
+    @PreAuthorize("hasRole('STAFF')")
     @RequestMapping(value = "/hackathon", method = RequestMethod.POST)
     public ResponseEntity<Object> createHackathon(@Validated @RequestBody HackathonRequest request) {
         return ResponseEntity
@@ -34,6 +36,7 @@ public class StaffController {
                 .body(createHackathonHandler.createHackathon(hackathonMapper.toCreateHackathonRequest(request)));
     }
 
+    @PreAuthorize("hasRole('STAFF')")
     @RequestMapping(value = "/hackathon/{hackathonId}", method = RequestMethod.POST)
     public ResponseEntity<Object> declareWinner(
             @PathVariable
@@ -49,6 +52,7 @@ public class StaffController {
                 .body(hackathonHandler.declareWinner(hackathonId, teamName));
     }
 
+    @PreAuthorize("hasRole('STAFF')")
     @RequestMapping(value = "/hackathon/{hackathonId}/{teamName}", method = RequestMethod.POST)
     public ResponseEntity<Object> valuateSubmission(
             @PathVariable
@@ -72,6 +76,7 @@ public class StaffController {
                 .body(submissionHandler.valuateSubmission(hackathonId, teamName, vote, message));
     }
 
+    @PreAuthorize("hasRole('STAFF')")
     @RequestMapping(value = "/hackathon/{hackathonId}/{teamName}", method = RequestMethod.PUT)
     public ResponseEntity<Object> editValuation(
             @PathVariable
@@ -95,6 +100,7 @@ public class StaffController {
                 .body(submissionHandler.editValuation(hackathonId, teamName, vote, message));
     }
 
+    @PreAuthorize("hasRole('STAFF')")
     @RequestMapping(value = "/report", method = RequestMethod.POST)
     public ResponseEntity<Object> reportTeam(@Validated @RequestBody ReportRequest request) {
 
@@ -103,6 +109,7 @@ public class StaffController {
                 .body(reportHandler.report(request.teamName(), request.hackathonId(), request.description()));
     }
 
+    @PreAuthorize("hasRole('STAFF')")
     @RequestMapping(value = "/hackathon/{hackathonId}/addMentors", method = RequestMethod.POST)
     public ResponseEntity<Object> addMentors(@PathVariable Long hackathonId, @Validated @RequestBody AddMentorsRequest request) {
         return ResponseEntity

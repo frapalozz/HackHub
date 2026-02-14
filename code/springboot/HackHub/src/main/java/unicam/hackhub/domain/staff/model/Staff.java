@@ -7,6 +7,7 @@ import jakarta.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import unicam.hackhub.domain.utils.Role;
 
 @Getter
 @Setter
@@ -21,6 +22,11 @@ public class Staff {
     @Id
     @Column(nullable = false, unique = true)
     private String email;
+
+    @Column(nullable = false)
+    private String password;
+
+    private Role role = Role.STAFF;
 
     public Staff(String name, String email) {
         this.name = name;
