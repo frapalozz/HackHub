@@ -6,5 +6,5 @@ import unicam.hackhub.application.dto.response.TokenResponse;
 public interface AuthHandler {
 
     TokenResponse login(String email, String password, String type);
-
+    TokenResponse register(String name, String email, String password, String type);
 }

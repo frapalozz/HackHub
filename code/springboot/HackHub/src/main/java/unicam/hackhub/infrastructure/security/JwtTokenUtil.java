@@ -33,6 +33,11 @@ public class JwtTokenUtil {
         return doGenerateToken(claims, userDetails.getUsername());
     }
 
+    public String generateToken(Map<String, Object> claims, UserDetails userDetails) {
+        claims.put("roles", userDetails.getAuthorities());
+        return doGenerateToken(claims, userDetails.getUsername());
+    }
+
     private String doGenerateToken(Map<String, Object> claims, String subject) {
         return Jwts.builder()
                 .setClaims(claims)
@@ -63,6 +68,10 @@ public class JwtTokenUtil {
 
     private Claims getAllClaimsFromToken(String token) {
         return Jwts.parserBuilder().setSigningKey(key()).build().parseClaimsJws(token).getBody();
+    }
+
+    public long getExpirationTime() {
+        return expiration;
     }
 
     private Boolean isTokenExpired(String token) {
