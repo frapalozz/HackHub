@@ -1,10 +1,14 @@
 package unicam.hackhub.presentation.api.v1;
 
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import unicam.hackhub.application.hackathon.CreateHackathonHandler;
@@ -15,6 +19,7 @@ import unicam.hackhub.presentation.dto.mapper.HackathonMapper;
 import unicam.hackhub.presentation.dto.request.AddMentorsRequest;
 import unicam.hackhub.presentation.dto.request.HackathonRequest;
 import unicam.hackhub.presentation.dto.request.ReportRequest;
+import unicam.hackhub.presentation.dto.request.ValuateSubmissionRequest;
 
 @Validated
 @RestController
@@ -30,10 +35,11 @@ public class StaffController {
 
     @PreAuthorize("hasRole('STAFF')")
     @RequestMapping(value = "/hackathon", method = RequestMethod.POST)
-    public ResponseEntity<Object> createHackathon(@Validated @RequestBody HackathonRequest request) {
+    public ResponseEntity<Object> createHackathon(@Valid @RequestBody HackathonRequest request) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(createHackathonHandler.createHackathon(hackathonMapper.toCreateHackathonRequest(request)));
+                .body(createHackathonHandler
+                        .createHackathon(hackathonMapper.toCreateHackathonRequest(request, getEmail())));
     }
 
     @PreAuthorize("hasRole('STAFF')")
@@ -49,7 +55,7 @@ public class StaffController {
     ) {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(hackathonHandler.declareWinner(hackathonId, teamName));
+                .body(hackathonHandler.declareWinner(getEmail(), hackathonId, teamName));
     }
 
     @PreAuthorize("hasRole('STAFF')")
@@ -62,18 +68,12 @@ public class StaffController {
             @PathVariable
             @NotBlank(message = "Team name è obbligatorio")
             String teamName,
-            @RequestParam
-            @Min(value = 0, message = "Il voto deve essere almeno 0")
-            @Max(value = 10, message = "Il voto non può superare 10")
-            int vote,
-            @RequestParam
-            @NotBlank(message = "Il messaggio è obbligatorio")
-            @Size(max = 500, message = "Il messaggio non può superare 500 caratteri")
-            String message
+            @Valid @RequestBody ValuateSubmissionRequest request
     ) {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(submissionHandler.valuateSubmission(hackathonId, teamName, vote, message));
+                .body(submissionHandler
+                        .valuateSubmission(getEmail(), hackathonId, teamName, request.vote(), request.message()));
     }
 
     @PreAuthorize("hasRole('STAFF')")
@@ -86,18 +86,12 @@ public class StaffController {
             @PathVariable
             @NotBlank(message = "Team name è obbligatorio")
             String teamName,
-            @RequestParam
-            @Min(value = 0, message = "Il voto deve essere almeno 0")
-            @Max(value = 10, message = "Il voto non può superare 10")
-            int vote,
-            @RequestParam
-            @NotBlank(message = "Il messaggio è obbligatorio")
-            @Size(max = 500, message = "Il messaggio non può superare 500 caratteri")
-            String message
+            @Valid @RequestBody ValuateSubmissionRequest request
     ) {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(submissionHandler.editValuation(hackathonId, teamName, vote, message));
+                .body(submissionHandler
+                        .editValuation(getEmail(), hackathonId, teamName, request.vote(), request.message()));
     }
 
     @PreAuthorize("hasRole('STAFF')")
@@ -106,7 +100,7 @@ public class StaffController {
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(reportHandler.report(request.teamName(), request.hackathonId(), request.description()));
+                .body(reportHandler.report(getEmail(), request.teamName(), request.hackathonId(), request.description()));
     }
 
     @PreAuthorize("hasRole('STAFF')")
@@ -114,6 +108,15 @@ public class StaffController {
     public ResponseEntity<Object> addMentors(@PathVariable Long hackathonId, @Validated @RequestBody AddMentorsRequest request) {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(hackathonHandler.addMentors(hackathonId, request.emailList()));
+                .body(hackathonHandler.addMentors(getEmail(), hackathonId, request.emailList()));
+    }
+
+    private String getEmail() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication == null) {
+            throw new BadCredentialsException("Invalid user");
+        }
+
+        return authentication.getName();
     }
 }

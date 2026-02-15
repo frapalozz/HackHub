@@ -7,6 +7,9 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.BadCredentialsException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import unicam.hackhub.application.hackathon.SubmissionHandler;
@@ -26,18 +29,15 @@ public class TeamController {
     private final RegisterTeamHandler registerTeamHandler;
 
     @PreAuthorize("hasRole('TEAM_MEMBER')")
-    @RequestMapping(value = "/{teamName}/invite", method = RequestMethod.POST)
+    @RequestMapping(value = "/invite", method = RequestMethod.POST)
     public ResponseEntity<Object> inviteUser(
             @RequestParam
             @NotBlank(message = "UserEmail è obbligatorio")
-            String userEmail,
-            @PathVariable
-            @NotBlank(message = "Team name è obbligatorio")
-            String teamName
+            String userEmail
     ) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(invitationHandler.inviteUser(userEmail, teamName));
+                .body(invitationHandler.inviteUser(userEmail, getEmail()));
     }
 
     @PreAuthorize("hasRole('TEAM_MEMBER')")
@@ -46,14 +46,11 @@ public class TeamController {
             @PathVariable
             @NotNull(message = "Hackathon ID è obbligatorio")
             @Positive(message = "Hackathon ID deve essere positivo")
-            Long hackathonId,
-            @RequestParam
-            @NotBlank(message = "Team name è obbligatorio")
-            String teamName
+            Long hackathonId
     ) {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(registerTeamHandler.registerTeam(teamName, hackathonId));
+                .body(registerTeamHandler.registerTeam(getEmail(), hackathonId));
     }
 
     @PreAuthorize("hasRole('TEAM_MEMBER')")
@@ -63,14 +60,11 @@ public class TeamController {
             @NotNull(message = "Hackathon ID è obbligatorio")
             @Positive(message = "Hackathon ID deve essere positivo")
             Long hackathonId,
-            @Validated @RequestBody SubmissionRequest request,
-            @RequestParam
-            @NotBlank(message = "Team name è obbligatorio")
-            String teamName
+            @Validated @RequestBody SubmissionRequest request
     ) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(submissionHandler.addSubmission(teamName, hackathonId, new Submission(request.url())));
+                .body(submissionHandler.addSubmission(getEmail(), hackathonId, new Submission(request.url())));
     }
 
     @PreAuthorize("hasRole('TEAM_MEMBER')")
@@ -80,13 +74,19 @@ public class TeamController {
             @NotNull(message = "Hackathon ID è obbligatorio")
             @Positive(message = "Hackathon ID deve essere positivo")
             Long hackathonId,
-            @Validated @RequestBody SubmissionRequest request,
-            @RequestParam
-            @NotBlank(message = "Team name è obbligatorio")
-            String teamName
+            @Validated @RequestBody SubmissionRequest request
     ) {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(submissionHandler.updateSubmission(teamName, hackathonId, new Submission(request.url())));
+                .body(submissionHandler.updateSubmission(getEmail(), hackathonId, new Submission(request.url())));
+    }
+
+    private String getEmail() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if(authentication == null) {
+            throw new BadCredentialsException("Invalid user");
+        }
+
+        return authentication.getName();
     }
 }
