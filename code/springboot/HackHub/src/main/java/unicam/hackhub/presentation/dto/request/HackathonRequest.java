@@ -1,7 +1,6 @@
 package unicam.hackhub.presentation.dto.request;
 
 import jakarta.validation.constraints.*;
-import unicam.hackhub.domain.utils.Period;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -33,12 +32,8 @@ public record HackathonRequest(
         @PositiveOrZero(message = "Prize deve essere zero o positivo")
         Double prize,
 
-        @NotBlank(message = "Organizer email è obbligatoria")
-        @Email(message = "Organizer email deve essere valida")
-        String organizerEmail,
-
         @NotBlank(message = "Judge email è obbligatoria")
-        @Email(message = "Judge email deve essere valida")
+        @Email(regexp = "^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,}$", message = "Judge email deve essere valida")
         String judgeEmail,
 
         List<String> mentorsEmails

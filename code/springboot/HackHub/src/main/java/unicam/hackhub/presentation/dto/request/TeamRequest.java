@@ -5,8 +5,6 @@ import jakarta.validation.constraints.NotBlank;
 import java.util.List;
 
 public record TeamRequest(
-        @NotBlank(message = "User è obbligatorio")
-        String user,
 
         @NotBlank(message = "Team name è obbligatorio")
         String teamName,
