@@ -30,14 +30,15 @@ public class InvitationHandlerImpl implements InvitationHandler {
     private final HackathonRepository hackathonRepository;
 
     @Override
-    public String inviteUser(String userId, String teamName) {
+    public String inviteUser(String userId, String teamMember) {
 
         if(!validateEmail(userId)) {
             throw new IllegalArgumentException("Invalid email address");
         }
 
         User user = getUser(userId);
-        Team team = getTeam(teamName);
+        User teamUser = getUser(teamMember);
+        Team team = teamUser.getTeam();
 
         if(invitationRepository.existsById(new InvitationId(team, user))) {
             throw new IllegalArgumentException("Invitation already exists");

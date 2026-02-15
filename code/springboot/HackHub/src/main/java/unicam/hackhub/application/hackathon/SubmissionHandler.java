@@ -35,7 +35,7 @@ public interface SubmissionHandler {
      * @param description textual feedback or justification for the score
      * @return a status message indicating success or failure, with details if an error occurs
      */
-    String valuateSubmission(Long hackathonId, String teamName, int vote, String description);
+    String valuateSubmission(String judgeEmail, Long hackathonId, String teamName, int vote, String description);
 
     /**
      * Modifies an existing valuation for a team's submission.
@@ -47,5 +47,5 @@ public interface SubmissionHandler {
      * @param description the revised textual feedback
      * @return a status message indicating success or failure, with details if an error occurs
      */
-    String editValuation(Long hackathonId, String teamName, int vote, String description);
+    String editValuation(String judgeEmail, Long hackathonId, String teamName, int vote, String description);
 }

@@ -10,5 +10,5 @@ public interface ReportHandler {
      * @param description detailed reason for the report
      * @return a status message indicating success or failure
      */
-    String report(String teamName, Long hackathonId, String description);
+    String report(String mentorEmail, String teamName, Long hackathonId, String description);
 }

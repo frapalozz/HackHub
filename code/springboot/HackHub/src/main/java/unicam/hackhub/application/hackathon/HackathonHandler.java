@@ -18,7 +18,7 @@ public interface HackathonHandler {
      * @return a status message indicating success or failure,
      *         including details if the operation cannot be completed
      */
-    String declareWinner(Long hackathonId, String teamName);
+    String declareWinner(String organizerEmail, Long hackathonId, String teamName);
 
     /**
      * Adds one or more mentors to a hackathon.
@@ -36,5 +36,5 @@ public interface HackathonHandler {
      * @return a status message indicating success or failure,
      *         with details about which mentors were added or why the operation failed
      */
-    String addMentors(Long hackathonId, List<String> mentorsList);
+    String addMentors(String organizerEmail, Long hackathonId, List<String> mentorsList);
 }

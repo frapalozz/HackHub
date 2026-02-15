@@ -7,6 +7,8 @@ import unicam.hackhub.domain.hackathon.model.Hackathon;
 import unicam.hackhub.domain.hackathon.repository.HackathonRepository;
 import unicam.hackhub.domain.team.model.Team;
 import unicam.hackhub.domain.team.repository.TeamRepository;
+import unicam.hackhub.domain.user.model.User;
+import unicam.hackhub.domain.user.repository.UserRepository;
 
 @Service
 @Primary
@@ -14,12 +16,12 @@ import unicam.hackhub.domain.team.repository.TeamRepository;
 public class RegisterTeamHandlerImpl implements RegisterTeamHandler {
 
     private final HackathonRepository hackathonRepository;
-    private final TeamRepository teamRepository;
+    private final UserRepository userRepository;
 
     @Override
-    public String registerTeam(String teamName, Long hackathonId) {
+    public String registerTeam(String teamMember, Long hackathonId) {
 
-        Team team = teamRepository.findById(teamName).orElse(null);
+        Team team = getUser(teamMember).getTeam();
         Hackathon hackathon = hackathonRepository.findById(hackathonId).orElse(null);
 
         if(team == null) throw new IllegalArgumentException("Team not found");
@@ -30,6 +32,14 @@ public class RegisterTeamHandlerImpl implements RegisterTeamHandler {
         hackathonRepository.save(hackathon);
 
         return "Team registered to hackathon (id: " + hackathon.getId();
+    }
+
+    private User getUser(String email) {
+        User user = userRepository.findById(email).orElse(null);
+
+        if(user == null) throw new IllegalArgumentException("User not found");
+
+        return user;
     }
     
 }

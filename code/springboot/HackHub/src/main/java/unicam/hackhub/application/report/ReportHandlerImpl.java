@@ -20,7 +20,7 @@ public class ReportHandlerImpl implements ReportHandler {
     private final ReportRepository reportRepository;
 
     @Override
-    public String report(String teamName, Long hackathonId, String description) {
+    public String report(String mentorEmail, String teamName, Long hackathonId, String description) {
 
         Hackathon hackathon = hackathonRepository.findById(hackathonId).orElse(null);
         Team team = teamRepository.findById(teamName).orElse(null);
@@ -35,6 +35,10 @@ public class ReportHandlerImpl implements ReportHandler {
 
         if(!hackathon.hasTeam(team)) {
             throw new IllegalArgumentException("Team not in hackathon");
+        }
+
+        if(hackathon.getMentors().stream().noneMatch(m -> m.getEmail().equals(mentorEmail))) {
+            throw new IllegalArgumentException("Mentor not in hackathon");
         }
 
         Report report = Report.builder()

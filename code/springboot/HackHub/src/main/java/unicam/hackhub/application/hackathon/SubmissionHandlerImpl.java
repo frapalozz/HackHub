@@ -2,6 +2,7 @@ package unicam.hackhub.application.hackathon;
 
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Primary;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import unicam.hackhub.domain.hackathon.model.Hackathon;
 import unicam.hackhub.domain.hackathon.model.Submission;
@@ -11,6 +12,9 @@ import unicam.hackhub.domain.hackathon.repository.SubmissionRepository;
 import unicam.hackhub.domain.hackathon.repository.ValuationRepository;
 import unicam.hackhub.domain.team.model.Team;
 import unicam.hackhub.domain.team.repository.TeamRepository;
+import unicam.hackhub.domain.user.model.User;
+import unicam.hackhub.domain.user.repository.UserRepository;
+import unicam.hackhub.infrastructure.persistence.jpa.JpaUserRepository;
 
 @Service
 @Primary
@@ -18,15 +22,14 @@ import unicam.hackhub.domain.team.repository.TeamRepository;
 public class SubmissionHandlerImpl implements SubmissionHandler {
 
     private final HackathonRepository hackathonRepository;
-    private final TeamRepository teamRepository;
-    private final SubmissionRepository submissionRepository;
     private final ValuationRepository valuationRepository;
+    private final UserRepository userRepository;
 
     @Override
-    public String addSubmission(String teamName, long hackathonId, Submission submission) {
+    public String addSubmission(String teamMember, long hackathonId, Submission submission) {
 
         Hackathon hackathon = getHackathon(hackathonId);
-        Team team = getTeam(teamName);
+        Team team = getUser(teamMember).getTeam();
 
         hackathon.addSubmission(team, submission);
 
@@ -39,7 +42,7 @@ public class SubmissionHandlerImpl implements SubmissionHandler {
     public String updateSubmission(String teamName, long hackathonId, Submission submission) {
 
         Hackathon hackathon = getHackathon(hackathonId);
-        Team team = getTeam(teamName);
+        Team team = getUser(teamName).getTeam();
 
         hackathon.updateSubmission(team, submission);
 
@@ -49,10 +52,14 @@ public class SubmissionHandlerImpl implements SubmissionHandler {
     }
 
     @Override
-    public String valuateSubmission(Long hackathonId, String teamName, int vote, String description) {
+    public String valuateSubmission(String judgeEmail, Long hackathonId, String teamName, int vote, String description) {
         checkValuation(vote, description);
 
         Hackathon hackathon = getHackathon(hackathonId);
+
+        if(!hackathon.getJudge().getEmail().equals(judgeEmail)) {
+            throw new AccessDeniedException("Access denied");
+        }
 
         hackathon.valuateSubmission(teamName, vote, description);
 
@@ -66,10 +73,14 @@ public class SubmissionHandlerImpl implements SubmissionHandler {
     }
 
     @Override
-    public String editValuation(Long hackathonId, String teamName, int vote, String description) {
+    public String editValuation(String judgeEmail, Long hackathonId, String teamName, int vote, String description) {
         checkValuation(vote, description);
 
         Hackathon hackathon = getHackathon(hackathonId);
+
+        if(!hackathon.getJudge().getEmail().equals(judgeEmail)) {
+            throw new AccessDeniedException("Access denied");
+        }
 
         hackathon.updateValuation(teamName, vote, description);
 
@@ -98,13 +109,13 @@ public class SubmissionHandlerImpl implements SubmissionHandler {
         return hackathon;
     }
 
-    private Team getTeam(String teamName) {
-        Team team = teamRepository.findById(teamName).orElse(null);
+    private User getUser(String email) {
+        User user = userRepository.findById(email).orElse(null);
 
-        if(team == null) {
-            throw new IllegalArgumentException("Team not found");
+        if(user == null) {
+            throw new IllegalArgumentException("User not found");
         }
 
-        return team;
+        return user;
     }
 }

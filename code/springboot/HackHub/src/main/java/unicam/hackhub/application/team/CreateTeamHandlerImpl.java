@@ -8,6 +8,7 @@ import unicam.hackhub.domain.team.repository.TeamRepository;
 import unicam.hackhub.domain.user.model.User;
 import unicam.hackhub.domain.user.repository.UserRepository;
 import unicam.hackhub.application.invitation.InvitationService;
+import unicam.hackhub.domain.utils.Role;
 
 import java.util.List;
 
@@ -30,6 +31,7 @@ public class CreateTeamHandlerImpl implements CreateTeamHandler {
 
         Team team = new Team(teamName, user);
         user.setTeam(team);
+        user.setRole(Role.TEAM_MEMBER);
 
         teamRepository.save(team);
 

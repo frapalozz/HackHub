@@ -2,6 +2,7 @@ package unicam.hackhub.application.hackathon;
 
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Primary;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import unicam.hackhub.domain.hackathon.model.Hackathon;
 import unicam.hackhub.domain.hackathon.repository.HackathonRepository;
@@ -19,9 +20,12 @@ public class HackathonHandlerImpl implements HackathonHandler {
     private final StaffRepository staffRepository;
 
     @Override
-    public String declareWinner(Long hackathonId, String teamName) {
+    public String declareWinner(String organizerEmail, Long hackathonId, String teamName) {
 
         Hackathon hackathon = getHackathon(hackathonId);
+        if(!hackathon.getOrganizer().getEmail().equals(organizerEmail)) {
+            throw new AccessDeniedException("Access denied");
+        }
 
         hackathon.declareWinner(teamName);
 
@@ -31,9 +35,13 @@ public class HackathonHandlerImpl implements HackathonHandler {
     }
 
     @Override
-    public String addMentors(Long hackathonId, List<String> mentorsList) {
+    public String addMentors(String organizerEmail, Long hackathonId, List<String> mentorsList) {
 
         Hackathon hackathon = getHackathon(hackathonId);
+
+        if(!hackathon.getOrganizer().getEmail().equals(organizerEmail)) {
+            throw new AccessDeniedException("Access denied");
+        }
 
         List<Staff> mentors = staffRepository.findAllById(mentorsList);
 
