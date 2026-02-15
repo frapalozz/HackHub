@@ -23,4 +23,11 @@ public class SubscriptionState extends AbstractHackathonState {
             throw new IllegalStateException("Team already present");
         }
     }
+
+    @Override
+    public void toNextState() {
+        if(hackathon.getHackathonPeriod().isWithinPeriod(LocalDate.now())) {
+            hackathon.changeState(hackathon.getStatus().getNextState());
+        }
+    }
 }

@@ -23,4 +23,12 @@ public class HackathonStatus {
     public enum HackathonStateType {
         SUBSCRIPTION, PROGRESS, EVALUATION, ENDED
     }
+
+    public HackathonStateType getNextState() {
+        return switch (currentState) {
+            case SUBSCRIPTION -> HackathonStateType.PROGRESS;
+            case PROGRESS -> HackathonStateType.EVALUATION;
+            default -> HackathonStateType.ENDED;
+        };
+    }
 }

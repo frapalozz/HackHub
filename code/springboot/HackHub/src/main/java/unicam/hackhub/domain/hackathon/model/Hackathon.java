@@ -169,6 +169,9 @@ public class Hackathon {
         this.state = HackathonStateFactory.createState(newStateType, this);
     }
 
+    public void toNextState() {
+        this.state.toNextState();
+    }
 
     public boolean inProgress() {
         return this.state.inProgress();

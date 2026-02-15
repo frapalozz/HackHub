@@ -63,4 +63,9 @@ public class EvaluationState extends AbstractHackathonState {
         this.hackathon.setWinner(team);
     }
 
+    @Override
+    public void toNextState() {
+        hackathon.changeState(hackathon.getStatus().getNextState());
+    }
+
 }

@@ -52,4 +52,6 @@ public interface HackathonState {
      * @return true if the hackathon is in PROGRESS, otherwise false
      */
     boolean inProgress();
+
+    void toNextState();
 }

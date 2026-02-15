@@ -39,4 +39,12 @@ public class ProgressState extends AbstractHackathonState {
     public boolean inProgress() {
         return true;
     }
+
+    @Override
+    public void toNextState() {
+        if(hackathon.getHackathonPeriod().endDate().equals(LocalDate.now()) ||
+                hackathon.getHackathonPeriod().endDate().isBefore(LocalDate.now())) {
+            hackathon.changeState(hackathon.getStatus().getNextState());
+        }
+    }
 }

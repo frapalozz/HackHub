@@ -46,4 +46,7 @@ public abstract class AbstractHackathonState implements HackathonState {
     public boolean inProgress() {
         return false;
     }
+
+    @Override
+    public void toNextState() {}
 }
