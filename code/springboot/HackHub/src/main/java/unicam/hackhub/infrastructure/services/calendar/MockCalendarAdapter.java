@@ -1,6 +1,7 @@
 package unicam.hackhub.infrastructure.services.calendar;
 
 import lombok.AllArgsConstructor;
+import lombok.NonNull;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import unicam.hackhub.application.supportRequest.CalendarService;
@@ -52,21 +53,8 @@ public class MockCalendarAdapter implements CalendarService {
         // Get hackathon, mentor, team
         Hackathon hackathon = getHackathon(hackathonId);
         Staff mentor = getMentor(mentorEmail);
-        if(hackathon.getMentors().stream().noneMatch(m -> m.getEmail().equals(mentor.getEmail()))) {
-            throw new IllegalArgumentException("Mentor not in hackathon");
-        }
         Team team = getUser(teamMember).getTeam();
-        if(team == null) {
-            throw new IllegalArgumentException("User has no team");
-        }
-        if(hackathon.getTeams().stream().noneMatch(t -> t.getName().equals(team.getName()))) {
-            throw new IllegalArgumentException("Team not in hackathon");
-        }
-
-        if (slot.getFrom().isBefore(mentor.getTimeRange().getFrom()) ||
-                slot.getTo().isAfter(mentor.getTimeRange().getTo())) {
-            throw new IllegalArgumentException("Slot outside working hours");
-        }
+        checkData(hackathon, mentor, team, slot);
 
         List<SupportRequest> requests = supportRequestRepository.findAllBlockingRequests(mentorEmail, date);
 
@@ -87,6 +75,32 @@ public class MockCalendarAdapter implements CalendarService {
         supportRequestRepository.save(request);
 
         return "Request created";
+    }
+
+    @Override
+    public String acceptRequest(@NonNull String mentorEmail, @NonNull Long requestId, @NonNull String linkCall) {
+
+        Staff mentor = getMentor(mentorEmail);
+        SupportRequest request = getSupportRequest(requestId);
+
+        request.accept(linkCall);
+
+        supportRequestRepository.save(request);
+
+        return "Request accepted";
+    }
+
+    @Override
+    public String declineRequest(String mentorEmail, Long requestId) {
+
+        Staff mentor = getMentor(mentorEmail);
+        SupportRequest request = getSupportRequest(requestId);
+
+        request.decline();
+
+        supportRequestRepository.save(request);
+
+        return "Request declined";
     }
 
     private Staff getMentor(String mentorEmail) {
@@ -117,6 +131,16 @@ public class MockCalendarAdapter implements CalendarService {
         }
 
         return user;
+    }
+
+    private SupportRequest getSupportRequest(Long requestId) {
+        SupportRequest supportRequest = supportRequestRepository.findById(requestId).orElse(null);
+
+        if(supportRequest == null) {
+            throw new IllegalArgumentException("Support request not found");
+        }
+
+        return supportRequest;
     }
 
     private List<TimeRange> freeSlots(List<SupportRequest> requests, Staff mentor) {
@@ -160,5 +184,23 @@ public class MockCalendarAdapter implements CalendarService {
         }
 
         return occupied;
+    }
+
+    private void checkData(Hackathon hackathon, Staff mentor, Team team, TimeRange slot) {
+
+        if(hackathon.getMentors().stream().noneMatch(m -> m.getEmail().equals(mentor.getEmail()))) {
+            throw new IllegalArgumentException("Mentor not in hackathon");
+        }
+        if(team == null) {
+            throw new IllegalArgumentException("User has no team");
+        }
+        if(hackathon.getTeams().stream().noneMatch(t -> t.getName().equals(team.getName()))) {
+            throw new IllegalArgumentException("Team not in hackathon");
+        }
+
+        if (slot.getFrom().isBefore(mentor.getTimeRange().getFrom()) ||
+                slot.getTo().isAfter(mentor.getTimeRange().getTo())) {
+            throw new IllegalArgumentException("Slot outside working hours");
+        }
     }
 }

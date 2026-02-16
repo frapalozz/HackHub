@@ -39,4 +39,13 @@ public class SupportRequest {
     private RequestState state;
 
     private String callLink;
+
+    public void accept(String linkCall) {
+        this.callLink = linkCall;
+        this.state = RequestState.SCHEDULED;
+    }
+
+    public void decline() {
+        this.state = RequestState.DECLINED;
+    }
 }
