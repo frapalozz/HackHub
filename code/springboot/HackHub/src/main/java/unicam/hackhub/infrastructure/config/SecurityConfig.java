@@ -30,10 +30,13 @@ public class SecurityConfig {
                 .authorizeHttpRequests(auth -> auth
                         // Endpoint pubblici - accessibili senza autenticazione
                         .requestMatchers(
-                                "/api/v1/auth/login",
-                                "/api/v1/auth/signin",
                                 "/h2-console/**"
-                        ).permitAll()
+                        )
+                        .permitAll()
+                        .requestMatchers(
+                                "/api/v1/auth/login",
+                                "/api/v1/auth/signin"
+                        ).anonymous()
                         // Autenticazione
                         .anyRequest().authenticated()
                 )
