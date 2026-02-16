@@ -15,11 +15,9 @@ import unicam.hackhub.application.hackathon.CreateHackathonHandler;
 import unicam.hackhub.application.hackathon.HackathonHandler;
 import unicam.hackhub.application.hackathon.SubmissionHandler;
 import unicam.hackhub.application.report.ReportHandler;
+import unicam.hackhub.application.supportRequest.CalendarService;
 import unicam.hackhub.presentation.dto.mapper.HackathonMapper;
-import unicam.hackhub.presentation.dto.request.AddMentorsRequest;
-import unicam.hackhub.presentation.dto.request.HackathonRequest;
-import unicam.hackhub.presentation.dto.request.ReportRequest;
-import unicam.hackhub.presentation.dto.request.ValuateSubmissionRequest;
+import unicam.hackhub.presentation.dto.request.*;
 
 @Validated
 @RestController
@@ -31,6 +29,7 @@ public class StaffController {
     private final SubmissionHandler submissionHandler;
     private final HackathonHandler hackathonHandler;
     private final ReportHandler reportHandler;
+    private final CalendarService calendarService;
     private final HackathonMapper hackathonMapper;
 
     @PreAuthorize("hasRole('STAFF')")
@@ -104,11 +103,28 @@ public class StaffController {
     }
 
     @PreAuthorize("hasRole('STAFF')")
-    @RequestMapping(value = "/hackathon/{hackathonId}/addMentors", method = RequestMethod.POST)
+    @RequestMapping(value = "/hackathon/{hackathonId}/addMentors", method = RequestMethod.PUT)
     public ResponseEntity<Object> addMentors(@PathVariable Long hackathonId, @Validated @RequestBody AddMentorsRequest request) {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(hackathonHandler.addMentors(getEmail(), hackathonId, request.emailList()));
+    }
+
+    @PreAuthorize("hasRole('STAFF')")
+    @RequestMapping(value = "/support_request/{requestId}", method = RequestMethod.PUT)
+    public ResponseEntity<Object> acceptSupportRequest(@PathVariable Long requestId,
+                                                       @RequestBody AcceptSupportRequest request) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(calendarService.acceptRequest(getEmail(), requestId, request.linkCall()));
+    }
+
+    @PreAuthorize("hasRole('STAFF')")
+    @RequestMapping(value = "/support_request/{requestId}", method = RequestMethod.PUT)
+    public ResponseEntity<Object> declineSupportRequest(@PathVariable Long requestId) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(calendarService.declineRequest(getEmail(), requestId));
     }
 
     private String getEmail() {
