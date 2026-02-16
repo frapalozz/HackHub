@@ -7,6 +7,8 @@ import lombok.Setter;
 import unicam.hackhub.domain.utils.Role;
 import unicam.hackhub.domain.utils.TimeRange;
 
+import java.time.LocalTime;
+
 @Getter
 @Setter
 @Entity
@@ -28,7 +30,7 @@ public class Staff {
     private Role role = Role.STAFF;
 
     @Embedded
-    private TimeRange timeRange;
+    private TimeRange timeRange = new TimeRange(LocalTime.of(9, 0), LocalTime.of(17, 0));
 
     public Staff(String name, String email) {
         this.name = name;

@@ -1,5 +1,6 @@
 package unicam.hackhub.config;
 
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,6 +21,7 @@ import unicam.hackhub.domain.team.repository.TeamRepository;
 import unicam.hackhub.domain.user.model.User;
 import unicam.hackhub.domain.user.repository.UserRepository;
 import unicam.hackhub.domain.utils.Period;
+import unicam.hackhub.domain.utils.Role;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -43,20 +45,24 @@ public class DataInitializer implements CommandLineRunner {
     private PasswordEncoder passwordEncoder;
 
     @Override
+    @Transactional
     public void run(String... args) {
         String encodedPassword = passwordEncoder.encode("password");
 
         Staff[] staffs = createStaffs(encodedPassword);
         User[] users = createUsers(encodedPassword);
-        Team[] teams = createTeams(users);
+        users[2].setRole(Role.TEAM_MEMBER);
         Submission[] submissions = createSubmissions();
 
         // Initialize users/staffs
         staffRepository.saveAll(Arrays.asList(staffs));
-        userRepository.saveAll(Arrays.asList(users));
+        List<User> usersSaved = userRepository.saveAll(Arrays.asList(users));
 
         // Initialize teams
+        Team[] teams = createTeams(usersSaved.toArray(new User[0]));
         List<Team> teamsSaved = teamRepository.saveAll(Arrays.asList(teams));
+        usersSaved.get(2).setTeam(teamsSaved.getFirst());
+        userRepository.save(usersSaved.get(2));
 
         // Initialize hackathons
         Hackathon[] hackathons = createHackathons(staffs, teamsSaved.toArray(new Team[0]));
