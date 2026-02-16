@@ -34,4 +34,10 @@ public class Staff {
         this.name = name;
         this.email = email;
     }
+
+    public Staff(String name, String email, String password) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+    }
 }

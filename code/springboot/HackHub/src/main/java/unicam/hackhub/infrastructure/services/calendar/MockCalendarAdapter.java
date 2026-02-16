@@ -151,8 +151,8 @@ public class MockCalendarAdapter implements CalendarService {
         }
 
         TimeRange workRange = mentor.getTimeRange();
-        LocalTime start = workRange.getFrom();
-        LocalTime end = workRange.getTo();
+        LocalTime start = workRange.getStartTime();
+        LocalTime end = workRange.getEndTime();
 
         LocalTime slotStart = start;
         while (slotStart.plusHours(1).isBefore(end) || slotStart.plusHours(1).equals(end)) {
@@ -177,7 +177,7 @@ public class MockCalendarAdapter implements CalendarService {
             TimeRange reqRange = req.getTimeRange();
 
             // Condizione di sovrapposizione (intervalli [start, end] )
-            if(candidate.getFrom().isBefore(reqRange.getTo()) && candidate.getTo().isAfter(reqRange.getFrom())) {
+            if(candidate.getStartTime().isBefore(reqRange.getEndTime()) && candidate.getEndTime().isAfter(reqRange.getStartTime())) {
                 occupied = true;
                 break;
             }
@@ -198,8 +198,8 @@ public class MockCalendarAdapter implements CalendarService {
             throw new IllegalArgumentException("Team not in hackathon");
         }
 
-        if (slot.getFrom().isBefore(mentor.getTimeRange().getFrom()) ||
-                slot.getTo().isAfter(mentor.getTimeRange().getTo())) {
+        if (slot.getStartTime().isBefore(mentor.getTimeRange().getStartTime()) ||
+                slot.getEndTime().isAfter(mentor.getTimeRange().getEndTime())) {
             throw new IllegalArgumentException("Slot outside working hours");
         }
     }

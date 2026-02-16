@@ -36,6 +36,12 @@ public class User {
         this.email = email;
     }
 
+    public User(String name, String email, String password) {
+        this.name = name;
+        this.email = email;
+        this.password = password;
+    }
+
     public boolean hasTeam() {
         return this.team != null;
     }

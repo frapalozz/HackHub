@@ -1,16 +1,20 @@
 package unicam.hackhub.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.AllArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import unicam.hackhub.domain.hackathon.model.Hackathon;
 import unicam.hackhub.domain.hackathon.model.Submission;
 import unicam.hackhub.domain.hackathon.model.state.HackathonStatus;
-import unicam.hackhub.domain.hackathon.model.state.ProgressState;
 import unicam.hackhub.domain.hackathon.repository.HackathonRepository;
+import unicam.hackhub.domain.hackathon.repository.ReportRepository;
 import unicam.hackhub.domain.hackathon.repository.SubmissionRepository;
+import unicam.hackhub.domain.hackathon.repository.ValuationRepository;
+import unicam.hackhub.domain.invitation.repository.InvitationRepository;
 import unicam.hackhub.domain.staff.model.Staff;
 import unicam.hackhub.domain.staff.repository.StaffRepository;
+import unicam.hackhub.domain.support.repository.SupportRequestRepository;
 import unicam.hackhub.domain.team.model.Team;
 import unicam.hackhub.domain.team.repository.TeamRepository;
 import unicam.hackhub.domain.user.model.User;
@@ -22,64 +26,134 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 @Component
+@AllArgsConstructor
 public class DataInitializer implements CommandLineRunner {
 
-    @Autowired private UserRepository userRepository;
-    @Autowired private StaffRepository staffRepository;
-    @Autowired private HackathonRepository hackathonRepository;
-    @Autowired private TeamRepository teamRepository;
-    @Autowired private SubmissionRepository submissionRepository;
+    // Repositories
+    private UserRepository userRepository;
+    private StaffRepository staffRepository;
+    private HackathonRepository hackathonRepository;
+    private TeamRepository teamRepository;
+    private SubmissionRepository submissionRepository;
+    private InvitationRepository invitationRepository;
+    private ReportRepository reportRepository;
+    private SupportRequestRepository supportRequestRepository;
+    private ValuationRepository valuationRepository;
 
-    private final static Staff[] STAFF = {
-            new Staff("john", "john.doe@tech.com"),
-            new Staff("jane", "jane.smith@innovate.com"),
-            new Staff("alex", "alex.wong@ai-labs.com")
-    };
-
-    private final static User[] USERS = {
-            new User("john", "john.doe@tech.com"),
-            new User("jane", "jane.smith@innovate.com"),
-            new User("jin", "jin.kazama@fin.com"),
-    };
-
-    private final static Team[] TEAMS = {
-            new Team("team", USERS[2])
-    };
-
-    private final static Hackathon[] HACKATHONS = {
-
-            new Hackathon(
-                    "testHackathon",
-                    LocalDate.now().minusDays(2),
-                    new Period(LocalDate.now().minusDays(1), LocalDate.now().minusDays(1)),
-                    4,
-                    "",
-                    5.00,
-                    STAFF[0],
-                    STAFF[1],
-                    Arrays.stream(new Staff[]{STAFF[2]}).collect(Collectors.toSet())),
-    };
-
-    private final static Submission[] SUBMISSIONS = {
-            new Submission("url.url"),
-    };
+    private PasswordEncoder passwordEncoder;
 
     @Override
     public void run(String... args) {
-        /*
-        staffRepository.saveAll(Arrays.asList(STAFF));
-        userRepository.saveAll(Arrays.asList(USERS));
-        teamRepository.saveAll(Arrays.asList(TEAMS));
+        String encodedPassword = passwordEncoder.encode("password");
 
-        Set<Team> teams = new HashSet<>();
-        teams.add(teamRepository.findById(TEAMS[0].getName()).orElse(null));
-        HACKATHONS[0].setTeams(teams);
-        HACKATHONS[0].changeState(HackathonStatus.HackathonStateType.EVALUATION);
-        Map<Team, Submission> sub = new HashMap<>();
-        sub.put(TEAMS[0], SUBMISSIONS[0]);
-        HACKATHONS[0].setSubmissions(sub);
-        hackathonRepository.saveAll(Arrays.asList(HACKATHONS));
+        Staff[] staffs = createStaffs(encodedPassword);
+        User[] users = createUsers(encodedPassword);
+        Team[] teams = createTeams(users);
+        Submission[] submissions = createSubmissions();
 
-         */
+        // Initialize users/staffs
+        staffRepository.saveAll(Arrays.asList(staffs));
+        userRepository.saveAll(Arrays.asList(users));
+
+        // Initialize teams
+        List<Team> teamsSaved = teamRepository.saveAll(Arrays.asList(teams));
+
+        // Initialize hackathons
+        Hackathon[] hackathons = createHackathons(staffs, teamsSaved.toArray(new Team[0]));
+        List<Hackathon> hackathonsSaved = hackathonRepository.saveAll(Arrays.asList(hackathons));
+
+        // Add submission to PROGRESS Hackathon
+        Submission submission = submissionRepository.save(submissions[0]);
+        Map<Team, Submission> submissionsMap = new HashMap<>();
+        submissionsMap.put(teamsSaved.getFirst(), submission);
+        hackathonsSaved.get(2).setSubmissions(submissionsMap);
+        hackathonRepository.save(hackathonsSaved.get(2));
+    }
+
+    private User[] createUsers(String password) {
+        return new User[] {
+                new User("john", "john@user.com", password),
+                new User("jane", "jane@user.com", password),
+                new User("alex", "alex@user.com", password),
+        };
+    }
+
+    private Staff[] createStaffs(String password) {
+        return new Staff[] {
+                new Staff("john", "john@staff.com", password),
+                new Staff("jane", "jane@staff.com", password),
+                new Staff("alex", "alex@staff.com", password)
+        };
+    }
+
+    private Team[] createTeams(User[] users) {
+        return new Team[] {
+                new Team("team", users[2])
+        };
+    }
+
+    private Hackathon[] createHackathons(Staff[] staffs, Team[] teams) {
+        return new Hackathon[] {
+                // SUBSCRIPTION Hackathon
+                Hackathon.builder()
+                        .name("SubscriptionHackathon")
+                        .subscriptionDeadline(LocalDate.now().plusDays(1))
+                        .hackathonPeriod(new Period(LocalDate.now().plusDays(2), LocalDate.now().plusDays(3)))
+                        .maxTeamSize(4)
+                        .requirements("Requirements hackathon")
+                        .prize(50.0)
+                        .organizer(staffs[0])
+                        .judge(staffs[1])
+                        .mentors(Arrays.stream(new Staff[]{staffs[2]}).collect(Collectors.toSet()))
+                        .status(new HackathonStatus(HackathonStatus.HackathonStateType.SUBSCRIPTION))
+                        .build(),
+                // PROGRESS Hackathon
+                Hackathon.builder()
+                        .name("ProgressHackathon")
+                        .subscriptionDeadline(LocalDate.now().minusDays(1))
+                        .hackathonPeriod(new Period(LocalDate.now(), LocalDate.now().plusDays(1)))
+                        .maxTeamSize(4)
+                        .requirements("Requirements hackathon")
+                        .prize(75.0)
+                        .organizer(staffs[0])
+                        .judge(staffs[1])
+                        .mentors(Arrays.stream(new Staff[]{staffs[2]}).collect(Collectors.toSet()))
+                        .teams(Set.of(teams))
+                        .status(new HackathonStatus(HackathonStatus.HackathonStateType.PROGRESS))
+                        .build(),
+                // EVALUATION Hackathon
+                Hackathon.builder()
+                        .name("EvaluationHackathon")
+                        .subscriptionDeadline(LocalDate.now().minusDays(2))
+                        .hackathonPeriod(new Period(LocalDate.now().minusDays(1), LocalDate.now()))
+                        .maxTeamSize(4)
+                        .requirements("Requirements hackathon")
+                        .prize(95.0)
+                        .organizer(staffs[0])
+                        .judge(staffs[1])
+                        .mentors(Arrays.stream(new Staff[]{staffs[2]}).collect(Collectors.toSet()))
+                        .teams(Set.of(teams))
+                        .status(new HackathonStatus(HackathonStatus.HackathonStateType.EVALUATION))
+                        .build(),
+                // ENDED Hackathon
+                Hackathon.builder()
+                        .name("EndedHackathon")
+                        .subscriptionDeadline(LocalDate.now().minusDays(2))
+                        .hackathonPeriod(new Period(LocalDate.now().minusDays(1), LocalDate.now()))
+                        .maxTeamSize(4)
+                        .requirements("Requirements hackathon")
+                        .prize(95.0)
+                        .organizer(staffs[0])
+                        .judge(staffs[1])
+                        .mentors(Arrays.stream(new Staff[]{staffs[2]}).collect(Collectors.toSet()))
+                        .status(new HackathonStatus(HackathonStatus.HackathonStateType.ENDED))
+                        .build(),
+        };
+    }
+
+    private Submission[] createSubmissions() {
+        return new Submission[] {
+                new Submission("url.url"),
+        };
     }
 }

@@ -111,7 +111,7 @@ public class StaffController {
     }
 
     @PreAuthorize("hasRole('STAFF')")
-    @RequestMapping(value = "/support_request/{requestId}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/support_request/{requestId}/accept", method = RequestMethod.PUT)
     public ResponseEntity<Object> acceptSupportRequest(@PathVariable Long requestId,
                                                        @RequestBody AcceptSupportRequest request) {
         return ResponseEntity
@@ -120,7 +120,7 @@ public class StaffController {
     }
 
     @PreAuthorize("hasRole('STAFF')")
-    @RequestMapping(value = "/support_request/{requestId}", method = RequestMethod.PUT)
+    @RequestMapping(value = "/support_request/{requestId}/decline", method = RequestMethod.PUT)
     public ResponseEntity<Object> declineSupportRequest(@PathVariable Long requestId) {
         return ResponseEntity
                 .status(HttpStatus.OK)

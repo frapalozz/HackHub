@@ -1,13 +1,11 @@
 package unicam.hackhub.domain.hackathon.model;
 
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import unicam.hackhub.domain.hackathon.model.state.*;
 import unicam.hackhub.domain.staff.model.Staff;
 import unicam.hackhub.domain.team.model.Team;
 import unicam.hackhub.domain.utils.Period;
-import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.*;
@@ -15,6 +13,8 @@ import java.util.*;
 @Getter
 @Setter
 @Entity
+@Builder
+@AllArgsConstructor
 @NoArgsConstructor
 public class Hackathon {
 
@@ -39,7 +39,8 @@ public class Hackathon {
     private Double prize;
 
     @Embedded
-    private HackathonStatus status;
+    @Builder.Default
+    private HackathonStatus status = new HackathonStatus(HackathonStatus.HackathonStateType.SUBSCRIPTION);
 
     @ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.REFRESH})
     private Staff organizer;
@@ -50,11 +51,13 @@ public class Hackathon {
     @ManyToMany(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE, CascadeType.REFRESH})
     private Set<Staff> mentors;
 
-    @OneToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH})
-    private Set<Team> teams;
+    @ManyToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH})
+    @Builder.Default
+    private Set<Team> teams = new HashSet<>();
 
     @OneToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.PERSIST})
-    private Map<Team, Submission> submissions;
+    @Builder.Default
+    private Map<Team, Submission> submissions = new HashMap<>();
 
     @ManyToOne(fetch = FetchType.LAZY)
     private Team winner;
