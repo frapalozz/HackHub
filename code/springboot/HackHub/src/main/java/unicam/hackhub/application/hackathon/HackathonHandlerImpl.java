@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
+import unicam.hackhub.application.payment.PaymentService;
 import unicam.hackhub.domain.hackathon.model.Hackathon;
 import unicam.hackhub.domain.hackathon.repository.HackathonRepository;
 import unicam.hackhub.domain.staff.model.Staff;
@@ -18,6 +19,7 @@ public class HackathonHandlerImpl implements HackathonHandler {
 
     private final HackathonRepository hackathonRepository;
     private final StaffRepository staffRepository;
+    private final PaymentService paymentService;
 
     @Override
     public String declareWinner(String organizerEmail, Long hackathonId, String teamName) {
@@ -28,6 +30,8 @@ public class HackathonHandlerImpl implements HackathonHandler {
         }
 
         hackathon.declareWinner(teamName);
+
+        paymentService.transferPrize(hackathon.getPrize(), teamName);
 
         hackathonRepository.save(hackathon);
 

@@ -23,13 +23,20 @@ public class Team {
     @OneToMany(mappedBy = "team", cascade = CascadeType.ALL)
     private Set<User> members;
 
+    private double balance;
+
     public Team (String teamName, User user) {
         this.name = teamName;
         this.members = new HashSet<>();
         this.members.add(user);
+        this.balance = 0;
     }
 
     public void addMember(User user) {
         this.members.add(user);
+    }
+
+    public void increaseBalance(double amount) {
+        this.balance += amount;
     }
 }
