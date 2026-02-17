@@ -2,6 +2,7 @@ package unicam.hackhub.config;
 
 import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
+import org.jspecify.annotations.NullMarked;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
@@ -46,6 +47,7 @@ public class DataInitializer implements CommandLineRunner {
 
     @Override
     @Transactional
+    @NullMarked
     public void run(String... args) {
         String encodedPassword = passwordEncoder.encode("password");
 

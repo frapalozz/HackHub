@@ -53,5 +53,8 @@ public interface HackathonState {
      */
     boolean inProgress();
 
+    /**
+     * Change to next state
+     */
     void toNextState();
 }
