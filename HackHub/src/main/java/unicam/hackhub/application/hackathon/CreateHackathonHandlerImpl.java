@@ -22,7 +22,7 @@ public class CreateHackathonHandlerImpl implements CreateHackathonHandler {
     private final HackathonRepository hackathonRepository;
 
     @Override
-    public Hackathon createHackathon(CreateHackathonRequest request) {
+    public String createHackathon(CreateHackathonRequest request) {
 
         checkLogicDateOrder(request);
 
@@ -49,7 +49,7 @@ public class CreateHackathonHandlerImpl implements CreateHackathonHandler {
 
         hackathonRepository.save(hackathon);
         
-        return hackathon;
+        return "Hackathon " + hackathon.getName() + " created";
     }
 
     private void checkLogicDateOrder(CreateHackathonRequest request) {

@@ -24,5 +24,5 @@ public interface CreateHackathonHandler {
      *                                  any business rule (e.g., past deadline,
      *                                  non‑existent staff, invalid team size)
      */
-    Hackathon createHackathon(CreateHackathonRequest request);
+    String createHackathon(CreateHackathonRequest request);
 }
