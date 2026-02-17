@@ -83,6 +83,10 @@ public class MockCalendarAdapter implements CalendarService {
         Staff mentor = getMentor(mentorEmail);
         SupportRequest request = getSupportRequest(requestId);
 
+        if(!request.getMentor().getEmail().equals(mentor.getEmail())) {
+            throw new IllegalArgumentException("Mentor does not belong to this request");
+        }
+
         request.accept(linkCall);
 
         supportRequestRepository.save(request);
@@ -95,6 +99,10 @@ public class MockCalendarAdapter implements CalendarService {
 
         Staff mentor = getMentor(mentorEmail);
         SupportRequest request = getSupportRequest(requestId);
+
+        if(!request.getMentor().getEmail().equals(mentor.getEmail())) {
+            throw new IllegalArgumentException("Mentor does not belong to this request");
+        }
 
         request.decline();
 
