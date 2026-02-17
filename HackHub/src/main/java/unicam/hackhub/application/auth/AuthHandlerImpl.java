@@ -31,52 +31,17 @@ public class AuthHandlerImpl implements AuthHandler {
 
     @Override
     public TokenResponse login(String email, String password, String type) {
-        if(type.equalsIgnoreCase("USER")) {
+        if (type.equalsIgnoreCase("user")) {
             User user = userRepository.findById(email)
                     .orElseThrow(() -> new BadCredentialsException(email));
 
-            matchPassword(password, user.getPassword());
-
-            org.springframework.security.core.userdetails.User userDetails =
-                    new org.springframework.security.core.userdetails.User(
-                            user.getEmail(),
-                            user.getPassword(),
-                            Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + user.getRole().name())
-                    ));
-
-
-            Map<String, Object> claims = new HashMap<>();
-            claims.put("name", user.getName());
-            claims.put("email", user.getEmail());
-            claims.put("role", user.getRole().name());
-
-
-            String jwtToken = jwtTokenUtil.generateToken(claims, userDetails);
-
-            return new TokenResponse(jwtToken, "Bearer", String.valueOf(jwtTokenUtil.getExpirationTime()));
-        } else {
-            Staff staff = staffRepository.findById(email)
-                    .orElseThrow(() -> new BadCredentialsException(email));
-
-            matchPassword(password, staff.getPassword());
-
-            org.springframework.security.core.userdetails.User userDetails =
-                    new org.springframework.security.core.userdetails.User(
-                            staff.getEmail(),
-                            staff.getPassword(),
-                            Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + staff.getRole().name())
-                            ));
-
-
-            Map<String, Object> claims = new HashMap<>();
-            claims.put("name", staff.getName());
-            claims.put("email", staff.getEmail());
-            claims.put("role", staff.getRole().name());
-
-            String jwtToken = jwtTokenUtil.generateToken(claims, userDetails);
-
-            return new TokenResponse(jwtToken, "Bearer", String.valueOf(jwtTokenUtil.getExpirationTime()));
+            return getTokenResponse(password, user.getPassword(), user.getEmail(), user.getRole(), user.getName());
         }
+
+        Staff staff = staffRepository.findById(email)
+                .orElseThrow(() -> new BadCredentialsException(email));
+
+        return getTokenResponse(password, staff.getPassword(), staff.getEmail(), staff.getRole(), staff.getName());
     }
 
     @Override
@@ -89,65 +54,56 @@ public class AuthHandlerImpl implements AuthHandler {
                 throw new BadCredentialsException("Email already used");
             }
 
-            String passwordEncoded = passwordEncoder.encode(password);
-
             User newUser = new User(name, email);
-            newUser.setPassword(passwordEncoded);
+            newUser.setPassword(passwordEncoder.encode(password));
             newUser.setRole(Role.USER);
 
             userRepository.save(newUser);
 
-            org.springframework.security.core.userdetails.User userDetails =
-                    new org.springframework.security.core.userdetails.User(
-                            newUser.getEmail(),
-                            newUser.getPassword(),
-                            Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + newUser.getRole().name())
-                            ));
+            return buildTokenResponse(newUser.getPassword(), newUser.getEmail(), newUser.getName(), newUser.getRole());
+        }
+        
+        Staff staff = staffRepository.findById(email).orElse(null);
 
-            Map<String, Object> claims = new HashMap<>();
-            claims.put("name", newUser.getName());
-            claims.put("email", newUser.getEmail());
-            claims.put("role", newUser.getRole().name());
+        if(staff != null) {
+            throw new BadCredentialsException("Email already used");
+        }
 
-            String jwtToken = jwtTokenUtil.generateToken(claims, userDetails);
+        Staff newStaff = new Staff(name, email);
+        newStaff.setPassword(passwordEncoder.encode(password));
+        newStaff.setRole(Role.STAFF);
 
-            return new TokenResponse(jwtToken, "Bearer", String.valueOf(jwtTokenUtil.getExpirationTime()));
-        } else {
-            Staff staff = staffRepository.findById(email).orElse(null);
+        staffRepository.save(newStaff);
 
-            if(staff != null) {
-                throw new BadCredentialsException("Email already used");
-            }
+        return buildTokenResponse(newStaff.getPassword(), newStaff.getEmail(), newStaff.getName(), newStaff.getRole());
+    }
 
-            String passwordEncoded = passwordEncoder.encode(password);
-
-            Staff newStaff = new Staff(name, email);
-            newStaff.setPassword(passwordEncoded);
-            newStaff.setRole(Role.USER);
-
-            staffRepository.save(newStaff);
-
-            org.springframework.security.core.userdetails.User userDetails =
-                    new org.springframework.security.core.userdetails.User(
-                            newStaff.getEmail(),
-                            newStaff.getPassword(),
-                            Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + newStaff.getRole().name())
-                            ));
-
-            Map<String, Object> claims = new HashMap<>();
-            claims.put("name", newStaff.getName());
-            claims.put("email", newStaff.getEmail());
-            claims.put("role", newStaff.getRole().name());
-
-            String jwtToken = jwtTokenUtil.generateToken(claims, userDetails);
-
-            return new TokenResponse(jwtToken, "Bearer", String.valueOf(jwtTokenUtil.getExpirationTime()));
+    private void matchPassword(String password, String password2) {
+        if(!passwordEncoder.matches(password, password2)) {
+            throw new BadCredentialsException("Wrong password");
         }
     }
 
-    private void matchPassword(String passworda, String passwordb) {
-        if(!passwordEncoder.matches(passworda, passwordb)) {
-            throw new BadCredentialsException("Wrong password");
-        }
+    private TokenResponse getTokenResponse(String password, String passwordEncoded, String email, Role role, String name) {
+        matchPassword(password, passwordEncoded);
+        return buildTokenResponse(passwordEncoded, email, name, role);
+    }
+
+    private TokenResponse buildTokenResponse(String password, String email, String name, Role role) {
+        org.springframework.security.core.userdetails.User userDetails =
+                new org.springframework.security.core.userdetails.User(
+                        email,
+                        password,
+                        Collections.singletonList(new SimpleGrantedAuthority("ROLE_" + role.name())
+                        ));
+
+        Map<String, Object> claims = new HashMap<>();
+        claims.put("name", name);
+        claims.put("email", email);
+        claims.put("role", role.name());
+
+        String jwtToken = jwtTokenUtil.generateToken(claims, userDetails);
+
+        return new TokenResponse(jwtToken, "Bearer", String.valueOf(jwtTokenUtil.getExpirationTime()));
     }
 }
