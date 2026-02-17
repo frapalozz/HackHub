@@ -48,9 +48,7 @@ public class AuthHandlerImpl implements AuthHandler {
     public TokenResponse register(String name, String email, String password, String type) {
 
         if(type.equalsIgnoreCase("USER")) {
-            User user = userRepository.findById(email).orElse(null);
-
-            if(user != null) {
+            if(userRepository.findById(email).isPresent()) {
                 throw new BadCredentialsException("Email already used");
             }
 
@@ -62,10 +60,8 @@ public class AuthHandlerImpl implements AuthHandler {
 
             return buildTokenResponse(newUser.getPassword(), newUser.getEmail(), newUser.getName(), newUser.getRole());
         }
-        
-        Staff staff = staffRepository.findById(email).orElse(null);
 
-        if(staff != null) {
+        if(staffRepository.findById(email).isPresent()) {
             throw new BadCredentialsException("Email already used");
         }
 
