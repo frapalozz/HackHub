@@ -11,6 +11,7 @@ public class HackathonMapper {
     public CreateHackathonRequest toCreateHackathonRequest(HackathonRequest request, String organizerEmail) {
             return new CreateHackathonRequest(
                     request.name(),
+                    request.location(),
                     request.subscriptionDeadline(),
                     new Period(request.startDate(), request.endDate()),
                     request.maxTeamSize(),

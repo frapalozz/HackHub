@@ -39,6 +39,7 @@ public class CreateHackathonHandlerImpl implements CreateHackathonHandler {
 
         Hackathon hackathon = new Hackathon(
                 request.name(),
+                request.location(),
                 request.subscriptionDeadline(),
                 request.hackathonPeriod(),
                 request.maxTeamSize(),

@@ -37,6 +37,7 @@ public class Hackathon {
     @Column(columnDefinition = "TEXT")
     private String requirements;
     private Double prize;
+    private String location;
 
     @Embedded
     @Builder.Default
@@ -65,10 +66,11 @@ public class Hackathon {
     @Transient
     private HackathonState state;
 
-    public Hackathon(String name, LocalDate subDeadline, Period period, int maxsize,
+    public Hackathon(String name, String location, LocalDate subDeadline, Period period, int maxsize,
                      String req, Double prize, Staff organizer, Staff judge,
                      Set<Staff> mentors) {
         this.name = name;
+        this.location = location;
         this.subscriptionDeadline = subDeadline;
         this.hackathonPeriod = period;
         this.maxTeamSize = maxsize;

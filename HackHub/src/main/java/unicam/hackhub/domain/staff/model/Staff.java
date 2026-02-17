@@ -30,7 +30,7 @@ public class Staff {
     private Role role = Role.STAFF;
 
     @Embedded
-    private TimeRange timeRange = new TimeRange(LocalTime.of(9, 0), LocalTime.of(17, 0));
+    private TimeRange workingHours = new TimeRange(LocalTime.of(9, 0), LocalTime.of(17, 0));
 
     public Staff(String name, String email) {
         this.name = name;

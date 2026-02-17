@@ -10,6 +10,9 @@ public record HackathonRequest(
         @NotBlank(message = "Hackathon name è obbligatorio")
         String name,
 
+        @NotBlank
+        String location,
+
         @NotNull(message = "Subscription deadline è obbligatoria")
         @Future(message = "Subscription deadline deve essere nel futuro")
         LocalDate subscriptionDeadline,

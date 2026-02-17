@@ -154,11 +154,11 @@ public class MockCalendarAdapter implements CalendarService {
     private List<TimeRange> freeSlots(List<SupportRequest> requests, Staff mentor) {
         List<TimeRange> freeSlots = new ArrayList<>();
 
-        if(mentor.getTimeRange() == null) {
+        if(mentor.getWorkingHours() == null) {
             return freeSlots;
         }
 
-        TimeRange workRange = mentor.getTimeRange();
+        TimeRange workRange = mentor.getWorkingHours();
         LocalTime start = workRange.getStartTime();
         LocalTime end = workRange.getEndTime();
 
@@ -206,8 +206,8 @@ public class MockCalendarAdapter implements CalendarService {
             throw new IllegalArgumentException("Team not in hackathon");
         }
 
-        if (slot.getStartTime().isBefore(mentor.getTimeRange().getStartTime()) ||
-                slot.getEndTime().isAfter(mentor.getTimeRange().getEndTime())) {
+        if (slot.getStartTime().isBefore(mentor.getWorkingHours().getStartTime()) ||
+                slot.getEndTime().isAfter(mentor.getWorkingHours().getEndTime())) {
             throw new IllegalArgumentException("Slot outside working hours");
         }
     }

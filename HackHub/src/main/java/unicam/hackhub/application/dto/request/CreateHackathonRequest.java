@@ -18,7 +18,8 @@ import java.util.List;
  * @param mentorsEmails emails of the mentors of the hackathon
  */
 public record CreateHackathonRequest(
-    String name, 
+    String name,
+    String location,
     LocalDate subscriptionDeadline, 
     Period hackathonPeriod, 
     int maxTeamSize,
