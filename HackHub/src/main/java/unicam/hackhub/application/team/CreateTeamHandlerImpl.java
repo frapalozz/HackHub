@@ -30,12 +30,13 @@ public class CreateTeamHandlerImpl implements CreateTeamHandler {
         this.validateTeamCreation(teamName, user);
 
         Team team = new Team(teamName, user);
-        user.setTeam(team);
+
+        Team teamSaved = teamRepository.save(team);
+        user.setTeam(teamSaved);
         user.setRole(Role.TEAM_MEMBER);
+        userRepository.save(user);
 
-        teamRepository.save(team);
-
-        invitationService.createInvitations(team, invitedUsers);
+        invitationService.createInvitations(teamSaved, invitedUsers);
 
         return "Team Created";
     }

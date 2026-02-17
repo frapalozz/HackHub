@@ -8,13 +8,10 @@ import unicam.hackhub.domain.hackathon.model.Hackathon;
 import unicam.hackhub.domain.hackathon.model.Submission;
 import unicam.hackhub.domain.hackathon.model.Valuation;
 import unicam.hackhub.domain.hackathon.repository.HackathonRepository;
-import unicam.hackhub.domain.hackathon.repository.SubmissionRepository;
 import unicam.hackhub.domain.hackathon.repository.ValuationRepository;
 import unicam.hackhub.domain.team.model.Team;
-import unicam.hackhub.domain.team.repository.TeamRepository;
 import unicam.hackhub.domain.user.model.User;
 import unicam.hackhub.domain.user.repository.UserRepository;
-import unicam.hackhub.infrastructure.persistence.jpa.JpaUserRepository;
 
 @Service
 @Primary

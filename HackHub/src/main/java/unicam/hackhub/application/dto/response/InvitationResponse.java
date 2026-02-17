@@ -1,4 +1,4 @@
-package unicam.hackhub.application.dto.request;
+package unicam.hackhub.application.dto.response;
 
 import unicam.hackhub.domain.user.model.User;
 

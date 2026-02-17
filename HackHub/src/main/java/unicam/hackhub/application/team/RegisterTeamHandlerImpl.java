@@ -31,7 +31,7 @@ public class RegisterTeamHandlerImpl implements RegisterTeamHandler {
 
         hackathonRepository.save(hackathon);
 
-        return "Team registered to hackathon (id: " + hackathon.getId();
+        return "Team registered to hackathon (id: " + hackathon.getId() + ")";
     }
 
     private User getUser(String email) {

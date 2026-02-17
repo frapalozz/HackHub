@@ -7,7 +7,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import unicam.hackhub.application.invitation.InvitationHandler;
-import unicam.hackhub.application.dto.request.InvitationResponse;
+import unicam.hackhub.application.dto.response.InvitationResponse;
 import unicam.hackhub.config.DataInitializer;
 import unicam.hackhub.domain.invitation.domain.Invitation;
 import unicam.hackhub.domain.invitation.repository.InvitationRepository;
