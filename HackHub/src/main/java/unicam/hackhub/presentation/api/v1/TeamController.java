@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import lombok.AllArgsConstructor;
+import lombok.NonNull;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -12,6 +13,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import unicam.hackhub.application.hackathon.HackathonViewHandler;
 import unicam.hackhub.application.hackathon.SubmissionHandler;
 import unicam.hackhub.application.invitation.InvitationHandler;
 import unicam.hackhub.application.supportRequest.CalendarService;
@@ -30,6 +32,7 @@ public class TeamController {
     private final InvitationHandler invitationHandler;
     private final SubmissionHandler submissionHandler;
     private final RegisterTeamHandler registerTeamHandler;
+    private final HackathonViewHandler hackathonViewHandler;
     private final CalendarService calendarService;
 
     @PreAuthorize("hasRole('TEAM_MEMBER')")
@@ -105,6 +108,26 @@ public class TeamController {
                         request.slot(),
                         request.date())
                 );
+    }
+
+    @PreAuthorize("hasRole('TEAM_MEMBER')")
+    @RequestMapping(value = "/hackathon/{hackathonId}", method = RequestMethod.GET)
+    public ResponseEntity<Object> getSubmission(
+            @NonNull
+            @Positive
+            @PathVariable Long hackathonId
+    ) {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(hackathonViewHandler.getSubmissionTeam(getEmail(), hackathonId));
+    }
+
+    @PreAuthorize("hasRole('TEAM_MEMBER')")
+    @RequestMapping(value = "/hackathons", method = RequestMethod.GET)
+    public ResponseEntity<Object> getHackathons() {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(hackathonViewHandler.getParticipatingHackathons(getEmail()));
     }
 
     private String getEmail() {
