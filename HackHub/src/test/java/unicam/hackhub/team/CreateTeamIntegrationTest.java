@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
 import org.springframework.http.MediaType;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import tools.jackson.databind.ObjectMapper;
@@ -14,6 +15,7 @@ import unicam.hackhub.domain.team.model.Team;
 import unicam.hackhub.domain.team.repository.TeamRepository;
 import unicam.hackhub.domain.user.model.User;
 import unicam.hackhub.domain.user.repository.UserRepository;
+import unicam.hackhub.infrastructure.security.JwtTokenUtil;
 import unicam.hackhub.presentation.dto.request.TeamRequest;
 
 import java.util.List;
@@ -36,6 +38,9 @@ public class CreateTeamIntegrationTest {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    JwtTokenUtil jwtTokenUtil;
+
     @MockitoBean
     DataInitializer dataInitializer;
 
@@ -43,12 +48,13 @@ public class CreateTeamIntegrationTest {
 
     @Test
     void createTeam_endToEnd_shouldPersistTeamAndReturn201() throws Exception {
-        User user = new User("integrazione@test.it", "Mario");
-        userRepository.save(user);
+        User user = new User("Mario", "integrazione@test.it", "password");
+        user = userRepository.save(user);
 
-        TeamRequest request = new TeamRequest(user.getEmail(), "TeamIntegrazione", List.of());
+        TeamRequest request = new TeamRequest("TeamIntegrazione", List.of());
 
         mockMvc.perform(post("/api/v1/user/team")
+                        .header("Authorization", "Bearer " + getToken(user))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isCreated())
@@ -67,13 +73,14 @@ public class CreateTeamIntegrationTest {
     @Test
     void createTeam_success_shouldReturn201AndPersistTeam() throws Exception {
         // ARRANGE: utente senza team
-        User user = new User("success@test.it", "Luigi");
-        userRepository.save(user);
+        User user = new User("Luigi", "success@test.it", "password");
+        user = userRepository.save(user);
 
-        TeamRequest request = new TeamRequest(user.getEmail(), "teamFantastico", List.of());
+        TeamRequest request = new TeamRequest("teamFantastico", List.of());
 
         // ACT
         mockMvc.perform(post("/api/v1/user/team")
+                        .header("Authorization", "Bearer " + getToken(user))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isCreated())
@@ -92,20 +99,21 @@ public class CreateTeamIntegrationTest {
     @Test
     void createTeam_teamNameAlreadyUsed_shouldReturn400() throws Exception {
         // ARRANGE: crea un team con nome "teamOccupato"
-        User owner = new User("owner@test.it", "Owner");
+        User owner = new User("Owner", "owner@test.it");
         Team occupiedTeam = new Team("teamOccupato", owner);
         owner.setTeam(occupiedTeam);
         teamRepository.save(occupiedTeam);
-        userRepository.save(owner);
+        owner = userRepository.save(owner);
 
         // Un secondo utente tenta di creare un team con lo stesso nome
-        User anotherUser = new User("another@test.it", "Another");
-        userRepository.save(anotherUser);
+        User anotherUser = new User("Another", "another@test.it");
+        anotherUser = userRepository.save(anotherUser);
 
-        TeamRequest request = new TeamRequest(anotherUser.getEmail(), "teamOccupato", List.of());
+        TeamRequest request = new TeamRequest("teamOccupato", List.of());
 
         // ACT & ASSERT
         mockMvc.perform(post("/api/v1/user/team")
+                        .header("Authorization", "Bearer " + getToken(anotherUser))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isBadRequest())
@@ -122,15 +130,17 @@ public class CreateTeamIntegrationTest {
 
     @Test
     void createTeam_userNotFound_shouldReturn404() throws Exception {
+        User user = new User("Luigi", "success@test.it", "password");
         // ARRANGE: nessun utente con quell'email
-        TeamRequest request = new TeamRequest("inesistente@test.it", "teamQualsiasi", List.of());
+        TeamRequest request = new TeamRequest( "teamQualsiasi", List.of());
 
         // ACT & ASSERT
         mockMvc.perform(post("/api/v1/user/team")
+                        .header("Authorization", "Bearer " + getToken(user))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isNotFound())
-                .andExpect(jsonPath("$.message").value("User not found"))
+                .andExpect(jsonPath("$.message").value("User not found: " + user.getEmail()))
                 .andExpect(jsonPath("$.status").value(404));
 
 
@@ -141,16 +151,17 @@ public class CreateTeamIntegrationTest {
     @Test
     void createTeam_userAlreadyInTeam_shouldReturn409() throws Exception {
         // ARRANGE: crea utente con un team esistente
-        User user = new User("user@test.it", "Mario");
+        User user = new User("Mario", "user@test.it");
         Team existingTeam = new Team("teamEsistente", user);
         user.setTeam(existingTeam);
         teamRepository.save(existingTeam);
         userRepository.save(user);
 
-        TeamRequest request = new TeamRequest(user.getEmail(), "nuovoTeam", List.of());
+        TeamRequest request = new TeamRequest("nuovoTeam", List.of());
 
         // ACT & ASSERT
         mockMvc.perform(post("/api/v1/user/team")
+                        .header("Authorization", "Bearer " + getToken(user))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isConflict())   // IllegalStateException → 409
@@ -161,5 +172,15 @@ public class CreateTeamIntegrationTest {
         // L'utente è ancora nel vecchio team
         User updatedUser = userRepository.findById(user.getEmail()).orElseThrow();
         assertThat(updatedUser.getTeam().getName()).isEqualTo("teamEsistente");
+    }
+
+    private String getToken(User user) {
+        UserDetails userDetails = org.springframework.security.core.userdetails.User.builder()
+                .username(user.getEmail())
+                .password(user.getPassword())
+                .roles(user.getRole().name())
+                .build();
+
+        return jwtTokenUtil.generateToken(userDetails);
     }
 }
