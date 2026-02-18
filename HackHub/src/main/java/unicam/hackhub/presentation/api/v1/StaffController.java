@@ -162,6 +162,20 @@ public class StaffController {
                 .body(hackathonViewHandler.getSubmissionStaff(getEmail(), submissionId));
     }
 
+    @RequestMapping(value = "/supportRequests", method = RequestMethod.GET)
+    public ResponseEntity<Object> getSupportRequests() {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(hackathonViewHandler.getSupportRequests(getEmail()));
+    }
+
+    @RequestMapping(value = "/reports", method = RequestMethod.GET)
+    public ResponseEntity<Object> getReports() {
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(hackathonViewHandler.getReports(getEmail()));
+    }
+
     private String getEmail() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if(authentication == null) {
