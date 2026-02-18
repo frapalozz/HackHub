@@ -164,6 +164,12 @@ public class Hackathon {
         this.mentors.addAll(mentors);
     }
 
+    public boolean containsStaff(String staffEmail) {
+        return organizer.getEmail().equals(staffEmail) ||
+                judge.getEmail().equals(staffEmail) ||
+                mentors.stream().anyMatch(m -> m.getEmail().equals(staffEmail));
+    }
+
 
     // =====================================
     // State Methods
