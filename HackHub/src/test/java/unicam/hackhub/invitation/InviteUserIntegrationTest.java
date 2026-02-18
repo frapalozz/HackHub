@@ -9,7 +9,6 @@ import org.springframework.http.MediaType;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
-import unicam.hackhub.application.invitation.InvitationHandler;
 import unicam.hackhub.config.DataInitializer;
 import unicam.hackhub.domain.invitation.domain.InvitationId;
 import unicam.hackhub.domain.invitation.repository.InvitationRepository;
@@ -31,28 +30,16 @@ public class InviteUserIntegrationTest {
 
     @Autowired
     MockMvc mockMvc;
-
-    @Autowired
-    private InvitationHandler invitationHandler;
-
     @Autowired
     private UserRepository userRepository;
-
     @Autowired
     private TeamRepository teamRepository;
-
     @Autowired
     private InvitationRepository invitationRepository;
-
-    @Autowired
-    private JwtTokenUtil tokenUtil;
-
     @MockitoBean
     private DataInitializer dataInitializer;
-
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
-
     private final String path = "/api/v1/team/invite?userEmail=";
 
     @Test

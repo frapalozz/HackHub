@@ -9,8 +9,6 @@ import org.springframework.http.MediaType;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
-import tools.jackson.databind.ObjectMapper;
-import unicam.hackhub.application.invitation.InvitationHandler;
 import unicam.hackhub.config.DataInitializer;
 import unicam.hackhub.domain.hackathon.model.Hackathon;
 import unicam.hackhub.domain.hackathon.repository.HackathonRepository;
@@ -42,8 +40,6 @@ public class RespondToInvitationIntegrationTest {
     @Autowired
     MockMvc mockMvc;
     @Autowired
-    private InvitationHandler invitationHandler;
-    @Autowired
     private UserRepository userRepository;
     @Autowired
     private TeamRepository teamRepository;
@@ -58,7 +54,6 @@ public class RespondToInvitationIntegrationTest {
     @MockitoBean
     private DataInitializer dataInitializer;
     private final String path = "/api/v1/user/invitation";
-    private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Test
     void declineInvitation_success_shouldRemoveInvitation() throws Exception {

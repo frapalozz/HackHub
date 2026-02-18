@@ -32,18 +32,16 @@ public class CreateTeamIntegrationTest {
 
     @Autowired
     MockMvc mockMvc;
-
     @Autowired
     TeamRepository teamRepository;
-
     @Autowired
     UserRepository userRepository;
-
     @Autowired
     JwtTokenUtil jwtTokenUtil;
-
     @MockitoBean
     DataInitializer dataInitializer;
+
+    private final String path = "/api/v1/user/team";
 
     private final ObjectMapper objectMapper = new ObjectMapper();
 
@@ -54,7 +52,7 @@ public class CreateTeamIntegrationTest {
 
         TeamRequest request = new TeamRequest("TeamIntegrazione", List.of());
 
-        mockMvc.perform(post("/api/v1/user/team")
+        mockMvc.perform(post(path)
                         .header("Authorization", "Bearer " + getToken(user))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
@@ -81,7 +79,7 @@ public class CreateTeamIntegrationTest {
         TeamRequest request = new TeamRequest("teamFantastico", List.of());
 
         // ACT
-        mockMvc.perform(post("/api/v1/user/team")
+        mockMvc.perform(post(path)
                         .header("Authorization", "Bearer " + getToken(user))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
@@ -115,7 +113,7 @@ public class CreateTeamIntegrationTest {
         TeamRequest request = new TeamRequest("teamOccupato", List.of());
 
         // ACT & ASSERT
-        mockMvc.perform(post("/api/v1/user/team")
+        mockMvc.perform(post(path)
                         .header("Authorization", "Bearer " + getToken(anotherUser))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
@@ -139,7 +137,7 @@ public class CreateTeamIntegrationTest {
         TeamRequest request = new TeamRequest( "teamQualsiasi", List.of());
 
         // ACT & ASSERT
-        mockMvc.perform(post("/api/v1/user/team")
+        mockMvc.perform(post(path)
                         .header("Authorization", "Bearer " + getToken(user))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
@@ -164,7 +162,7 @@ public class CreateTeamIntegrationTest {
         TeamRequest request = new TeamRequest("nuovoTeam", List.of());
 
         // ACT & ASSERT
-        mockMvc.perform(post("/api/v1/user/team")
+        mockMvc.perform(post(path)
                         .header("Authorization", "Bearer " + getToken(user))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
