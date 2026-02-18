@@ -14,7 +14,6 @@ public interface UserHandler {
      *
      * @param userEmail the email of the user to edit
      * @param name      the new name for the user
-     * @param email     the new email address for the user
      */
-    void editProfile(String userEmail, String name, String email);
+    void editProfile(String userEmail, String name);
 }

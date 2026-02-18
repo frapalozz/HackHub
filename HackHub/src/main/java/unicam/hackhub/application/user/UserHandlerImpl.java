@@ -21,19 +21,14 @@ public class UserHandlerImpl implements UserHandler{
     }
 
     @Override
-    public void editProfile(String userEmail, String name, String email) {
+    public void editProfile(String userEmail, String name) {
         User user = getUser(userEmail);
 
         if(name != null && !name.isEmpty()) {
             user.setName(name);
         }
-        if(email != null && !email.isEmpty()) {
-            user.setEmail(email);
-        }
 
         userRepository.save(user);
-
-
     }
 
     private User getUser(String userEmail) {

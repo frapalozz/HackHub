@@ -74,7 +74,7 @@ public class UserController {
 
     @RequestMapping(value = "/updateProfile", method = RequestMethod.PUT)
     public ResponseEntity<Object> updateProfile(@Validated @RequestBody UserRequest userRequest) {
-        userHandler.editProfile(getEmail(), userRequest.name(), userRequest.email());
+        userHandler.editProfile(getEmail(), userRequest.name());
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body("User updated");
