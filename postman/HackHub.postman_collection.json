@@ -1,0 +1,1019 @@
+{
+  "info": {
+    "_postman_id": "42f71ab6-0a1e-4474-b685-bb2530304359",
+    "name": "HackHub",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "49301479",
+    "_collection_link": "https://go.postman.co/collection/49301479-42f71ab6-0a1e-4474-b685-bb2530304359?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "auth",
+      "item": [
+        {
+          "name": "login",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiU1RBRkYiLCJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9TVEFGRiJ9XSwibmFtZSI6ImpvaG4iLCJlbWFpbCI6ImpvaG5Ac3RhZmYuY29tIiwic3ViIjoiam9obkBzdGFmZi5jb20iLCJpYXQiOjE3NzEyNTcxODIsImV4cCI6MTc3OTg5NzE4Mn0.67_nZ8oY_vZN3mU_s_UR7xYjT7zcMMShWh6utIvXwhk",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "\r\n/*\r\n{\r\n    \"email\": \"alex@user.com\",\r\n    \"password\": \"password\",\r\n    \"type\": \"user\"\r\n}\r\n*/\r\n\r\n{\r\n    \"email\": \"john@staff.com\",\r\n    \"password\": \"password\",\r\n    \"type\": \"staff\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8888/api/v1/auth/login",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8888",
+              "path": [
+                "api",
+                "v1",
+                "auth",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "signin",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"testUser@user.com\",\r\n    \"password\": \"password\",\r\n    \"name\": \"testUser\",\r\n    \"type\": \"user\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8888/api/v1/auth/signin",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8888",
+              "path": [
+                "api",
+                "v1",
+                "auth",
+                "signin"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Generic User",
+      "item": [
+        {
+          "name": "Get Public Hackathons",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8888/api/v1/visitor/hackathons",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8888",
+              "path": [
+                "api",
+                "v1",
+                "visitor",
+                "hackathons"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Hackathon Detail",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8888/api/v1/visitor/hackathons/{hackathonId}",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8888",
+              "path": [
+                "api",
+                "v1",
+                "visitor",
+                "hackathons",
+                "{hackathonId}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "User",
+      "item": [
+        {
+          "name": "Create Team",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"teamName\": \"testTeam\",\r\n    \"emails\": []\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8888/api/v1/user/team",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8888",
+              "path": [
+                "api",
+                "v1",
+                "user",
+                "team"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Invitations",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8888/api/v1/user/invitations",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8888",
+              "path": [
+                "api",
+                "v1",
+                "user",
+                "invitations"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Accept Invitation",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8888/api/v1/user/invitation/testTeam",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8888",
+              "path": [
+                "api",
+                "v1",
+                "user",
+                "invitation",
+                "testTeam"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Decline Invitation",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8888/api/v1/user/invitation/testTeam",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8888",
+              "path": [
+                "api",
+                "v1",
+                "user",
+                "invitation",
+                "testTeam"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "remove profile",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8888/api/v1/user/deleteProfile",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8888",
+              "path": [
+                "api",
+                "v1",
+                "user",
+                "deleteProfile"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update profile",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"new@email.com\",\r\n    \"name\": \"newname\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8888/api/v1/user/updateProfile",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8888",
+              "path": [
+                "api",
+                "v1",
+                "user",
+                "updateProfile"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Team",
+      "item": [
+        {
+          "name": "Invite User",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVEVBTV9NRU1CRVIiLCJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9URUFNX01FTUJFUiJ9XSwibmFtZSI6ImFsZXgiLCJlbWFpbCI6ImFsZXhAdXNlci5jb20iLCJzdWIiOiJhbGV4QHVzZXIuY29tIiwiaWF0IjoxNzcxMjU2NjA4LCJleHAiOjE3Nzk4OTY2MDh9.FH9FZqfXCM8R-LcxtTIU7So6CEB0IWx4Klx8e1DlW8A",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8888/api/v1/team/invite?userEmail={invitedUserEmail}",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8888",
+              "path": [
+                "api",
+                "v1",
+                "team",
+                "invite"
+              ],
+              "query": [
+                {
+                  "key": "userEmail",
+                  "value": "{invitedUserEmail}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Register Team",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVEVBTV9NRU1CRVIiLCJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9URUFNX01FTUJFUiJ9XSwibmFtZSI6ImFsZXgiLCJlbWFpbCI6ImFsZXhAdXNlci5jb20iLCJzdWIiOiJhbGV4QHVzZXIuY29tIiwiaWF0IjoxNzcxMjU2NjA4LCJleHAiOjE3Nzk4OTY2MDh9.FH9FZqfXCM8R-LcxtTIU7So6CEB0IWx4Klx8e1DlW8A",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8888/api/v1/team/register/{hackathonId}",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8888",
+              "path": [
+                "api",
+                "v1",
+                "team",
+                "register",
+                "{hackathonId}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Add Submission",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVEVBTV9NRU1CRVIiLCJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9URUFNX01FTUJFUiJ9XSwibmFtZSI6ImFsZXgiLCJlbWFpbCI6ImFsZXhAdXNlci5jb20iLCJzdWIiOiJhbGV4QHVzZXIuY29tIiwiaWF0IjoxNzcxMjU2NjA4LCJleHAiOjE3Nzk4OTY2MDh9.FH9FZqfXCM8R-LcxtTIU7So6CEB0IWx4Klx8e1DlW8A",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"url\": \"test.url\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8888/api/v1/team/hackathon/{hackathonId}",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8888",
+              "path": [
+                "api",
+                "v1",
+                "team",
+                "hackathon",
+                "{hackathonId}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "UpdateSubmission",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVEVBTV9NRU1CRVIiLCJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9URUFNX01FTUJFUiJ9XSwibmFtZSI6ImFsZXgiLCJlbWFpbCI6ImFsZXhAdXNlci5jb20iLCJzdWIiOiJhbGV4QHVzZXIuY29tIiwiaWF0IjoxNzcxMjU2NjA4LCJleHAiOjE3Nzk4OTY2MDh9.FH9FZqfXCM8R-LcxtTIU7So6CEB0IWx4Klx8e1DlW8A",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"url\": \"new.url\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8888/api/v1/team/hackathon/{hackathonId}",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8888",
+              "path": [
+                "api",
+                "v1",
+                "team",
+                "hackathon",
+                "{hackathonId}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Mentor Availability",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVEVBTV9NRU1CRVIiLCJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9URUFNX01FTUJFUiJ9XSwibmFtZSI6ImFsZXgiLCJlbWFpbCI6ImFsZXhAdXNlci5jb20iLCJzdWIiOiJhbGV4QHVzZXIuY29tIiwiaWF0IjoxNzcxMjU2NjA4LCJleHAiOjE3Nzk4OTY2MDh9.FH9FZqfXCM8R-LcxtTIU7So6CEB0IWx4Klx8e1DlW8A",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"mentorEmail\": \"alex@staff.com\",\r\n    \"date\": \"2026-02-16\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8888/api/v1/team/mentor_availability",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8888",
+              "path": [
+                "api",
+                "v1",
+                "team",
+                "mentor_availability"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Request Support",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVEVBTV9NRU1CRVIiLCJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9URUFNX01FTUJFUiJ9XSwibmFtZSI6ImFsZXgiLCJlbWFpbCI6ImFsZXhAdXNlci5jb20iLCJzdWIiOiJhbGV4QHVzZXIuY29tIiwiaWF0IjoxNzcxMjU2NjA4LCJleHAiOjE3Nzk4OTY2MDh9.FH9FZqfXCM8R-LcxtTIU7So6CEB0IWx4Klx8e1DlW8A",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"hackathonId\": 2,\r\n    \"mentorEmail\": \"alex@staff.com\",\r\n    \"slot\": {\r\n        \"startTime\": \"15:00\",\r\n        \"endTime\": \"16:00\"\r\n    },\r\n    \"date\": \"2026-02-16\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8888/api/v1/team/support",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8888",
+              "path": [
+                "api",
+                "v1",
+                "team",
+                "support"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Submission",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8888/api/v1/team/hackathon/{hackathonId}",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8888",
+              "path": [
+                "api",
+                "v1",
+                "team",
+                "hackathon",
+                "{hackathonId}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Participating Hackathons",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8888/api/v1/team/hackathons",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8888",
+              "path": [
+                "api",
+                "v1",
+                "team",
+                "hackathons"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Staff",
+      "item": [
+        {
+          "name": "Create Hackathon",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiU1RBRkYiLCJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9TVEFGRiJ9XSwibmFtZSI6ImFsZXgiLCJlbWFpbCI6ImFsZXhAc3RhZmYuY29tIiwic3ViIjoiYWxleEBzdGFmZi5jb20iLCJpYXQiOjE3NzEyNTY5MzUsImV4cCI6MTc3OTg5NjkzNX0.NSXViPvzYE80JVi9BgU-K4AzTtfiVXiaMs62JMyPl1s",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"Test Hackathon\",\r\n    \"subscriptionDeadline\": \"2026-03-15\",\r\n    \"startDate\": \"2026-03-20\",\r\n    \"endDate\": \"2026-03-22\",\r\n    \"maxTeamSize\": 4,\r\n    \"requirements\": \"\",\r\n    \"location\": \"testLocation\",\r\n    \"prize\": 10000.50,\r\n    \"judgeEmail\": \"jane@staff.com\",\r\n    \"mentorsEmails\": [\r\n        \"john@staff.com\"\r\n    ]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8888/api/v1/staff/hackathon",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8888",
+              "path": [
+                "api",
+                "v1",
+                "staff",
+                "hackathon"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Declare Winner",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiU1RBRkYiLCJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9TVEFGRiJ9XSwibmFtZSI6ImpvaG4iLCJlbWFpbCI6ImpvaG5Ac3RhZmYuY29tIiwic3ViIjoiam9obkBzdGFmZi5jb20iLCJpYXQiOjE3NzEyNTcxODIsImV4cCI6MTc3OTg5NzE4Mn0.67_nZ8oY_vZN3mU_s_UR7xYjT7zcMMShWh6utIvXwhk",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8888/api/v1/staff/hackathon/{hackathonId}?teamName={teamName}",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8888",
+              "path": [
+                "api",
+                "v1",
+                "staff",
+                "hackathon",
+                "{hackathonId}"
+              ],
+              "query": [
+                {
+                  "key": "teamName",
+                  "value": "{teamName}"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Evaluate Submission",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiU1RBRkYiLCJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9TVEFGRiJ9XSwibmFtZSI6ImphbmUiLCJlbWFpbCI6ImphbmVAc3RhZmYuY29tIiwic3ViIjoiamFuZUBzdGFmZi5jb20iLCJpYXQiOjE3NzEyNTcxNDMsImV4cCI6MTc3OTg5NzE0M30.esyPbtTDSWLi3rFtpIrp91cH3PqbWuVykdkaC-2Vjpc",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"vote\": 5,\r\n    \"message\": \"message...\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8888/api/v1/staff/hackathon/{hackathonId}/{teamName}",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8888",
+              "path": [
+                "api",
+                "v1",
+                "staff",
+                "hackathon",
+                "{hackathonId}",
+                "{teamName}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "update valuation",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"vote\": 5,\r\n    \"message\": \"message...\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8888/api/v1/staff/hackathon/{hackathonId}/{teamName}",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8888",
+              "path": [
+                "api",
+                "v1",
+                "staff",
+                "hackathon",
+                "{hackathonId}",
+                "{teamName}"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "report team",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiU1RBRkYiLCJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9TVEFGRiJ9XSwibmFtZSI6ImFsZXgiLCJlbWFpbCI6ImFsZXhAc3RhZmYuY29tIiwic3ViIjoiYWxleEBzdGFmZi5jb20iLCJpYXQiOjE3NzEyNTY5MzUsImV4cCI6MTc3OTg5NjkzNX0.NSXViPvzYE80JVi9BgU-K4AzTtfiVXiaMs62JMyPl1s",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"teamName\": \"team\",\r\n    \"hackathonId\": 2,\r\n    \"description\": \"description....\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8888/api/v1/staff/report",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8888",
+              "path": [
+                "api",
+                "v1",
+                "staff",
+                "report"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "add mentors",
+          "request": {
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"emailList\": [\r\n        \"email1@email.com\"\r\n    ]\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8888/api/v1/staff/hackathon/{hackathonId}/addMentors",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8888",
+              "path": [
+                "api",
+                "v1",
+                "staff",
+                "hackathon",
+                "{hackathonId}",
+                "addMentors"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "accept support request",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiU1RBRkYiLCJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9TVEFGRiJ9XSwibmFtZSI6ImFsZXgiLCJlbWFpbCI6ImFsZXhAc3RhZmYuY29tIiwic3ViIjoiYWxleEBzdGFmZi5jb20iLCJpYXQiOjE3NzEyNTY5MzUsImV4cCI6MTc3OTg5NjkzNX0.NSXViPvzYE80JVi9BgU-K4AzTtfiVXiaMs62JMyPl1s",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"linkCall\": \"meet.com\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost:8888/api/v1/staff/support_request/{requestId}/accept",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8888",
+              "path": [
+                "api",
+                "v1",
+                "staff",
+                "support_request",
+                "{requestId}",
+                "accept"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "decline support request",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiU1RBRkYiLCJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9TVEFGRiJ9XSwibmFtZSI6ImFsZXgiLCJlbWFpbCI6ImFsZXhAc3RhZmYuY29tIiwic3ViIjoiYWxleEBzdGFmZi5jb20iLCJpYXQiOjE3NzEyNTY5MzUsImV4cCI6MTc3OTg5NjkzNX0.NSXViPvzYE80JVi9BgU-K4AzTtfiVXiaMs62JMyPl1s",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "PUT",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8888/api/v1/staff/support_request/{requestId}/decline",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8888",
+              "path": [
+                "api",
+                "v1",
+                "staff",
+                "support_request",
+                "{requestId}",
+                "decline"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get All Hackathon in System",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8888/api/v1/staff/hackathons",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8888",
+              "path": [
+                "api",
+                "v1",
+                "staff",
+                "hackathons"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get assigned hackathons",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8888/api/v1/staff/hackathons/me",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8888",
+              "path": [
+                "api",
+                "v1",
+                "staff",
+                "hackathons",
+                "me"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Submissions of Hackathon",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8888/api/v1/staff/hackathon/{hackathonId}/submissions",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8888",
+              "path": [
+                "api",
+                "v1",
+                "staff",
+                "hackathon",
+                "{hackathonId}",
+                "submissions"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Submission Details",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8888/api/v1/staff/hackathon/{hackathonId}/submissions/{submissionId}",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8888",
+              "path": [
+                "api",
+                "v1",
+                "staff",
+                "hackathon",
+                "{hackathonId}",
+                "submissions",
+                "{submissionId}"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
