@@ -8,8 +8,7 @@ import unicam.hackhub.domain.hackathon.model.Hackathon;
 import unicam.hackhub.domain.staff.model.Staff;
 import unicam.hackhub.domain.team.model.Team;
 
-@Component
-@Transactional
+@Component("presentationHackathonMapper")
 public class HackathonMapper {
 
     public HackathonResponse hackathonToHackathonResponse(Hackathon hackathon) {
