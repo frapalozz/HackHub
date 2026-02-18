@@ -8,6 +8,8 @@ import unicam.hackhub.domain.hackathon.model.Hackathon;
 import unicam.hackhub.domain.hackathon.repository.HackathonRepository;
 import unicam.hackhub.domain.team.model.Team;
 
+import java.util.List;
+
 @Repository
 public interface JpaHackathonRepository extends HackathonRepository, JpaRepository<Hackathon, Long> {
 
@@ -18,4 +20,20 @@ public interface JpaHackathonRepository extends HackathonRepository, JpaReposito
             "WHERE t = :team " +
             "AND h.status.currentState <> 'ENDED'")
     boolean inActiveHackathon(@Param("team") Team team);
+
+    @Override
+    default List<Hackathon> findPublicHackathons() {
+        return this.findAll();
+    }
+
+    @Override
+    @Query("SELECT h " +
+           "FROM Hackathon h " +
+           "JOIN h.teams t WHERE t.name = :teamName")
+    List<Hackathon> findAllByParticipatingTeam(@Param("teamName") String teamName);
+
+    @Override
+    @Query("SELECT DISTINCT h FROM Hackathon h LEFT JOIN h.mentors m " +
+            "WHERE h.organizer.email = :email OR h.judge.email = :email OR m.email = :email")
+    List<Hackathon> findAllWhereIsStaff(@Param("email") String staffEmail);
 }
