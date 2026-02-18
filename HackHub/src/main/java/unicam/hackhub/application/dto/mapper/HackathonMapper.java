@@ -25,7 +25,7 @@ public class HackathonMapper {
                 hackathon.getJudge().getEmail(),
                 hackathon.getMentors().stream().map(Staff::getEmail).toList(),
                 hackathon.getTeams().stream().map(Team::getName).toList(),
-                hackathon.getWinner().getName()
+                hackathon.getWinner() == null ? null : hackathon.getWinner().getName()
         );
     }
 
@@ -44,7 +44,7 @@ public class HackathonMapper {
                 hackathon.getJudge().getEmail(),
                 hackathon.getMentors().stream().map(Staff::getEmail).toList(),
                 hackathon.getTeams().stream().map(Team::getName).toList(),
-                hackathon.getWinner().getName(),
+                hackathon.getWinner() == null ? null : hackathon.getWinner().getName(),
                 getStaffRole(hackathon, staffEmail)
         );
     }
