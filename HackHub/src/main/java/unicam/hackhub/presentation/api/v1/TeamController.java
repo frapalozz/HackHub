@@ -42,9 +42,16 @@ public class TeamController {
             @NotBlank(message = "UserEmail è obbligatorio")
             String userEmail
     ) {
+        String authEmail = getEmail();
+        if(userEmail.equals(authEmail)) {
+            return ResponseEntity
+                    .status(HttpStatus.CONFLICT)
+                    .body("Cannot invite self");
+        }
+
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(invitationHandler.inviteUser(userEmail, getEmail()));
+                .body(invitationHandler.inviteUser(userEmail, authEmail));
     }
 
     @RequestMapping(value = "/register/{hackathonId}", method = RequestMethod.POST)
