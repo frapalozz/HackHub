@@ -22,13 +22,13 @@ import unicam.hackhub.presentation.dto.request.UserRequest;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/v1/user")
+@PreAuthorize("hasRole('USER')")
 public class UserController {
 
     private final CreateTeamHandler createTeamHandler;
     private final InvitationHandler invitationHandler;
     private final UserHandler userHandler;
 
-    @PreAuthorize("hasRole('USER')")
     @RequestMapping(value = "/team", method = RequestMethod.POST)
     public ResponseEntity<Object> createTeam(@Validated @RequestBody TeamRequest teamRequest) {
          return ResponseEntity
@@ -36,7 +36,6 @@ public class UserController {
                  .body(createTeamHandler.createTeam(getEmail(), teamRequest.teamName(), teamRequest.emails()));
     }
 
-    @PreAuthorize("hasRole('USER')")
     @RequestMapping(value = "/invitations", method = RequestMethod.GET)
     public ResponseEntity<Object> getInvitations() {
         return ResponseEntity
@@ -44,7 +43,6 @@ public class UserController {
                 .body(invitationHandler.getInvitations(getEmail()));
     }
 
-    @PreAuthorize("hasRole('USER')")
     @RequestMapping(value = "/invitation/{teamName}", method = RequestMethod.GET)
     public ResponseEntity<Object> acceptInvitation(
             @PathVariable
@@ -55,7 +53,6 @@ public class UserController {
                 .body(invitationHandler.acceptInvitation(getEmail(), teamName));
     }
 
-    @PreAuthorize("hasRole('USER')")
     @RequestMapping(value = "/invitation/{teamName}", method = RequestMethod.DELETE)
     public ResponseEntity<Object> declineInvitation(
             @PathVariable
@@ -67,7 +64,6 @@ public class UserController {
                 .body(invitationHandler.declineInvitation(getEmail(), teamName));
     }
 
-    @PreAuthorize("hasRole('USER')")
     @RequestMapping(value = "/deleteProfile", method = RequestMethod.DELETE)
     public ResponseEntity<Object> removeProfile() {
         userHandler.deleteUser(getEmail());
@@ -76,7 +72,6 @@ public class UserController {
                 .body("Account deleted");
     }
 
-    @PreAuthorize("hasRole('USER')")
     @RequestMapping(value = "/updateProfile", method = RequestMethod.PUT)
     public ResponseEntity<Object> updateProfile(@Validated @RequestBody UserRequest userRequest) {
         userHandler.editProfile(getEmail(), userRequest.name(), userRequest.email());
