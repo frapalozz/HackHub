@@ -15,6 +15,7 @@ import unicam.hackhub.domain.team.model.Team;
 import unicam.hackhub.domain.team.repository.TeamRepository;
 import unicam.hackhub.domain.user.model.User;
 import unicam.hackhub.domain.user.repository.UserRepository;
+import unicam.hackhub.domain.utils.Role;
 import unicam.hackhub.infrastructure.security.JwtTokenUtil;
 import unicam.hackhub.presentation.dto.request.TeamRequest;
 
@@ -66,6 +67,7 @@ public class CreateTeamIntegrationTest {
 
         User updatedUser = userRepository.findById(user.getEmail()).orElse(null);
         assertThat(updatedUser).isNotNull();
+        assertThat(updatedUser.getRole()).isEqualTo(Role.TEAM_MEMBER);
         assertThat(updatedUser.hasTeam()).isTrue();
         assertThat(updatedUser.getTeam().getName()).isEqualTo("TeamIntegrazione");
     }
@@ -93,6 +95,7 @@ public class CreateTeamIntegrationTest {
 
         User updatedUser = userRepository.findById(user.getEmail()).orElseThrow();
         assertThat(updatedUser.hasTeam()).isTrue();
+        assertThat(updatedUser.getRole()).isEqualTo(Role.TEAM_MEMBER);
         assertThat(updatedUser.getTeam().getName()).isEqualTo("teamFantastico");
     }
 
@@ -123,6 +126,7 @@ public class CreateTeamIntegrationTest {
         // VERIFICA: il secondo utente NON ha team
         User updatedAnother = userRepository.findById(anotherUser.getEmail()).orElseThrow();
         assertThat(updatedAnother.hasTeam()).isFalse();
+        assertThat(updatedAnother.getRole()).isEqualTo(Role.USER);
         // Il team originale è ancora composto solo dal proprietario
         Team team = teamRepository.findById("teamOccupato").orElseThrow();
         assertThat(team.getMembers()).containsExactly(owner);
