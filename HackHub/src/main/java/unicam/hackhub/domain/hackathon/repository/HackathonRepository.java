@@ -14,4 +14,5 @@ public interface HackathonRepository extends
     boolean inActiveHackathon(Team team);
     List<Hackathon> findPublicHackathons();
     List<Hackathon> findAllByParticipatingTeam(String teamName);
+    Hackathon findHackathonOfSubmission(Long submissionId);
 }
