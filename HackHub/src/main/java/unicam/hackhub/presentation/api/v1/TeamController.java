@@ -27,6 +27,7 @@ import unicam.hackhub.presentation.dto.request.SupportRequest;
 @RestController
 @AllArgsConstructor
 @RequestMapping("/api/v1/team")
+@PreAuthorize("hasRole('TEAM_MEMBER')")
 public class TeamController {
 
     private final InvitationHandler invitationHandler;
@@ -35,7 +36,6 @@ public class TeamController {
     private final HackathonViewHandler hackathonViewHandler;
     private final CalendarService calendarService;
 
-    @PreAuthorize("hasRole('TEAM_MEMBER')")
     @RequestMapping(value = "/invite", method = RequestMethod.POST)
     public ResponseEntity<Object> inviteUser(
             @RequestParam
@@ -47,7 +47,6 @@ public class TeamController {
                 .body(invitationHandler.inviteUser(userEmail, getEmail()));
     }
 
-    @PreAuthorize("hasRole('TEAM_MEMBER')")
     @RequestMapping(value = "/register/{hackathonId}", method = RequestMethod.POST)
     public ResponseEntity<Object> registerTeam(
             @PathVariable
@@ -60,7 +59,6 @@ public class TeamController {
                 .body(registerTeamHandler.registerTeam(getEmail(), hackathonId));
     }
 
-    @PreAuthorize("hasRole('TEAM_MEMBER')")
     @RequestMapping(value = "/hackathon/{hackathonId}", method = RequestMethod.POST)
     public ResponseEntity<Object> addSubmission(
             @PathVariable
@@ -74,7 +72,6 @@ public class TeamController {
                 .body(submissionHandler.addSubmission(getEmail(), hackathonId, new Submission(request.url())));
     }
 
-    @PreAuthorize("hasRole('TEAM_MEMBER')")
     @RequestMapping(value = "/hackathon/{hackathonId}", method = RequestMethod.PUT)
     public ResponseEntity<Object> updateSubmission(
             @PathVariable
@@ -88,7 +85,6 @@ public class TeamController {
                 .body(submissionHandler.updateSubmission(getEmail(), hackathonId, new Submission(request.url())));
     }
 
-    @PreAuthorize("hasRole('TEAM_MEMBER')")
     @RequestMapping(value = "/mentor_availability", method = RequestMethod.GET)
     public ResponseEntity<Object> getMentorAvailability(@RequestBody MentorAvailabilityRequest request) {
         return ResponseEntity
@@ -96,7 +92,6 @@ public class TeamController {
                 .body(calendarService.getFreeSlots(request.mentorEmail(), request.date()));
     }
 
-    @PreAuthorize("hasRole('TEAM_MEMBER')")
     @RequestMapping(value = "/support", method = RequestMethod.POST)
     public ResponseEntity<Object> requestSupport(@RequestBody SupportRequest request) {
         return ResponseEntity
@@ -110,7 +105,6 @@ public class TeamController {
                 );
     }
 
-    @PreAuthorize("hasRole('TEAM_MEMBER')")
     @RequestMapping(value = "/hackathon/{hackathonId}", method = RequestMethod.GET)
     public ResponseEntity<Object> getSubmission(
             @NonNull
@@ -122,7 +116,6 @@ public class TeamController {
                 .body(hackathonViewHandler.getSubmissionTeam(getEmail(), hackathonId));
     }
 
-    @PreAuthorize("hasRole('TEAM_MEMBER')")
     @RequestMapping(value = "/hackathons", method = RequestMethod.GET)
     public ResponseEntity<Object> getHackathons() {
         return ResponseEntity
