@@ -35,7 +35,7 @@ public class HackathonViewHandlerImpl implements HackathonViewHandler {
     private final HackathonMapper hackathonMapper;
 
     @Override
-    public List<HackathonResponse> getHackathons() {
+    public List<HackathonResponse> getPublicHackathons() {
         return hackathonRepository.findPublicHackathons().stream().map(hackathonMapper::hackathonToHackathonResponse).collect(Collectors.toList());
     }
 

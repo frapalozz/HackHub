@@ -1,6 +1,5 @@
 package unicam.hackhub.application.dto.mapper;
 
-import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Component;
 import unicam.hackhub.application.dto.response.AssignedHackathonResponse;
 import unicam.hackhub.application.dto.response.HackathonResponse;

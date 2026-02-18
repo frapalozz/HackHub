@@ -11,7 +11,7 @@ import java.util.List;
 
 public interface HackathonViewHandler {
 
-    List<HackathonResponse> getHackathons();
+    List<HackathonResponse> getPublicHackathons();
     HackathonResponse getHackathonDetails(Long hackathonId);
     List<Report> getReports(String staffEmail);
     List<SupportRequest> getSupportRequests(String staffEmail);
