@@ -78,7 +78,13 @@ public class StaffController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(submissionHandler
-                        .valuateSubmission(getEmail(), hackathonId, teamName, request.vote(), request.message()));
+                        .valuateSubmission(
+                                getEmail(),
+                                hackathonId,
+                                teamName,
+                                request.vote(),
+                                request.message()
+                        ));
     }
 
     @RequestMapping(value = "/hackathon/{hackathonId}/{teamName}", method = RequestMethod.PUT)
@@ -95,7 +101,13 @@ public class StaffController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(submissionHandler
-                        .editValuation(getEmail(), hackathonId, teamName, request.vote(), request.message()));
+                        .editValuation(
+                                getEmail(),
+                                hackathonId,
+                                teamName,
+                                request.vote(),
+                                request.message()
+                        ));
     }
 
     @RequestMapping(value = "/report", method = RequestMethod.POST)
