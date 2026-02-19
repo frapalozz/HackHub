@@ -19,6 +19,7 @@ import unicam.hackhub.application.hackathon.SubmissionHandler;
 import unicam.hackhub.application.report.ReportHandler;
 import unicam.hackhub.application.supportRequest.CalendarService;
 import unicam.hackhub.presentation.dto.mapper.HackathonMapper;
+import unicam.hackhub.presentation.dto.mapper.SupportRequestMapper;
 import unicam.hackhub.presentation.dto.request.*;
 
 @Validated
@@ -34,7 +35,9 @@ public class StaffController {
     private final ReportHandler reportHandler;
     private final HackathonViewHandler hackathonViewHandler;
     private final CalendarService calendarService;
+
     private final HackathonMapper hackathonMapper;
+    private final SupportRequestMapper supportRequestMapper;
 
     @RequestMapping(value = "/hackathon", method = RequestMethod.POST)
     public ResponseEntity<Object> createHackathon(@Valid @RequestBody HackathonRequest request) {
@@ -159,14 +162,16 @@ public class StaffController {
     ) {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(hackathonViewHandler.getSubmissionStaff(getEmail(), submissionId));
+                .body(hackathonViewHandler.getSubmissionStaff(getEmail(), hackathonId, submissionId));
     }
 
     @RequestMapping(value = "/supportRequests", method = RequestMethod.GET)
     public ResponseEntity<Object> getSupportRequests() {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(hackathonViewHandler.getSupportRequests(getEmail()));
+                .body(hackathonViewHandler.getSupportRequests(getEmail())
+                        .stream()
+                        .map(supportRequestMapper::supportRequestToSupportRequestResponse));
     }
 
     @RequestMapping(value = "/reports", method = RequestMethod.GET)

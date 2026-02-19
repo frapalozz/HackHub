@@ -18,7 +18,7 @@ public interface HackathonViewHandler {
     List<HackathonResponse> getAllHackathons();
     List<Submission> getSubmissions(String staffEmail, Long hackathonId);
     List<AssignedHackathonResponse> getAssignedHackathons(String staffEmail);
-    Submission getSubmissionStaff(String staffEmail, Long submissionId);
+    Submission getSubmissionStaff(String staffEmail, Long hackathonId, Long submissionId);
     List<HackathonResponse> getParticipatingHackathons(String user);
     Submission getSubmissionTeam(String user, Long hackathonId);
 }
