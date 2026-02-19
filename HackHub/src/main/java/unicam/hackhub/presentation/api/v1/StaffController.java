@@ -19,6 +19,7 @@ import unicam.hackhub.application.hackathon.SubmissionHandler;
 import unicam.hackhub.application.report.ReportHandler;
 import unicam.hackhub.application.supportRequest.CalendarService;
 import unicam.hackhub.presentation.dto.mapper.HackathonMapper;
+import unicam.hackhub.presentation.dto.mapper.ReportMapper;
 import unicam.hackhub.presentation.dto.mapper.SupportRequestMapper;
 import unicam.hackhub.presentation.dto.request.*;
 
@@ -38,6 +39,7 @@ public class StaffController {
 
     private final HackathonMapper hackathonMapper;
     private final SupportRequestMapper supportRequestMapper;
+    private final ReportMapper reportMapper;
 
     @RequestMapping(value = "/hackathon", method = RequestMethod.POST)
     public ResponseEntity<Object> createHackathon(@Valid @RequestBody HackathonRequest request) {
@@ -178,7 +180,8 @@ public class StaffController {
     public ResponseEntity<Object> getReports() {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(hackathonViewHandler.getReports(getEmail()));
+                .body(hackathonViewHandler.getReports(getEmail())
+                        .stream().map(reportMapper::reportToReportResponse));
     }
 
     private String getEmail() {

@@ -12,6 +12,6 @@ public interface JpaReportRepository extends JpaRepository<Report, Long>, Report
 
     @Override
     @Query("SELECT DISTINCT r FROM Report r JOIN r.hackathon h LEFT JOIN h.mentors m " +
-            "WHERE h.organizer.email = :email OR h.judge.email = :email OR m.email = :email")
+            "WHERE h.organizer.email = :email OR m.email = :email")
     List<Report> findAllWhereIsStaff(@Param("email") String staffEmail);
 }

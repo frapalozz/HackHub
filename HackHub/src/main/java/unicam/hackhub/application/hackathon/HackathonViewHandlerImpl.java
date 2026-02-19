@@ -50,13 +50,8 @@ public class HackathonViewHandlerImpl implements HackathonViewHandler {
 
     @Override
     public List<Report> getReports(String staffEmail) {
-        List<Report> reports = reportRepository.findAllWhereIsStaff(staffEmail);
 
-        if(reports.isEmpty()) {
-            throw new IllegalArgumentException("No reports");
-        }
-
-        return reports;
+        return reportRepository.findAllWhereIsStaff(staffEmail);
     }
 
     @Override
