@@ -25,6 +25,7 @@ public class CreateHackathonHandlerImpl implements CreateHackathonHandler {
     public String createHackathon(CreateHackathonRequest request) {
 
         checkLogicDateOrder(request);
+        checkSelfStaff(request);
 
         Staff organizer = staffRepository.findById(request.organizerEmail()).orElse(null);
         Staff judge = staffRepository.findById(request.judgeEmail()).orElse(null);
@@ -62,6 +63,18 @@ public class CreateHackathonHandlerImpl implements CreateHackathonHandler {
         if (request.subscriptionDeadline().isAfter(request.hackathonPeriod().startDate()) ||
             request.subscriptionDeadline().isEqual(request.hackathonPeriod().startDate())) {
             throw new IllegalStateException("Dates order not valid");
+        }
+    }
+
+    private void checkSelfStaff(CreateHackathonRequest request) {
+        if(request.organizerEmail().equals(request.judgeEmail())) {
+            throw new IllegalStateException("Staff cannot be self");
+        }
+        if(request.mentorsEmails().stream().anyMatch(e -> e.equals(request.organizerEmail()))) {
+            throw new IllegalStateException("Staff cannot be self");
+        }
+        if(request.mentorsEmails().stream().anyMatch(e -> e.equals(request.judgeEmail()))) {
+            throw new IllegalStateException("judge cannot be also mentor");
         }
     }
     
