@@ -1,9 +1,7 @@
-package unicam.hackhub.team;
+package unicam.hackhub.submission;
 
 import jakarta.transaction.Transactional;
-import org.hibernate.validator.internal.constraintvalidators.bv.AssertTrueValidator;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
@@ -56,8 +54,6 @@ public class AddSubmissionIntegrationTest {
     private TeamRepository teamRepository;
     @Autowired
     private HackathonRepository hackathonRepository;
-    @Autowired
-    private SubmissionRepository submissionRepository;
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Test
@@ -150,6 +146,8 @@ public class AddSubmissionIntegrationTest {
         Hackathon a = hackathonRepository.findById(hackathon.getId()).get();
         assertThat(a.getSubmission(team.getName())).isNull();
     }
+
+
 
     private Hackathon createTestHackathon(LocalDate subscriptionDeadline, Period period, int max, HackathonStatus state) {
         Staff organizer = new Staff("organizer", "organizer@test.it", "password");
