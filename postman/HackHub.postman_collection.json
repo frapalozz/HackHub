@@ -14,20 +14,13 @@
           "name": "login",
           "request": {
             "auth": {
-              "type": "bearer",
-              "bearer": [
-                {
-                  "key": "token",
-                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiU1RBRkYiLCJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9TVEFGRiJ9XSwibmFtZSI6ImpvaG4iLCJlbWFpbCI6ImpvaG5Ac3RhZmYuY29tIiwic3ViIjoiam9obkBzdGFmZi5jb20iLCJpYXQiOjE3NzEyNTcxODIsImV4cCI6MTc3OTg5NzE4Mn0.67_nZ8oY_vZN3mU_s_UR7xYjT7zcMMShWh6utIvXwhk",
-                  "type": "string"
-                }
-              ]
+              "type": "noauth"
             },
             "method": "POST",
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "\r\n/*\r\n{\r\n    \"email\": \"alex@user.com\",\r\n    \"password\": \"password\",\r\n    \"type\": \"user\"\r\n}\r\n*/\r\n\r\n{\r\n    \"email\": \"john@staff.com\",\r\n    \"password\": \"password\",\r\n    \"type\": \"staff\"\r\n}",
+              "raw": "{\r\n    \"email\": \"john@staff.com\",\r\n    \"password\": \"password\",\r\n    \"type\": \"staff\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -58,7 +51,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"email\": \"testUser@user.com\",\r\n    \"password\": \"password\",\r\n    \"name\": \"testUser\",\r\n    \"type\": \"user\"\r\n}",
+              "raw": "{\r\n    \"email\": \"testUser@staff.com\",\r\n    \"password\": \"password\",\r\n    \"name\": \"testUser\",\r\n    \"type\": \"staff\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -181,6 +174,16 @@
         {
           "name": "Get Invitations",
           "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsInJvbGVzIjpbeyJhdXRob3JpdHkiOiJST0xFX1VTRVIifV0sIm5hbWUiOiJqYW5lIiwiZW1haWwiOiJqYW5lQHVzZXIuY29tIiwic3ViIjoiamFuZUB1c2VyLmNvbSIsImlhdCI6MTc3MTQyNTkyMiwiZXhwIjoxNzgwMDY1OTIyfQ.1BfSr6E2oK__HeCB4ha1Oy46EJaH-9-8EjCb7tYgGzM",
+                  "type": "string"
+                }
+              ]
+            },
             "method": "GET",
             "header": [],
             "url": {
@@ -249,6 +252,16 @@
         {
           "name": "remove profile",
           "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVEVBTV9NRU1CRVIiLCJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9URUFNX01FTUJFUiJ9XSwibmFtZSI6ImFsZXgiLCJlbWFpbCI6ImFsZXhAdXNlci5jb20iLCJzdWIiOiJhbGV4QHVzZXIuY29tIiwiaWF0IjoxNzcxNDIyODUwLCJleHAiOjE3ODAwNjI4NTB9.T3QJdFl33y_QREJziTYYbOX0x76eG2EH4TZ3j2LrLPM",
+                  "type": "string"
+                }
+              ]
+            },
             "method": "DELETE",
             "header": [],
             "url": {
@@ -271,11 +284,21 @@
         {
           "name": "update profile",
           "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsInJvbGVzIjpbeyJhdXRob3JpdHkiOiJST0xFX1VTRVIifV0sIm5hbWUiOiJqYW5lIiwiZW1haWwiOiJqYW5lQHVzZXIuY29tIiwic3ViIjoiamFuZUB1c2VyLmNvbSIsImlhdCI6MTc3MTQyMjQ0NywiZXhwIjoxNzgwMDYyNDQ3fQ.5vjhq0A5evVKMHPHs5YUXWkZngdaApWYyw5PK7oE2u8",
+                  "type": "string"
+                }
+              ]
+            },
             "method": "PUT",
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"email\": \"new@email.com\",\r\n    \"name\": \"newname\"\r\n}",
+              "raw": "{\r\n    \"name\": \"newname\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -312,7 +335,7 @@
               "bearer": [
                 {
                   "key": "token",
-                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVEVBTV9NRU1CRVIiLCJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9URUFNX01FTUJFUiJ9XSwibmFtZSI6ImFsZXgiLCJlbWFpbCI6ImFsZXhAdXNlci5jb20iLCJzdWIiOiJhbGV4QHVzZXIuY29tIiwiaWF0IjoxNzcxMjU2NjA4LCJleHAiOjE3Nzk4OTY2MDh9.FH9FZqfXCM8R-LcxtTIU7So6CEB0IWx4Klx8e1DlW8A",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVEVBTV9NRU1CRVIiLCJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9URUFNX01FTUJFUiJ9XSwibmFtZSI6ImFsZXgiLCJlbWFpbCI6ImFsZXhAdXNlci5jb20iLCJzdWIiOiJhbGV4QHVzZXIuY29tIiwiaWF0IjoxNzcxNDI2MTM3LCJleHAiOjE3ODAwNjYxMzd9.-DhxOk4JqHfCY5jZWLjcVII9u037leco12MoxmpsKCE",
                   "type": "string"
                 }
               ]
@@ -329,7 +352,7 @@
               }
             },
             "url": {
-              "raw": "http://localhost:8888/api/v1/team/invite?userEmail={invitedUserEmail}",
+              "raw": "http://localhost:8888/api/v1/team/invite?userEmail=jane@user.com",
               "protocol": "http",
               "host": [
                 "localhost"
@@ -344,7 +367,7 @@
               "query": [
                 {
                   "key": "userEmail",
-                  "value": "{invitedUserEmail}"
+                  "value": "jane@user.com"
                 }
               ]
             }
@@ -529,7 +552,7 @@
               "bearer": [
                 {
                   "key": "token",
-                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVEVBTV9NRU1CRVIiLCJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9URUFNX01FTUJFUiJ9XSwibmFtZSI6ImFsZXgiLCJlbWFpbCI6ImFsZXhAdXNlci5jb20iLCJzdWIiOiJhbGV4QHVzZXIuY29tIiwiaWF0IjoxNzcxMjU2NjA4LCJleHAiOjE3Nzk4OTY2MDh9.FH9FZqfXCM8R-LcxtTIU7So6CEB0IWx4Klx8e1DlW8A",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVEVBTV9NRU1CRVIiLCJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9URUFNX01FTUJFUiJ9XSwibmFtZSI6ImFsZXgiLCJlbWFpbCI6ImFsZXhAdXNlci5jb20iLCJzdWIiOiJhbGV4QHVzZXIuY29tIiwiaWF0IjoxNzcxNTAxMDY1LCJleHAiOjE3ODAxNDEwNjV9.INVYdgPtKOO0kzpDQKSlQQ1vey8hXCBnmmtmNTeNg78",
                   "type": "string"
                 }
               ]
@@ -538,7 +561,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"hackathonId\": 2,\r\n    \"mentorEmail\": \"alex@staff.com\",\r\n    \"slot\": {\r\n        \"startTime\": \"15:00\",\r\n        \"endTime\": \"16:00\"\r\n    },\r\n    \"date\": \"2026-02-16\"\r\n}",
+              "raw": "{\r\n    \"hackathonId\": 2,\r\n    \"mentorEmail\": \"alex@staff.com\",\r\n    \"slot\": {\r\n        \"startTime\": \"09:00\",\r\n        \"endTime\": \"10:00\"\r\n    },\r\n    \"date\": \"2026-02-16\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -776,7 +799,7 @@
               "bearer": [
                 {
                   "key": "token",
-                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiU1RBRkYiLCJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9TVEFGRiJ9XSwibmFtZSI6ImFsZXgiLCJlbWFpbCI6ImFsZXhAc3RhZmYuY29tIiwic3ViIjoiYWxleEBzdGFmZi5jb20iLCJpYXQiOjE3NzEyNTY5MzUsImV4cCI6MTc3OTg5NjkzNX0.NSXViPvzYE80JVi9BgU-K4AzTtfiVXiaMs62JMyPl1s",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiU1RBRkYiLCJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9TVEFGRiJ9XSwibmFtZSI6ImFsZXgiLCJlbWFpbCI6ImFsZXhAc3RhZmYuY29tIiwic3ViIjoiYWxleEBzdGFmZi5jb20iLCJpYXQiOjE3NzE1MDExNzAsImV4cCI6MTc4MDE0MTE3MH0.xn2i0QrEMrhsoq0y7hDb-USADYpyvCShpBoq_jJ6k0Y",
                   "type": "string"
                 }
               ]
@@ -867,7 +890,7 @@
               }
             },
             "url": {
-              "raw": "http://localhost:8888/api/v1/staff/support_request/{requestId}/accept",
+              "raw": "http://localhost:8888/api/v1/staff/support_request/2/accept",
               "protocol": "http",
               "host": [
                 "localhost"
@@ -878,7 +901,7 @@
                 "v1",
                 "staff",
                 "support_request",
-                "{requestId}",
+                "2",
                 "accept"
               ]
             }
@@ -922,6 +945,16 @@
         {
           "name": "Get All Hackathon in System",
           "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiU1RBRkYiLCJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9TVEFGRiJ9XSwibmFtZSI6ImFsZXgiLCJlbWFpbCI6ImFsZXhAc3RhZmYuY29tIiwic3ViIjoiYWxleEBzdGFmZi5jb20iLCJpYXQiOjE3NzE0OTk4NDgsImV4cCI6MTc4MDEzOTg0OH0.9GSWKcZjZiZIHLZJlri269LcwEmSrtIzect47TA-sxY",
+                  "type": "string"
+                }
+              ]
+            },
             "method": "GET",
             "header": [],
             "url": {
@@ -944,6 +977,16 @@
         {
           "name": "Get assigned hackathons",
           "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiU1RBRkYiLCJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9TVEFGRiJ9XSwibmFtZSI6ImFsZXgiLCJlbWFpbCI6ImFsZXhAc3RhZmYuY29tIiwic3ViIjoiYWxleEBzdGFmZi5jb20iLCJpYXQiOjE3NzE0OTk4NDgsImV4cCI6MTc4MDEzOTg0OH0.9GSWKcZjZiZIHLZJlri269LcwEmSrtIzect47TA-sxY",
+                  "type": "string"
+                }
+              ]
+            },
             "method": "GET",
             "header": [],
             "url": {
@@ -967,10 +1010,20 @@
         {
           "name": "Get Submissions of Hackathon",
           "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "hackathonRepository.findAllWhereIsStaff(staffEmail)",
+                  "type": "string"
+                }
+              ]
+            },
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://localhost:8888/api/v1/staff/hackathon/{hackathonId}/submissions",
+              "raw": "http://localhost:8888/api/v1/staff/hackathon/4/submissions",
               "protocol": "http",
               "host": [
                 "localhost"
@@ -981,7 +1034,7 @@
                 "v1",
                 "staff",
                 "hackathon",
-                "{hackathonId}",
+                "4",
                 "submissions"
               ]
             }
@@ -991,10 +1044,20 @@
         {
           "name": "Get Submission Details",
           "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiU1RBRkYiLCJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9TVEFGRiJ9XSwibmFtZSI6ImFsZXgiLCJlbWFpbCI6ImFsZXhAc3RhZmYuY29tIiwic3ViIjoiYWxleEBzdGFmZi5jb20iLCJpYXQiOjE3NzE1MDA0MzUsImV4cCI6MTc4MDE0MDQzNX0.r3deLiSzdtNwFYbk6wZic-r8B9OePbmEzwnhGdFuexw",
+                  "type": "string"
+                }
+              ]
+            },
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://localhost:8888/api/v1/staff/hackathon/{hackathonId}/submissions/{submissionId}",
+              "raw": "http://localhost:8888/api/v1/staff/hackathon/3/submissions/1",
               "protocol": "http",
               "host": [
                 "localhost"
@@ -1005,9 +1068,73 @@
                 "v1",
                 "staff",
                 "hackathon",
-                "{hackathonId}",
+                "3",
                 "submissions",
-                "{submissionId}"
+                "1"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Support Requests",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiU1RBRkYiLCJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9TVEFGRiJ9XSwibmFtZSI6ImFsZXgiLCJlbWFpbCI6ImFsZXhAc3RhZmYuY29tIiwic3ViIjoiYWxleEBzdGFmZi5jb20iLCJpYXQiOjE3NzE1MDExNzAsImV4cCI6MTc4MDE0MTE3MH0.xn2i0QrEMrhsoq0y7hDb-USADYpyvCShpBoq_jJ6k0Y",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8888/api/v1/staff/supportRequests",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8888",
+              "path": [
+                "api",
+                "v1",
+                "staff",
+                "supportRequests"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Get Reports",
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiU1RBRkYiLCJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9TVEFGRiJ9XSwibmFtZSI6ImpvaG4iLCJlbWFpbCI6ImpvaG5Ac3RhZmYuY29tIiwic3ViIjoiam9obkBzdGFmZi5jb20iLCJpYXQiOjE3NzE1MDIzNDcsImV4cCI6MTc4MDE0MjM0N30.IIG56jtyb6KeP15ZG_TN9AQHHLW22bRwUyfhS_NGbmY",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "http://localhost:8888/api/v1/staff/reports",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "port": "8888",
+              "path": [
+                "api",
+                "v1",
+                "staff",
+                "reports"
               ]
             }
           },
