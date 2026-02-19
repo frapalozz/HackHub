@@ -47,6 +47,8 @@ public class HackathonHandlerImpl implements HackathonHandler {
             throw new AccessDeniedException("Access denied");
         }
 
+        checkStaffAlreadyPresent(mentorsList, hackathon);
+
         List<Staff> mentors = staffRepository.findAllById(mentorsList);
 
         if(mentors.size() != mentorsList.size()) {
@@ -66,5 +68,15 @@ public class HackathonHandlerImpl implements HackathonHandler {
         }
 
         return hackathon;
+    }
+
+    private void checkStaffAlreadyPresent(List<String> emailList, Hackathon hackathon) {
+        if(emailList.stream()
+                .anyMatch(e -> e.equals(hackathon.getOrganizer().getEmail()) ||
+                                      e.equals(hackathon.getJudge().getEmail()) ||
+                                      hackathon.getMentors().stream()
+                                              .anyMatch(m -> m.getEmail().equals(e)))) {
+            throw new IllegalArgumentException("Staff already exists in hackathon");
+        }
     }
 }
