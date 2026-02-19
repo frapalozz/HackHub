@@ -13,6 +13,7 @@ import tools.jackson.databind.ObjectMapper;
 import unicam.hackhub.config.DataInitializer;
 import unicam.hackhub.domain.hackathon.model.Hackathon;
 import unicam.hackhub.domain.hackathon.model.Submission;
+import unicam.hackhub.domain.hackathon.model.Valuation;
 import unicam.hackhub.domain.hackathon.model.state.HackathonStatus;
 import unicam.hackhub.domain.hackathon.repository.HackathonRepository;
 import unicam.hackhub.domain.hackathon.repository.SubmissionRepository;
@@ -34,13 +35,13 @@ import java.util.Map;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @Transactional
 @AutoConfigureMockMvc
-public class AddValuationIntegrationTest {
+public class EditValuationIntegrationTest {
 
     @Autowired
     MockMvc mockMvc;
@@ -62,88 +63,79 @@ public class AddValuationIntegrationTest {
     private final ObjectMapper objectMapper = new ObjectMapper();
 
     @Test
-    void addValuation_Success_ShouldReturn200() throws Exception {
+    void editValuation_Success_ShouldReturn200() throws Exception {
 
         // ARRANGE
         Staff judge = staffRepository.save(new Staff("judge", "judge@test.it", "password"));
         Team team = createTestTeam(createUser("Gino","gino@gino.it"));
-        Hackathon hackathon = createTestHackathon(LocalDate.now().minusDays(3)
-                ,new Period(LocalDate.now().minusDays(2),LocalDate.now().minusDays(1)),
-                new HackathonStatus(HackathonStatus.HackathonStateType.EVALUATION), team, new Submission("test.url"),
-                judge);
+        Hackathon hackathon = createTestHackathon(
+                new HackathonStatus(HackathonStatus.HackathonStateType.EVALUATION),
+                team,
+                new Submission("test.url"),
+                judge, true);
 
-        ValuateSubmissionRequest request = new ValuateSubmissionRequest(5, "good submission");
+        ValuateSubmissionRequest request = new ValuateSubmissionRequest(3, "good submission");
 
         // ACT
-        mockMvc.perform(post(path + hackathon.getId() + "/" + team.getName())
+        mockMvc.perform(put(path + hackathon.getId() + "/" + team.getName())
                         .header("Authorization","Bearer "+getToken(judge))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isOk())
-                .andExpect(content().string("Valuation added"));
+                .andExpect(content().string("Valuation updated"));
 
         // ASSERT
         Submission submission = hackathonRepository.findById(hackathon.getId())
                 .orElseThrow(IllegalArgumentException::new)
                 .getSubmission(team);
-        assertThat(submission.getValuation()).isNotNull();
+        assertThat(submission.getValuation().getVote()).isEqualTo(3);
     }
 
     @Test
-    void addValuation_AlreadyPresent_ShouldReturn409() throws Exception {
+    void editValuation_ValuationNotPresent_ShouldReturn400() throws Exception {
 
         // ARRANGE
         Staff judge = staffRepository.save(new Staff("judge", "judge@test.it", "password"));
         Team team = createTestTeam(createUser("Gino","gino@gino.it"));
-        Hackathon hackathon = createTestHackathon(LocalDate.now().minusDays(3)
-                ,new Period(LocalDate.now().minusDays(2),LocalDate.now().minusDays(1)),
-                new HackathonStatus(HackathonStatus.HackathonStateType.EVALUATION), team, new Submission("test.url"),
-                judge);
+        Hackathon hackathon = createTestHackathon(
+                new HackathonStatus(HackathonStatus.HackathonStateType.EVALUATION),
+                team,
+                new Submission("test.url"),
+                judge, false);
 
-        ValuateSubmissionRequest request = new ValuateSubmissionRequest(5, "good submission");
+        ValuateSubmissionRequest request = new ValuateSubmissionRequest(3, "good submission");
 
         // ACT
-        mockMvc.perform(post(path + hackathon.getId() + "/" + team.getName())
+        mockMvc.perform(put(path + hackathon.getId() + "/" + team.getName())
                         .header("Authorization","Bearer "+getToken(judge))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
-                .andExpect(status().isOk())
-                .andExpect(content().string("Valuation added"));
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message").value("Submission not valuated"));
 
         // ASSERT
         Submission submission = hackathonRepository.findById(hackathon.getId())
                 .orElseThrow(IllegalArgumentException::new)
                 .getSubmission(team);
-        assertThat(submission.getValuation()).isNotNull();
-
-        request = new ValuateSubmissionRequest(3, "good submission");
-
-        mockMvc.perform(post(path + hackathon.getId() + "/" + team.getName())
-                        .header("Authorization","Bearer "+getToken(judge))
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content(objectMapper.writeValueAsString(request)))
-                .andExpect(status().isConflict())
-                .andExpect(jsonPath("$.message").value("Valuation already exists"));
-
-        submission = submissionRepository.findById(1L).orElseThrow(IllegalArgumentException::new);
-        assertThat(submission.getValuation().getVote()).isEqualTo(5);
+        assertThat(submission.getValuation()).isNull();
     }
 
     @Test
-    void addValuation_HackathonNotFound_ShouldReturn404() throws Exception {
+    void editValuation_HackathonNotFound_ShouldReturn404() throws Exception {
 
         // ARRANGE
         Staff judge = staffRepository.save(new Staff("judge", "judge@test.it", "password"));
         Team team = createTestTeam(createUser("Gino","gino@gino.it"));
-        Hackathon hackathon = createTestHackathon(LocalDate.now().minusDays(3)
-                ,new Period(LocalDate.now().minusDays(2),LocalDate.now().minusDays(1)),
-                new HackathonStatus(HackathonStatus.HackathonStateType.EVALUATION), team, new Submission("test.url"),
-                judge);
+        Hackathon hackathon = createTestHackathon(
+                new HackathonStatus(HackathonStatus.HackathonStateType.EVALUATION),
+                team,
+                new Submission("test.url"),
+                judge, true);
 
-        ValuateSubmissionRequest request = new ValuateSubmissionRequest(5, "good submission");
+        ValuateSubmissionRequest request = new ValuateSubmissionRequest(3, "good submission");
 
         // ACT
-        mockMvc.perform(post(path + (hackathon.getId()-1) + "/" + team.getName())
+        mockMvc.perform(put(path + (hackathon.getId()+999) + "/" + team.getName())
                         .header("Authorization","Bearer "+getToken(judge))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
@@ -152,29 +144,31 @@ public class AddValuationIntegrationTest {
     }
 
     @Test
-    void addValuation_SubmissionNotFound_ShouldReturn404() throws Exception {
+    void editValuation_SubmissionNotFound_ShouldReturn404() throws Exception {
 
         // ARRANGE
         Staff judge = staffRepository.save(new Staff("judge", "judge@test.it", "password"));
         Team team = createTestTeam(createUser("Gino","gino@gino.it"));
-        Hackathon hackathon = createTestHackathon(LocalDate.now().minusDays(3)
-                ,new Period(LocalDate.now().minusDays(2),LocalDate.now().minusDays(1)),
-                new HackathonStatus(HackathonStatus.HackathonStateType.EVALUATION), team, new Submission("test.url"),
-                judge);
+        Hackathon hackathon = createTestHackathon(
+                new HackathonStatus(HackathonStatus.HackathonStateType.EVALUATION),
+                team,
+                new Submission("test.url"),
+                judge, true);
 
-        ValuateSubmissionRequest request = new ValuateSubmissionRequest(5, "good submission");
+        ValuateSubmissionRequest request = new ValuateSubmissionRequest(3, "good submission");
 
         // ACT
-        mockMvc.perform(post(path + hackathon.getId() + "/" + team.getName()+"ssd")
+        mockMvc.perform(put(path + hackathon.getId() + "/" + team.getName()+"gdwdg")
                         .header("Authorization","Bearer "+getToken(judge))
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(request)))
                 .andExpect(status().isNotFound())
                 .andExpect(jsonPath("$.message").value("Submission not found"));
+
     }
 
-    private Hackathon createTestHackathon(LocalDate subscriptionDeadline, Period period, HackathonStatus state,
-                                          Team team, Submission sub, Staff judge) {
+    private Hackathon createTestHackathon(HackathonStatus state,
+                                          Team team, Submission sub, Staff judge, boolean val) {
         Staff organizer = new Staff("organizer", "organizer@test.it", "password");
         Staff mentor1 = new Staff("mentor1", "mentor1@test.it", "password");
         Staff mentor2 = new Staff("mentor2", "mentor2@test.it", "password");
@@ -183,6 +177,9 @@ public class AddValuationIntegrationTest {
         staffRepository.save(organizer);
         staffRepository.save(mentor1);
         staffRepository.save(mentor2);
+
+        if(val)
+            sub.setValuation(new Valuation(5, "descr"));
 
         Set<Staff> mentors = new HashSet<>();
         mentors.add(mentor1);
@@ -196,8 +193,8 @@ public class AddValuationIntegrationTest {
 
         Hackathon hackathon = Hackathon.builder()
                 .name("Hackathon Test")
-                .subscriptionDeadline(subscriptionDeadline)
-                .hackathonPeriod(period)
+                .subscriptionDeadline(LocalDate.now().minusDays(3))
+                .hackathonPeriod(new Period(LocalDate.now().minusDays(2),LocalDate.now().minusDays(1)))
                 .maxTeamSize(4)
                 .requirements("Regolamento...")
                 .prize(1000.0)
@@ -220,7 +217,7 @@ public class AddValuationIntegrationTest {
 
     private Team createTestTeam(User user) {
         User user2 = createUser("user2", "user2@test.it");
-        Team team = new Team("IGiniss", user);
+        Team team = new Team("temssss", user);
         team.addMember(user2);
         team = teamRepository.save(team);
         user.setTeam(team);
