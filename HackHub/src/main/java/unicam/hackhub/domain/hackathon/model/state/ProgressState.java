@@ -1,6 +1,7 @@
 package unicam.hackhub.domain.hackathon.model.state;
 
 import unicam.hackhub.domain.hackathon.model.Hackathon;
+import unicam.hackhub.domain.hackathon.model.Report;
 import unicam.hackhub.domain.hackathon.model.Submission;
 import unicam.hackhub.domain.team.model.Team;
 
@@ -46,5 +47,23 @@ public class ProgressState extends AbstractHackathonState {
                 hackathon.getHackathonPeriod().endDate().isBefore(LocalDate.now())) {
             hackathon.changeState(hackathon.getStatus().getNextState());
         }
+    }
+
+    @Override
+    public Report buildReport(String mentorEmail, Team team, String description) {
+
+        if(!hackathon.hasTeam(team)) {
+            throw new IllegalArgumentException("Team not in hackathon");
+        }
+
+        if(hackathon.getMentors().stream().noneMatch(m -> m.getEmail().equals(mentorEmail))) {
+            throw new IllegalArgumentException("Mentor not in hackathon");
+        }
+
+        return Report.builder()
+                .team(team)
+                .hackathon(hackathon)
+                .description(description)
+                .build();
     }
 }

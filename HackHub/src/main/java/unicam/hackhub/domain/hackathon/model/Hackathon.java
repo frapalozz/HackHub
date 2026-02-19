@@ -184,6 +184,14 @@ public class Hackathon {
         return this.state.inProgress();
     }
 
+    // =====================================
+    // State Methods
+    // =====================================
+
+    public Report buildReport(String mentorEmail, Team team, String description) {
+        return this.state.buildReport(mentorEmail, team, description);
+    }
+
 
     // =====================================
     // Private Methods

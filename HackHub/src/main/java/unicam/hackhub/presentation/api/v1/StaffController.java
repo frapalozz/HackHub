@@ -103,7 +103,12 @@ public class StaffController {
 
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(reportHandler.report(getEmail(), request.teamName(), request.hackathonId(), request.description()));
+                .body(reportHandler.report(
+                        getEmail(),
+                        request.teamName(),
+                        request.hackathonId(),
+                        request.description())
+                );
     }
 
     @RequestMapping(value = "/hackathon/{hackathonId}/addMentors", method = RequestMethod.PUT)
