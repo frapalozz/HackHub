@@ -34,8 +34,7 @@ import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @Transactional
@@ -48,7 +47,7 @@ public class AddSubmissionIntegrationTest {
     JwtTokenUtil jwtTokenUtil;
     @MockitoBean
     DataInitializer dataInitializer;
-    private final String path = "/api/v1/team/hackathon";
+    private final String path = "/api/v1/team/hackathon/";
     @Autowired
     private UserRepository userRepository;
     @Autowired
@@ -60,8 +59,6 @@ public class AddSubmissionIntegrationTest {
     @Autowired
     private SubmissionRepository submissionRepository;
     private final ObjectMapper objectMapper = new ObjectMapper();
-    @Autowired
-    private AssertTrueValidator assertTrueValidator;
 
     @Test
     void addSubmission_Success_ShouldReturn201() throws Exception {
@@ -71,17 +68,87 @@ public class AddSubmissionIntegrationTest {
         User user = createUser("Gino","gino@gino.it");
         Team team = createTestTeam("IGiniss",user);
 
-        SubmissionRequest sub = new SubmissionRequest("ciao");
+        SubmissionRequest sub = new SubmissionRequest("https://ciao.site");
 
         mockMvc.perform(post(path+hackathon.getId())
                 .header("Authorization","Bearer "+getToken(user))
                 .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(sub)))
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(content().string("Submission added"));
 
         Hackathon a = hackathonRepository.findById(hackathon.getId()).get();
         assertThat(a.getSubmission(team.getName())).isNotNull();
+    }
+
+    @Test
+    void addSubmission_AlreadyPresent_ShouldReturn409() throws Exception {
+        Hackathon hackathon = createTestHackathon(LocalDate.now().minusDays(1)
+                ,new Period(LocalDate.now(),LocalDate.now().plusDays(1)),
+                4,new HackathonStatus(HackathonStatus.HackathonStateType.PROGRESS));
+        User user = createUser("Gino","gino@gino.it");
+        Team team = createTestTeam("IGiniss",user);
+
+        SubmissionRequest sub = new SubmissionRequest("https://ciao.site");
+
+        mockMvc.perform(post(path+hackathon.getId())
+                        .header("Authorization","Bearer "+getToken(user))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(sub)))
+                .andExpect(status().isCreated())
+                .andExpect(content().string("Submission added"));
+
+        mockMvc.perform(post(path+hackathon.getId())
+                        .header("Authorization","Bearer "+getToken(user))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(sub)))
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("$.message").value("Team submission already exists"));
+
+        Hackathon a = hackathonRepository.findById(hackathon.getId()).get();
+        assertThat(a.getSubmission(team.getName())).isNotNull();
+    }
+
+    @Test
+    void addSubmission_InvalidURL_ShouldReturn400() throws Exception {
+        Hackathon hackathon = createTestHackathon(LocalDate.now().minusDays(1)
+                ,new Period(LocalDate.now(),LocalDate.now().plusDays(1)),
+                4,new HackathonStatus(HackathonStatus.HackathonStateType.PROGRESS));
+        User user = createUser("Gino","gino@gino.it");
+        Team team = createTestTeam("IGiniss",user);
+
+        SubmissionRequest sub = new SubmissionRequest("https://ciao");
+
+        mockMvc.perform(post(path+hackathon.getId())
+                        .header("Authorization","Bearer "+getToken(user))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(sub)))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.fieldErrors.url").value("Invalid URL format"));
+
+        Hackathon a = hackathonRepository.findById(hackathon.getId()).get();
+        assertThat(a.getSubmission(team.getName())).isNull();
+    }
+
+    @Test
+    void addSubmission_SubmissionClosed_ShouldReturn400() throws Exception {
+        Hackathon hackathon = createTestHackathon(LocalDate.now().minusDays(3)
+                ,new Period(LocalDate.now().minusDays(2),LocalDate.now().minusDays(1)),
+                4,new HackathonStatus(HackathonStatus.HackathonStateType.EVALUATION));
+        User user = createUser("Gino","gino@gino.it");
+        Team team = createTestTeam("IGiniss",user);
+
+        SubmissionRequest sub = new SubmissionRequest("https://ciao.site");
+
+        mockMvc.perform(post(path+hackathon.getId())
+                        .header("Authorization","Bearer "+getToken(user))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(sub)))
+                .andExpect(status().isConflict())
+                .andExpect(jsonPath("$.message").value("Can't add submission in this state"));
+
+        Hackathon a = hackathonRepository.findById(hackathon.getId()).get();
+        assertThat(a.getSubmission(team.getName())).isNull();
     }
 
     private Hackathon createTestHackathon(LocalDate subscriptionDeadline, Period period, int max, HackathonStatus state) {

@@ -18,7 +18,7 @@ public class ProgressState extends AbstractHackathonState {
             throw new IllegalArgumentException("Hackathon not in progress");
 
         if(this.hackathon.teamHasSubmission(team)) {
-            throw new IllegalArgumentException("Team have a submission");
+            throw new IllegalArgumentException("Team submission already exists");
         }
     }
 

@@ -102,10 +102,6 @@ public class Hackathon {
                 .filter(t -> t.getName().equals(teamName))
                 .findFirst().orElse(null);
 
-        if (team == null) {
-            throw new IllegalArgumentException("Team not found");
-        }
-
         return this.submissions.get(team);
     }
 
