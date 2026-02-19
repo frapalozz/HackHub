@@ -71,14 +71,14 @@ public class HackathonViewHandlerImpl implements HackathonViewHandler {
     }
 
     @Override
-    public List<Hackathon> getAllHackathons() {
+    public List<HackathonResponse> getAllHackathons() {
         List<Hackathon> hackathons = hackathonRepository.findAll();
 
         if(hackathons.isEmpty()) {
             throw new IllegalArgumentException("No hackathons found");
         }
 
-        return hackathons;
+        return hackathons.stream().map(hackathonMapper::hackathonToHackathonResponse).toList();
     }
 
     @Override
