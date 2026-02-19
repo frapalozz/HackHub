@@ -125,7 +125,9 @@ public class AddValuationIntegrationTest {
                 .andExpect(status().isConflict())
                 .andExpect(jsonPath("$.message").value("Valuation already exists"));
 
-        submission = submissionRepository.findById(1L).orElseThrow(IllegalArgumentException::new);
+        submission = hackathonRepository.findById(hackathon.getId())
+                .orElseThrow(IllegalArgumentException::new)
+                .getSubmission(team);
         assertThat(submission.getValuation().getVote()).isEqualTo(5);
     }
 

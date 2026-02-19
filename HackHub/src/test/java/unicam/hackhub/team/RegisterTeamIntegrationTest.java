@@ -36,9 +36,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @Transactional
 @AutoConfigureMockMvc
 public class RegisterTeamIntegrationTest {
-
-    @Autowired
-    private RegisterTeamHandler registerTeamHandler;
     @Autowired
     private StaffRepository staffRepository;
     @Autowired
@@ -54,7 +51,7 @@ public class RegisterTeamIntegrationTest {
     @Autowired
     MockMvc mockMvc;
 
-    private final String path = "http://localhost:8888/api/v1/team/register";
+    private final String path = "/api/v1/team/register";
 
     @Test
     void registerTeam_success_shouldAddTeamToHackathon() throws Exception {
