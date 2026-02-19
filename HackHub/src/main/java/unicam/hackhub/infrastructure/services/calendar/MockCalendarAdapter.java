@@ -52,6 +52,9 @@ public class MockCalendarAdapter implements CalendarService {
 
         // Get hackathon, mentor, team
         Hackathon hackathon = getHackathon(hackathonId);
+        if(!hackathon.inProgress()) {
+            throw new IllegalStateException("Hackathon not in progress");
+        }
         Staff mentor = getMentor(mentorEmail);
         Team team = getUser(teamMember).getTeam();
         checkData(hackathon, mentor, team, slot);

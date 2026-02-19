@@ -19,9 +19,12 @@ import unicam.hackhub.application.invitation.InvitationHandler;
 import unicam.hackhub.application.supportRequest.CalendarService;
 import unicam.hackhub.application.team.RegisterTeamHandler;
 import unicam.hackhub.domain.hackathon.model.Submission;
+import unicam.hackhub.domain.utils.TimeRange;
 import unicam.hackhub.presentation.dto.request.MentorAvailabilityRequest;
 import unicam.hackhub.presentation.dto.request.SubmissionRequest;
 import unicam.hackhub.presentation.dto.request.SupportRequest;
+
+import java.util.List;
 
 @Validated
 @RestController
@@ -94,6 +97,14 @@ public class TeamController {
 
     @RequestMapping(value = "/mentor_availability", method = RequestMethod.GET)
     public ResponseEntity<Object> getMentorAvailability(@RequestBody MentorAvailabilityRequest request) {
+        List<TimeRange> slots = calendarService.getFreeSlots(request.mentorEmail(), request.date());
+
+        if(slots.isEmpty()) {
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body("No free slots available for mentor " + request.mentorEmail() + " in date " + request.date());
+        }
+
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(calendarService.getFreeSlots(request.mentorEmail(), request.date()));

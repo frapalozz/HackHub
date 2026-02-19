@@ -242,7 +242,8 @@ public class GlobalExceptionHandler {
             return HttpStatus.NOT_FOUND;
         } else if (lowerMessage.contains("already exists") ||
                 lowerMessage.contains("already in use") ||
-                lowerMessage.contains("duplicate")) {
+                lowerMessage.contains("duplicate") ||
+                lowerMessage.contains("already occupied")) {
             return HttpStatus.CONFLICT;
         } else if (lowerMessage.contains("unauthorized") || lowerMessage.contains("forbidden")) {
             return HttpStatus.FORBIDDEN;

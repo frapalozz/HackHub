@@ -67,8 +67,8 @@ public class AddSubmissionIntegrationTest {
         SubmissionRequest sub = new SubmissionRequest("https://ciao.site");
 
         mockMvc.perform(post(path+hackathon.getId())
-                .header("Authorization","Bearer "+getToken(user))
-                .contentType(MediaType.APPLICATION_JSON)
+                        .header("Authorization","Bearer "+getToken(user))
+                        .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(sub)))
                 .andExpect(status().isCreated())
                 .andExpect(content().string("Submission added"));
