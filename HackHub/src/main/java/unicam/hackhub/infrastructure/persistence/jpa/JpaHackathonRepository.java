@@ -49,8 +49,4 @@ public interface JpaHackathonRepository extends HackathonRepository, JpaReposito
     @Query("SELECT DISTINCT h FROM Hackathon h LEFT JOIN h.mentors m " +
             "WHERE h.organizer.email = :email OR h.judge.email = :email OR m.email = :email")
     List<Hackathon> findAllWhereIsStaff(@Param("email") String staffEmail);
-
-    @Override
-    @Query("SELECT h FROM Hackathon h JOIN h.submissions subm WHERE VALUE(subm).submissionId = :submissionId")
-    Hackathon findHackathonOfSubmission(@Param("submissionId") Long submissionId);
 }

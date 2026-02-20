@@ -35,6 +35,10 @@ public class MockCalendarAdapter implements CalendarService {
     @Override
     public List<TimeRange> getFreeSlots(String mentorEmail, LocalDate date) {
 
+        if(date.isBefore(LocalDate.now())) {
+            throw new IllegalArgumentException("Date should be in the future");
+        }
+
         Staff mentor = getMentor(mentorEmail);
 
         List<SupportRequest> requests = supportRequestRepository.findAllBlockingRequests(mentorEmail, date);
@@ -45,6 +49,10 @@ public class MockCalendarAdapter implements CalendarService {
 
     @Override
     public String requestSupport(String teamMember, Long hackathonId, String mentorEmail, TimeRange slot, LocalDate date) {
+
+        if(date.isBefore(LocalDate.now())) {
+            throw new IllegalArgumentException("Date should be in the future");
+        }
 
         if(!slot.validSlot()) {
             throw new IllegalArgumentException("Slot is not valid");
