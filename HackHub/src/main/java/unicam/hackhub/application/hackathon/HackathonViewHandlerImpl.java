@@ -11,7 +11,6 @@ import unicam.hackhub.domain.hackathon.model.Report;
 import unicam.hackhub.domain.hackathon.model.Submission;
 import unicam.hackhub.domain.hackathon.repository.HackathonRepository;
 import unicam.hackhub.domain.hackathon.repository.ReportRepository;
-import unicam.hackhub.domain.hackathon.repository.SubmissionRepository;
 import unicam.hackhub.domain.support.model.SupportRequest;
 import unicam.hackhub.domain.support.repository.SupportRequestRepository;
 import unicam.hackhub.domain.team.model.Team;
@@ -30,7 +29,6 @@ public class HackathonViewHandlerImpl implements HackathonViewHandler {
     private final UserRepository userRepository;
     private final ReportRepository reportRepository;
     private final SupportRequestRepository supportRequestRepository;
-    private final SubmissionRepository submissionRepository;
 
     private final HackathonMapper hackathonMapper;
 
