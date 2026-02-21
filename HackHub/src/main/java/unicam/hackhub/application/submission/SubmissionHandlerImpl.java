@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
+import unicam.hackhub.application.dto.command.SubmissionCommand;
 import unicam.hackhub.domain.hackathon.model.Hackathon;
 import unicam.hackhub.domain.hackathon.model.Submission;
 import unicam.hackhub.domain.hackathon.model.Valuation;
@@ -25,12 +26,12 @@ public class SubmissionHandlerImpl implements SubmissionHandler {
     private final UserRepository userRepository;
 
     @Override
-    public String addSubmission(String teamMember, long hackathonId, Submission submission) {
+    public String addSubmission(SubmissionCommand command) {
 
-        Hackathon hackathon = getHackathon(hackathonId);
-        Team team = getUser(teamMember).getTeam();
+        Hackathon hackathon = getHackathon(command.hackathonId());
+        Team team = getUser(command.userEmail()).getTeam();
 
-        hackathon.addSubmission(team, submission);
+        hackathon.addSubmission(team, new Submission(command.url()));
 
         hackathonRepository.save(hackathon);
 
@@ -38,12 +39,12 @@ public class SubmissionHandlerImpl implements SubmissionHandler {
     }
 
     @Override
-    public String updateSubmission(String teamName, long hackathonId, Submission submission) {
+    public String updateSubmission(SubmissionCommand command) {
 
-        Hackathon hackathon = getHackathon(hackathonId);
-        Team team = getUser(teamName).getTeam();
+        Hackathon hackathon = getHackathon(command.hackathonId());
+        Team team = getUser(command.userEmail()).getTeam();
 
-        hackathon.updateSubmission(team, submission);
+        hackathon.updateSubmission(team, new Submission(command.url()));
 
         hackathonRepository.save(hackathon);
 

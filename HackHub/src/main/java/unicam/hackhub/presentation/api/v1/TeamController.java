@@ -13,18 +13,15 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import unicam.hackhub.application.dto.command.SubmissionCommand;
 import unicam.hackhub.application.hackathon.HackathonHandler;
 import unicam.hackhub.application.submission.SubmissionHandler;
 import unicam.hackhub.application.invitation.InvitationHandler;
 import unicam.hackhub.application.supportRequest.CalendarHandler;
 import unicam.hackhub.application.team.TeamHandler;
-import unicam.hackhub.domain.hackathon.model.Submission;
-import unicam.hackhub.domain.utils.TimeRange;
 import unicam.hackhub.presentation.dto.request.MentorAvailabilityRequest;
 import unicam.hackhub.presentation.dto.request.SubmissionRequest;
 import unicam.hackhub.presentation.dto.request.SupportRequest;
-
-import java.util.List;
 
 @Validated
 @RestController
@@ -79,7 +76,7 @@ public class TeamController {
     ) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(submissionHandler.addSubmission(getEmail(), hackathonId, new Submission(request.url())));
+                .body(submissionHandler.addSubmission(new SubmissionCommand(getEmail(), hackathonId, request.url())));
     }
 
     @RequestMapping(value = "/hackathon/{hackathonId}", method = RequestMethod.PUT)
@@ -92,19 +89,11 @@ public class TeamController {
     ) {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(submissionHandler.updateSubmission(getEmail(), hackathonId, new Submission(request.url())));
+                .body(submissionHandler.updateSubmission(new SubmissionCommand(getEmail(), hackathonId, request.url())));
     }
 
     @RequestMapping(value = "/mentor_availability", method = RequestMethod.GET)
     public ResponseEntity<Object> getMentorAvailability(@RequestBody MentorAvailabilityRequest request) {
-        List<TimeRange> slots = calendarHandler.getFreeSlots(request.mentorEmail(), request.date());
-
-        if(slots.isEmpty()) {
-            return ResponseEntity
-                    .status(HttpStatus.OK)
-                    .body("No free slots available for mentor " + request.mentorEmail() + " in date " + request.date());
-        }
-
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(calendarHandler.getFreeSlots(request.mentorEmail(), request.date()));

@@ -1,4 +1,4 @@
-package unicam.hackhub.application.dto.request;
+package unicam.hackhub.application.dto.command;
 
 import unicam.hackhub.domain.utils.Period;
 
@@ -17,7 +17,7 @@ import java.util.List;
  * @param judgeEmail email of the judge of the hackathon
  * @param mentorsEmails emails of the mentors of the hackathon
  */
-public record CreateHackathonRequest(
+public record CreateHackathonCommand(
     String name,
     String location,
     LocalDate subscriptionDeadline, 

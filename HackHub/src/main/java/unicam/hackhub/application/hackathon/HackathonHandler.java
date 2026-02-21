@@ -1,6 +1,6 @@
 package unicam.hackhub.application.hackathon;
 
-import unicam.hackhub.application.dto.request.CreateHackathonRequest;
+import unicam.hackhub.application.dto.command.CreateHackathonCommand;
 import unicam.hackhub.application.dto.response.AssignedHackathonResponse;
 import unicam.hackhub.application.dto.response.HackathonResponse;
 
@@ -27,7 +27,7 @@ public interface HackathonHandler {
      *                                  any business rule (e.g., past deadline,
      *                                  non‑existent staff, invalid team size)
      */
-    String createHackathon(CreateHackathonRequest request);
+    String createHackathon(CreateHackathonCommand request);
 
     /**
      * Declares a team as the winner of a specific hackathon.

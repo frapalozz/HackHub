@@ -5,7 +5,7 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Service;
 import unicam.hackhub.application.dto.mapper.HackathonMapper;
-import unicam.hackhub.application.dto.request.CreateHackathonRequest;
+import unicam.hackhub.application.dto.command.CreateHackathonCommand;
 import unicam.hackhub.application.dto.response.AssignedHackathonResponse;
 import unicam.hackhub.application.dto.response.HackathonResponse;
 import unicam.hackhub.application.payment.PaymentHandler;
@@ -35,7 +35,7 @@ public class HackathonHandlerImpl implements HackathonHandler {
     private final HackathonMapper hackathonMapper;
 
     @Override
-    public String createHackathon(CreateHackathonRequest request) {
+    public String createHackathon(CreateHackathonCommand request) {
 
         checkLogicDateOrder(request);
         checkSelfStaff(request);
@@ -176,7 +176,7 @@ public class HackathonHandlerImpl implements HackathonHandler {
         }
     }
 
-    private void checkLogicDateOrder(CreateHackathonRequest request) {
+    private void checkLogicDateOrder(CreateHackathonCommand request) {
 
         if (request.hackathonPeriod().endDate().isBefore(request.hackathonPeriod().startDate())) {
             throw new IllegalStateException("Dates order not valid");
@@ -188,7 +188,7 @@ public class HackathonHandlerImpl implements HackathonHandler {
         }
     }
 
-    private void checkSelfStaff(CreateHackathonRequest request) {
+    private void checkSelfStaff(CreateHackathonCommand request) {
         if(request.organizerEmail().equals(request.judgeEmail())) {
             throw new IllegalStateException("Staff cannot be self");
         }
