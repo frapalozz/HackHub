@@ -10,12 +10,15 @@ import lombok.Setter;
 import unicam.hackhub.domain.team.model.Team;
 import unicam.hackhub.domain.user.model.User;
 
+import java.io.Serializable;
+import java.util.Objects;
+
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Embeddable
-public class InvitationId {
+public class InvitationId implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "team_name", referencedColumnName = "name")
@@ -31,5 +34,17 @@ public class InvitationId {
         }
         this.team.addMember(receiver);
         this.receiver.setTeam(team);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return o instanceof InvitationId that &&
+                Objects.equals(team, that.team) &&
+                Objects.equals(receiver, that.receiver);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(team, receiver);
     }
 }
