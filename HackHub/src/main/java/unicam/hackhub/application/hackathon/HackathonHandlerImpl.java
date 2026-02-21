@@ -103,6 +103,8 @@ public class HackathonHandlerImpl implements HackathonHandler {
 
         hackathon.addMentors(mentors);
 
+        hackathonRepository.save(hackathon);
+
         return "Mentors added";
     }
 
