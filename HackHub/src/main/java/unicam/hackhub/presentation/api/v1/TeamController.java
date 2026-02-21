@@ -14,7 +14,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import unicam.hackhub.application.hackathon.HackathonViewHandler;
-import unicam.hackhub.application.hackathon.SubmissionHandler;
+import unicam.hackhub.application.submission.SubmissionHandler;
 import unicam.hackhub.application.invitation.InvitationHandler;
 import unicam.hackhub.application.supportRequest.CalendarService;
 import unicam.hackhub.application.team.RegisterTeamHandler;
@@ -131,7 +131,7 @@ public class TeamController {
     ) {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(hackathonViewHandler.getSubmissionTeam(getEmail(), hackathonId));
+                .body(submissionHandler.getSubmissionTeam(getEmail(), hackathonId));
     }
 
     @RequestMapping(value = "/hackathons", method = RequestMethod.GET)

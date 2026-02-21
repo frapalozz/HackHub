@@ -50,15 +50,6 @@ public interface HackathonViewHandler {
     List<HackathonResponse> getAllHackathons();
 
     /**
-     * Retrieves all submissions for a given hackathon, intended for staff evaluation.
-     *
-     * @param staffEmail  the email address of the staff member requesting the submissions
-     * @param hackathonId the unique identifier of the hackathon
-     * @return a list of {@link Submission} objects for the specified hackathon
-     */
-    List<Submission> getSubmissions(String staffEmail, Long hackathonId);
-
-    /**
      * Retrieves hackathons that have been assigned to a specific staff member
      * (e.g., as a mentor, judge, or coordinator).
      *
@@ -68,19 +59,6 @@ public interface HackathonViewHandler {
     List<AssignedHackathonResponse> getAssignedHackathons(String staffEmail);
 
     /**
-     * Retrieves a specific submission for detailed staff review.
-     *
-     * @param staffEmail   the email address of the staff member
-     * @param hackathonId  the unique identifier of the hackathon
-     * @param submissionId the unique identifier of the submission
-     * @return the {@link Submission} object with the specified ID
-     * @throws IllegalArgumentException if any parameter is null or invalid
-     * @throws RuntimeException         if the submission, hackathon, or staff member is not found,
-     *                                  or if the staff member is not authorized to view it
-     */
-    Submission getSubmissionStaff(String staffEmail, Long hackathonId, Long submissionId);
-
-    /**
      * Retrieves hackathons in which a given user (team member) is participating.
      *
      * @param user the identifier (email) of the team member
@@ -88,13 +66,5 @@ public interface HackathonViewHandler {
      */
     List<HackathonResponse> getParticipatingHackathons(String user);
 
-    /**
-     * Retrieves the submission made by a specific team member (or their team) for a given hackathon.
-     *
-     * @param user        the identifier (email) of the team member
-     * @param hackathonId the unique identifier of the hackathon
-     * @return the {@link Submission} object associated with the user and hackathon,
-     *         or {@code null} if no submission exists
-     */
-    Submission getSubmissionTeam(String user, Long hackathonId);
+
 }

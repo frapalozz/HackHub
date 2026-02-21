@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import unicam.hackhub.application.hackathon.CreateHackathonHandler;
 import unicam.hackhub.application.hackathon.HackathonHandler;
 import unicam.hackhub.application.hackathon.HackathonViewHandler;
-import unicam.hackhub.application.hackathon.SubmissionHandler;
+import unicam.hackhub.application.submission.SubmissionHandler;
 import unicam.hackhub.application.report.ReportHandler;
 import unicam.hackhub.application.supportRequest.CalendarService;
 import unicam.hackhub.presentation.dto.mapper.HackathonMapper;
@@ -167,7 +167,7 @@ public class StaffController {
     ) {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(hackathonViewHandler.getSubmissions(getEmail(), hackathonId));
+                .body(submissionHandler.getSubmissions(getEmail(), hackathonId));
     }
 
     @RequestMapping(value = "/hackathon/{hackathonId}/submissions/{submissionId}", method = RequestMethod.GET)
@@ -181,7 +181,7 @@ public class StaffController {
     ) {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(hackathonViewHandler.getSubmissionStaff(getEmail(), hackathonId, submissionId));
+                .body(submissionHandler.getSubmissionStaff(getEmail(), hackathonId, submissionId));
     }
 
     @RequestMapping(value = "/supportRequests", method = RequestMethod.GET)

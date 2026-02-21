@@ -67,18 +67,6 @@ public class HackathonViewHandlerImpl implements HackathonViewHandler {
     }
 
     @Override
-    public List<Submission> getSubmissions(String staffEmail, Long hackathonId) {
-        Hackathon hackathon = hackathonRepository.findById(hackathonId)
-                .orElseThrow(() -> new IllegalArgumentException("Hackathon not found"));
-
-        if(!hackathon.containsStaff(staffEmail)){
-            throw new IllegalArgumentException("staff not in hackathon");
-        }
-
-        return hackathon.getSubmissions().values().stream().toList();
-    }
-
-    @Override
     public List<AssignedHackathonResponse> getAssignedHackathons(String staffEmail) {
 
         return hackathonRepository
@@ -86,24 +74,6 @@ public class HackathonViewHandlerImpl implements HackathonViewHandler {
                 .stream()
                 .map(h -> hackathonMapper.hackathonToAssignedHackathon(h, staffEmail))
                 .toList();
-    }
-
-    @Override
-    public Submission getSubmissionStaff(String staffEmail, Long hackathonId, Long submissionId) {
-        Hackathon hackathon = hackathonRepository.findById(hackathonId)
-                .orElseThrow(() -> new IllegalArgumentException("Hackathon not found"));
-
-        if(!hackathon.containsStaff(staffEmail)){
-            throw new IllegalArgumentException("staff not in hackathon");
-        }
-        if(hackathon.getSubmissions().values().stream().noneMatch(s -> s.getSubmissionId().equals(submissionId))){
-            throw new IllegalArgumentException("submission not in hackathon selected");
-        }
-
-        return hackathon.getSubmissions().values().stream()
-                .filter(s -> s.getSubmissionId().equals(submissionId))
-                .findFirst()
-                .orElseThrow(() -> new IllegalArgumentException("Submission not found"));
     }
 
     @Override
@@ -121,26 +91,5 @@ public class HackathonViewHandlerImpl implements HackathonViewHandler {
         }
 
         return hackathons.stream().map(hackathonMapper::hackathonToHackathonResponse).toList();
-    }
-
-    @Override
-    public Submission getSubmissionTeam(String user, Long hackathonId) {
-        User userRepo = userRepository.findById(user).orElseThrow(() -> new IllegalArgumentException("User not found"));
-        Team team = userRepo.getTeam();
-        if(team == null) {
-            throw new IllegalArgumentException("Team not found");
-        }
-
-        Hackathon hackathon = hackathonRepository
-                .findById(hackathonId)
-                .orElseThrow(() -> new IllegalArgumentException("Hackathon not found"));
-
-        Submission submission = hackathon.getSubmission(team.getName());
-
-        if(submission == null) {
-            throw new IllegalArgumentException("Submission not found");
-        }
-
-        return submission;
     }
 }

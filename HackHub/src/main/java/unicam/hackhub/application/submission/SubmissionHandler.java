@@ -1,6 +1,8 @@
-package unicam.hackhub.application.hackathon;
+package unicam.hackhub.application.submission;
 
 import unicam.hackhub.domain.hackathon.model.Submission;
+
+import java.util.List;
 
 public interface SubmissionHandler {
 
@@ -48,4 +50,36 @@ public interface SubmissionHandler {
      * @return a status message indicating success or failure, with details if an error occurs
      */
     String editValuation(String judgeEmail, Long hackathonId, String teamName, int vote, String description);
+
+    /**
+     * Retrieves the submission made by a specific team member (or their team) for a given hackathon.
+     *
+     * @param user        the identifier (email) of the team member
+     * @param hackathonId the unique identifier of the hackathon
+     * @return the {@link Submission} object associated with the user and hackathon,
+     *         or {@code null} if no submission exists
+     */
+    Submission getSubmissionTeam(String user, Long hackathonId);
+
+    /**
+     * Retrieves a specific submission for detailed staff review.
+     *
+     * @param staffEmail   the email address of the staff member
+     * @param hackathonId  the unique identifier of the hackathon
+     * @param submissionId the unique identifier of the submission
+     * @return the {@link Submission} object with the specified ID
+     * @throws IllegalArgumentException if any parameter is null or invalid
+     * @throws RuntimeException         if the submission, hackathon, or staff member is not found,
+     *                                  or if the staff member is not authorized to view it
+     */
+    Submission getSubmissionStaff(String staffEmail, Long hackathonId, Long submissionId);
+
+    /**
+     * Retrieves all submissions for a given hackathon, intended for staff evaluation.
+     *
+     * @param staffEmail  the email address of the staff member requesting the submissions
+     * @param hackathonId the unique identifier of the hackathon
+     * @return a list of {@link Submission} objects for the specified hackathon
+     */
+    List<Submission> getSubmissions(String staffEmail, Long hackathonId);
 }
