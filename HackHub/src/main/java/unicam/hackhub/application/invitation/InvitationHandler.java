@@ -1,6 +1,7 @@
 package unicam.hackhub.application.invitation;
 
 import unicam.hackhub.application.dto.response.InvitationResponse;
+import unicam.hackhub.domain.team.model.Team;
 
 import java.util.List;
 
@@ -40,4 +41,11 @@ public interface InvitationHandler {
      * @return a list of {@link InvitationResponse} DTOs representing the invitations
      */
     List<InvitationResponse> getInvitations(String userId);
+
+    /**
+     * Create bulk invitations
+     * @param team team associated to the invitation
+     * @param invitedUsers invited email list
+     */
+    void createInvitations(Team team, List<String> invitedUsers);
 }

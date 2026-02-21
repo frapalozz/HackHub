@@ -5,6 +5,7 @@ import jakarta.validation.ConstraintViolationException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -166,6 +167,21 @@ public class GlobalExceptionHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(response);
     }
 
+    // User not found
+    @ExceptionHandler(UsernameNotFoundException.class)
+    public ResponseEntity<ApiErrorResponse> handleUsernameNotFound(UsernameNotFoundException ex) {
+        log.error("User not found EXC: {}", ex.getMessage());
+
+        ApiErrorResponse response = ApiErrorResponse.builder()
+                .timestamp(LocalDateTime.now())
+                .status(HttpStatus.NOT_FOUND.value())
+                .error(HttpStatus.NOT_FOUND.getReasonPhrase())
+                .message(ex.getMessage())
+                .build();
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+    }
+
     // Per eccezioni di risorsa non trovata
     /*
     @ExceptionHandler(ResourceNotFoundException.class) // Crea questa eccezione custom
@@ -226,7 +242,8 @@ public class GlobalExceptionHandler {
             return HttpStatus.NOT_FOUND;
         } else if (lowerMessage.contains("already exists") ||
                 lowerMessage.contains("already in use") ||
-                lowerMessage.contains("duplicate")) {
+                lowerMessage.contains("duplicate") ||
+                lowerMessage.contains("already occupied")) {
             return HttpStatus.CONFLICT;
         } else if (lowerMessage.contains("unauthorized") || lowerMessage.contains("forbidden")) {
             return HttpStatus.FORBIDDEN;

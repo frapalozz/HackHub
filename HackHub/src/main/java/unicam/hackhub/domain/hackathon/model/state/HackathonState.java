@@ -1,5 +1,6 @@
 package unicam.hackhub.domain.hackathon.model.state;
 
+import unicam.hackhub.domain.hackathon.model.Report;
 import unicam.hackhub.domain.hackathon.model.Submission;
 import unicam.hackhub.domain.team.model.Team;
 
@@ -57,4 +58,13 @@ public interface HackathonState {
      * Change to next state
      */
     void toNextState();
+
+    /**
+     * Build report
+     * @param team team associated to the report
+     * @param description description associated to the report
+     * @param mentorEmail mentor that request the report
+     * @return the report build
+     */
+    Report buildReport(String mentorEmail, Team team, String description);
 }

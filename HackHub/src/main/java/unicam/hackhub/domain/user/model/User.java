@@ -7,6 +7,8 @@ import lombok.Setter;
 import unicam.hackhub.domain.team.model.Team;
 import unicam.hackhub.domain.utils.Role;
 
+import java.util.Objects;
+
 @Getter
 @Setter
 @Entity
@@ -44,5 +46,16 @@ public class User {
 
     public boolean hasTeam() {
         return this.team != null;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return o instanceof User user &&
+                Objects.equals(email, user.email);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(email);
     }
 }

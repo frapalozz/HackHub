@@ -16,11 +16,11 @@ public class EvaluationState extends AbstractHackathonState {
         Submission submission = this.hackathon.getSubmission(teamName);
 
         if (submission == null) {
-            throw new RuntimeException("Submission not found");
+            throw new IllegalArgumentException("Submission not found");
         }
 
         if (submission.getValuation() != null) {
-            throw new RuntimeException("Submission already valuated");
+            throw new IllegalArgumentException("Valuation already exists");
         }
 
         submission.setValuation(new Valuation(vote, description));
@@ -31,11 +31,11 @@ public class EvaluationState extends AbstractHackathonState {
         Submission submission = this.hackathon.getSubmission(teamName);
 
         if (submission == null) {
-            throw new RuntimeException("Submission not found");
+            throw new IllegalArgumentException("Submission not found");
         }
 
         if (submission.getValuation() == null) {
-            throw new RuntimeException("Submission not valuated");
+            throw new IllegalArgumentException("Submission not valuated");
         }
 
         submission.getValuation().setVote(vote);

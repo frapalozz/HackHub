@@ -7,6 +7,7 @@ import lombok.Setter;
 import unicam.hackhub.domain.user.model.User;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Getter
@@ -38,5 +39,16 @@ public class Team {
 
     public void increaseBalance(double amount) {
         this.balance += amount;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        return o instanceof Team team &&
+                Objects.equals(name, team.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
     }
 }

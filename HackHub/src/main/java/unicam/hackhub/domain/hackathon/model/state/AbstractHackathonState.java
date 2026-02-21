@@ -1,6 +1,7 @@
 package unicam.hackhub.domain.hackathon.model.state;
 
 import unicam.hackhub.domain.hackathon.model.Hackathon;
+import unicam.hackhub.domain.hackathon.model.Report;
 import unicam.hackhub.domain.hackathon.model.Submission;
 import unicam.hackhub.domain.team.model.Team;
 
@@ -49,4 +50,9 @@ public abstract class AbstractHackathonState implements HackathonState {
 
     @Override
     public void toNextState() {}
+
+    @Override
+    public Report buildReport(String mentorEmail, Team team, String description) {
+        throw new IllegalStateException("Can't build report in this state");
+    }
 }

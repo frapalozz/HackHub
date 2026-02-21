@@ -102,10 +102,6 @@ public class Hackathon {
                 .filter(t -> t.getName().equals(teamName))
                 .findFirst().orElse(null);
 
-        if (team == null) {
-            throw new IllegalArgumentException("Team not found");
-        }
-
         return this.submissions.get(team);
     }
 
@@ -164,6 +160,12 @@ public class Hackathon {
         this.mentors.addAll(mentors);
     }
 
+    public boolean containsStaff(String staffEmail) {
+        return organizer.getEmail().equals(staffEmail) ||
+                judge.getEmail().equals(staffEmail) ||
+                mentors.stream().anyMatch(m -> m.getEmail().equals(staffEmail));
+    }
+
 
     // =====================================
     // State Methods
@@ -180,6 +182,14 @@ public class Hackathon {
 
     public boolean inProgress() {
         return this.state.inProgress();
+    }
+
+    // =====================================
+    // State Methods
+    // =====================================
+
+    public Report buildReport(String mentorEmail, Team team, String description) {
+        return this.state.buildReport(mentorEmail, team, description);
     }
 
 

@@ -91,8 +91,21 @@ public class InvitationHandlerImpl implements InvitationHandler {
                 .map(i -> new InvitationResponse(
                         i.getDate(),
                         i.getId().getTeam().getName(),
-                        i.getId().getReceiver())
+                        i.getId().getReceiver().getEmail())
                 ).collect(Collectors.toList());
+    }
+
+    @Override
+    public void createInvitations(Team team, List<String> invitedUsers) {
+        if(invitedUsers == null || invitedUsers.isEmpty()) return;
+
+        List<User> users = userRepository.findAllById(invitedUsers);
+
+        List<Invitation> invitations = users.stream()
+                .map(user -> new Invitation(LocalDate.now(), team, user))
+                .collect(Collectors.toList());
+
+        invitationRepository.saveAll(invitations);
     }
 
     private boolean validateEmail(String email) {

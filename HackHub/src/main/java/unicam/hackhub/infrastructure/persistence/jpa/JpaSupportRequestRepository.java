@@ -33,4 +33,8 @@ public interface JpaSupportRequestRepository extends JpaRepository<SupportReques
             @Param("date") LocalDate date,
             @Param("states") List<RequestState> states
     );
+
+    @Override
+    @Query("SELECT sr FROM SupportRequest sr WHERE sr.mentor.email = :email")
+    List<SupportRequest> findAllWhereIsStaff(@Param("email") String staffEmail);
 }

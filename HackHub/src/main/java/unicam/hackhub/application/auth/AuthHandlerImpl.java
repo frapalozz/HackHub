@@ -12,7 +12,6 @@ import unicam.hackhub.domain.staff.repository.StaffRepository;
 import unicam.hackhub.domain.user.model.User;
 import unicam.hackhub.domain.user.repository.UserRepository;
 import unicam.hackhub.domain.utils.Role;
-import unicam.hackhub.infrastructure.security.JwtTokenUtil;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -23,7 +22,7 @@ import java.util.Map;
 @AllArgsConstructor
 public class AuthHandlerImpl implements AuthHandler {
 
-    private final JwtTokenUtil jwtTokenUtil;
+    private final TokenProvider tokenProvider;
     private final PasswordEncoder passwordEncoder;
 
     private final UserRepository userRepository;
@@ -98,8 +97,8 @@ public class AuthHandlerImpl implements AuthHandler {
         claims.put("email", email);
         claims.put("role", role.name());
 
-        String jwtToken = jwtTokenUtil.generateToken(claims, userDetails);
+        String jwtToken = tokenProvider.generateToken(claims, userDetails);
 
-        return new TokenResponse(jwtToken, "Bearer", String.valueOf(jwtTokenUtil.getExpirationTime()));
+        return new TokenResponse(jwtToken, "Bearer", String.valueOf(tokenProvider.getExpirationTime()));
     }
 }

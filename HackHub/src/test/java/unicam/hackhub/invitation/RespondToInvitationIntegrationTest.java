@@ -4,8 +4,11 @@ import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.webmvc.test.autoconfigure.AutoConfigureMockMvc;
+import org.springframework.http.MediaType;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
-import unicam.hackhub.application.invitation.InvitationHandler;
+import org.springframework.test.web.servlet.MockMvc;
 import unicam.hackhub.config.DataInitializer;
 import unicam.hackhub.domain.hackathon.model.Hackathon;
 import unicam.hackhub.domain.hackathon.repository.HackathonRepository;
@@ -18,41 +21,42 @@ import unicam.hackhub.domain.team.repository.TeamRepository;
 import unicam.hackhub.domain.user.model.User;
 import unicam.hackhub.domain.user.repository.UserRepository;
 import unicam.hackhub.domain.utils.Period;
+import unicam.hackhub.infrastructure.security.JwtTokenUtil;
 
 import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Set;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @SpringBootTest
 @Transactional
+@AutoConfigureMockMvc
 public class RespondToInvitationIntegrationTest {
 
     @Autowired
-    private InvitationHandler invitationHandler;
-
+    MockMvc mockMvc;
     @Autowired
     private UserRepository userRepository;
-
     @Autowired
     private TeamRepository teamRepository;
-
     @Autowired
     private StaffRepository staffRepository;
-
     @Autowired
     private InvitationRepository invitationRepository;
-
     @Autowired
     private HackathonRepository hackathonRepository;
-
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
     @MockitoBean
     private DataInitializer dataInitializer;
+    private final String path = "/api/v1/user/invitation";
 
     @Test
-    void declineInvitation_success_shouldRemoveInvitation() {
+    void declineInvitation_success_shouldRemoveInvitation() throws Exception {
         // ARRANGE
         User owner = createUser("John", "john@test.it");
         User invitee = createUser("Jane", "jane@test.it");
@@ -60,9 +64,11 @@ public class RespondToInvitationIntegrationTest {
         Invitation invitation = createInvitation(team, invitee);
 
         // ACT
-        invitationHandler.declineInvitation(
-                invitation.getId().getReceiver().getEmail(),
-                team.getName());
+        mockMvc.perform(delete(path + "/Team1")
+                            .header("Authorization", "Bearer " + getToken(invitee))
+                            .contentType(MediaType.APPLICATION_JSON))
+                        .andExpect(status().isOk())
+                        .andExpect(content().string("Invitation deleted"));
 
         // ASSERT
         assertThat(invitationRepository.findById(invitation.getId())).isEmpty();
@@ -72,27 +78,24 @@ public class RespondToInvitationIntegrationTest {
     }
 
     @Test
-    void declineInvitation_invitationNotFound_shouldDoNothing() {
+    void declineInvitation_invitationNotFound_shouldDoNothing() throws Exception {
         // ARRANGE
         User owner = createUser("John", "john@test.it");
         User invitee = createUser("Jane", "jane@test.it");
         Team team = createTeam("Team1", owner);
-        Invitation invitation = createInvitation(team, invitee);
 
         // ACT
-        // Assumiamo che il metodo NON lanci eccezione (o se la lancia, la catturiamo con assertThrows)
-        // Qui scegliamo di testare che l'invito originale sia ancora presente.
-        // Se il metodo lancia eccezione, decommentare assertThrows.
-        assertThrows(IllegalArgumentException.class,
-                () -> invitationHandler.declineInvitation("dfegregfer@email.it", "efvgregf"));
+        mockMvc.perform(delete(path + "/Team1")
+                        .header("Authorization", "Bearer " + getToken(invitee))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.message").value("Invitation not found"));
 
-        // ASSERT
-        assertThat(invitationRepository.findById(invitation.getId())).isPresent();
-        assertThat(team.getMembers()).doesNotContain(invitee);
+        assertThat(invitee.getTeam()).isNull();
     }
 
     @Test
-    void acceptInvitation_success_shouldAddUserToTeamAndRemoveInvitation() {
+    void acceptInvitation_success_shouldAddUserToTeamAndRemoveInvitation() throws Exception {
         // ARRANGE
         User owner = createUser("John", "john@test.it");
         User invitee = createUser("Jane", "jane@test.it");
@@ -100,7 +103,11 @@ public class RespondToInvitationIntegrationTest {
         Invitation invitation = createInvitation(team, invitee);
 
         // ACT
-        invitationHandler.acceptInvitation(invitee.getEmail(), team.getName());
+        mockMvc.perform(get(path + "/Team1")
+                        .header("Authorization", "Bearer " + getToken(invitee))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(content().string("Invitation accepted"));
 
         // ASSERT
         // Invito rimosso
@@ -115,48 +122,52 @@ public class RespondToInvitationIntegrationTest {
     }
 
     @Test
-    void acceptInvitation_invitationNotFound_shouldDoNothing() {
+    void acceptInvitation_invitationNotFound_shouldDoNothing() throws Exception {
         // ARRANGE
         User owner = createUser("John", "john@test.it");
         User invitee = createUser("Jane", "jane@test.it");
-        Team team = createTeam("Team1", owner);
-        Invitation invitation = createInvitation(team, invitee);
+        User anotherUser = createUser("James", "james@test.it");
+        Team team1 = createTeam("Team1", owner);
+        Team team2 = createTeam("Team2", owner);
+        Invitation invitation = createInvitation(team1, invitee);
 
         // ACT
-        assertThrows(IllegalArgumentException.class,
-                () -> invitationHandler.acceptInvitation("wsfewf@email.it", "nameregtr4"));
+        mockMvc.perform(get(path + "/Team2")
+                        .header("Authorization", "Bearer " + getToken(invitee))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.message").value("Invitation not found"));
 
         // ASSERT
         // Invito originale ancora presente
         assertThat(invitationRepository.findById(invitation.getId())).isPresent();
         // Utente non aggiunto al team
-        assertThat(team.getMembers()).doesNotContain(invitee);
+        assertThat(team1.getMembers()).doesNotContain(invitee);
         assertThat(invitee.hasTeam()).isFalse();
     }
 
     @Test
-    void acceptInvitation_teamAlreadyRegisteredInActiveHackathon_shouldThrowException() {
+    void acceptInvitation_teamAlreadyRegisteredInActiveHackathon_shouldThrowException() throws Exception {
         // ARRANGE
         // Crea hackathon con iscrizioni ancora aperte (sub deadline futura)
         LocalDate subscriptionDeadline = LocalDate.now().plusDays(5);
         Period period = new Period(LocalDate.now().plusDays(6), LocalDate.now().plusDays(10));
-        Hackathon hackathon = createHackathon(subscriptionDeadline, period, 5);
+        Hackathon hackathon = createHackathon(subscriptionDeadline, period);
 
         User owner = createUser("John", "john@test.it");
         User invitee = createUser("Jane", "jane@test.it");
         Team team = createTeam("Team1", owner);
-        hackathon.registerTeam(team);               // team iscritto all'hackathon
-        hackathonRepository.save(hackathon);        // persiste la registrazione
+        hackathon.registerTeam(team);
+        hackathonRepository.save(hackathon);
 
         Invitation invitation = createInvitation(team, invitee);
 
         // ACT & ASSERT
-        // Ci aspettiamo un'eccezione che impedisce di aggiungere membri a un team già in hackathon attivo
-        assertThrows(NullPointerException.class,
-                () -> invitationHandler.acceptInvitation(
-                        invitation.getId().getReceiver().getEmail(),
-                        invitee.getTeam().getName()
-                ));
+        mockMvc.perform(get(path + "/Team1")
+                        .header("Authorization", "Bearer " + getToken(invitee))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message").value("Can't accept, team in a active hackathon"));
 
         // Verifica che l'invito sia ancora presente e l'utente non sia stato aggiunto
         assertThat(invitationRepository.findById(invitation.getId())).isPresent();
@@ -165,7 +176,7 @@ public class RespondToInvitationIntegrationTest {
     }
 
     @Test
-    void acceptInvitation_userAlreadyInAnotherTeam_shouldThrowException() {
+    void acceptInvitation_userAlreadyInAnotherTeam_shouldThrowException() throws Exception {
         // ARRANGE
         User owner1 = createUser("John", "john@test.it");
         User owner2 = createUser("Mike", "mike@test.it");
@@ -183,11 +194,11 @@ public class RespondToInvitationIntegrationTest {
         Invitation invitation = createInvitation(team1, invitee);
 
         // ACT & ASSERT
-        assertThrows(IllegalArgumentException.class,
-                () -> invitationHandler.acceptInvitation(
-                        invitation.getId().getReceiver().getEmail(),
-                        invitee.getTeam().getName()
-                ));
+        mockMvc.perform(get(path + "/Team1")
+                        .header("Authorization", "Bearer " + getToken(invitee))
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isBadRequest())
+                .andExpect(jsonPath("$.message").value("Can't accept, user already has team"));
 
         // Verifica che l'invito sia ancora presente e l'utente non sia stato spostato
         assertThat(invitationRepository.findById(invitation.getId())).isPresent();
@@ -196,28 +207,22 @@ public class RespondToInvitationIntegrationTest {
     }
 
     private User createUser(String name, String email) {
-        User user = new User(name, email);
-        userRepository.save(user);
-        return user;
+        return userRepository.save(new User(name, email, "password"));
     }
 
     private Team createTeam(String teamName, User owner) {
-        Team team = new Team(teamName, owner);
-        teamRepository.save(team);
-        return team;
+        return teamRepository.save(new Team(teamName, owner));
     }
 
     private Invitation createInvitation(Team team, User invitee) {
-        Invitation invitation = new Invitation(LocalDate.now(), team, invitee);
-        invitationRepository.save(invitation);
-        return invitation;
+        return invitationRepository.save(new Invitation(LocalDate.now(), team, invitee));
     }
 
-    private Hackathon createHackathon(LocalDate subscriptionDeadline, Period period, int maxTeamSize) {
-        Staff organizer = new Staff("organizer", "organizer@test.it");
-        Staff judge = new Staff("judge", "judge@test.it");
-        Staff mentor1 = new Staff("mentor1", "mentor1@test.it");
-        Staff mentor2 = new Staff("mentor2", "mentor2@test.it");
+    private Hackathon createHackathon(LocalDate subscriptionDeadline, Period period) {
+        Staff organizer = new Staff("organizer", "organizer@test.it", "password");
+        Staff judge = new Staff("judge", "judge@test.it", "password");
+        Staff mentor1 = new Staff("mentor1", "mentor1@test.it", "password");
+        Staff mentor2 = new Staff("mentor2", "mentor2@test.it", "password");
 
         // SALVA gli staff prima di usarli nell'hackathon
         staffRepository.save(organizer);
@@ -229,18 +234,28 @@ public class RespondToInvitationIntegrationTest {
         mentors.add(mentor1);
         mentors.add(mentor2);
 
-        Hackathon hackathon = new Hackathon(
-                "Hackathon Test",
-                subscriptionDeadline,
-                period,
-                maxTeamSize,
-                "Regolamento...",
-                1000.0,
-                organizer,
-                judge,
-                mentors
-        );
-        hackathonRepository.save(hackathon);
-        return hackathon;
+        Hackathon hackathon = Hackathon.builder()
+                .name("Hackathon Test")
+                .subscriptionDeadline(subscriptionDeadline)
+                .hackathonPeriod(period)
+                .maxTeamSize(5)
+                .requirements("Regolamento...")
+                .prize(1000.0)
+                .organizer(organizer)
+                .judge(judge)
+                .mentors(mentors)
+                .build();
+
+        return hackathonRepository.save(hackathon);
+    }
+
+    private String getToken(User user) {
+        UserDetails userDetails = org.springframework.security.core.userdetails.User.builder()
+                .username(user.getEmail())
+                .password(user.getPassword())
+                .roles(user.getRole().name())
+                .build();
+
+        return jwtTokenUtil.generateToken(userDetails);
     }
 }

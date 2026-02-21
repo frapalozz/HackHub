@@ -3,12 +3,14 @@ package unicam.hackhub.application.report;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
+import unicam.hackhub.application.dto.response.ReportResponse;
 import unicam.hackhub.domain.hackathon.model.Hackathon;
-import unicam.hackhub.domain.hackathon.model.Report;
 import unicam.hackhub.domain.hackathon.repository.HackathonRepository;
 import unicam.hackhub.domain.hackathon.repository.ReportRepository;
 import unicam.hackhub.domain.team.model.Team;
 import unicam.hackhub.domain.team.repository.TeamRepository;
+
+import java.util.List;
 
 @Service
 @Primary
@@ -22,33 +24,27 @@ public class ReportHandlerImpl implements ReportHandler {
     @Override
     public String report(String mentorEmail, String teamName, Long hackathonId, String description) {
 
-        Hackathon hackathon = hackathonRepository.findById(hackathonId).orElse(null);
-        Team team = teamRepository.findById(teamName).orElse(null);
+        Hackathon hackathon = hackathonRepository.findById(hackathonId)
+                .orElseThrow(() -> new IllegalArgumentException("Hackathon id not found"));
+        Team team = teamRepository.findById(teamName)
+                .orElseThrow(() -> new IllegalArgumentException("Team not found"));
 
-        if(hackathon == null | team == null) {
-            throw new IllegalArgumentException("Hackathon or Team not found");
-        }
-
-        if(!hackathon.inProgress()) {
-            throw new IllegalArgumentException("Hackathon not in progress");
-        }
-
-        if(!hackathon.hasTeam(team)) {
-            throw new IllegalArgumentException("Team not in hackathon");
-        }
-
-        if(hackathon.getMentors().stream().noneMatch(m -> m.getEmail().equals(mentorEmail))) {
-            throw new IllegalArgumentException("Mentor not in hackathon");
-        }
-
-        Report report = Report.builder()
-                .team(team)
-                .hackathon(hackathon)
-                .description(description)
-                .build();
-
-        reportRepository.save(report);
+        reportRepository.save(hackathon.buildReport(mentorEmail, team, description));
 
         return "Report generated";
+    }
+
+    @Override
+    public List<ReportResponse> getReports(String staffEmail) {
+
+        return reportRepository
+                .findAllWhereIsStaff(staffEmail).stream()
+                .map(r -> new ReportResponse(
+                        r.getId(),
+                        r.getTeam().getName(),
+                        r.getHackathon().getId(),
+                        r.getHackathon().getName(),
+                        r.getDescription()))
+                .toList();
     }
 }

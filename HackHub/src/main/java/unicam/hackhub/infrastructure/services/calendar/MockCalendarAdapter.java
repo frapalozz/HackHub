@@ -4,7 +4,8 @@ import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
-import unicam.hackhub.application.supportRequest.CalendarService;
+import unicam.hackhub.application.dto.response.SupportRequestResponse;
+import unicam.hackhub.application.supportRequest.CalendarHandler;
 import unicam.hackhub.domain.hackathon.model.Hackathon;
 import unicam.hackhub.domain.hackathon.repository.HackathonRepository;
 import unicam.hackhub.domain.staff.model.Staff;
@@ -25,7 +26,7 @@ import java.util.List;
 @Service
 @Primary
 @AllArgsConstructor
-public class MockCalendarAdapter implements CalendarService {
+public class MockCalendarAdapter implements CalendarHandler {
 
     private final StaffRepository staffRepository;
     private final HackathonRepository hackathonRepository;
@@ -34,6 +35,10 @@ public class MockCalendarAdapter implements CalendarService {
 
     @Override
     public List<TimeRange> getFreeSlots(String mentorEmail, LocalDate date) {
+
+        if(date.isBefore(LocalDate.now())) {
+            throw new IllegalArgumentException("Date should be in the future");
+        }
 
         Staff mentor = getMentor(mentorEmail);
 
@@ -46,12 +51,19 @@ public class MockCalendarAdapter implements CalendarService {
     @Override
     public String requestSupport(String teamMember, Long hackathonId, String mentorEmail, TimeRange slot, LocalDate date) {
 
+        if(date.isBefore(LocalDate.now())) {
+            throw new IllegalArgumentException("Date should be in the future");
+        }
+
         if(!slot.validSlot()) {
             throw new IllegalArgumentException("Slot is not valid");
         }
 
         // Get hackathon, mentor, team
         Hackathon hackathon = getHackathon(hackathonId);
+        if(!hackathon.inProgress()) {
+            throw new IllegalStateException("Hackathon not in progress");
+        }
         Staff mentor = getMentor(mentorEmail);
         Team team = getUser(teamMember).getTeam();
         checkData(hackathon, mentor, team, slot);
@@ -109,6 +121,22 @@ public class MockCalendarAdapter implements CalendarService {
         supportRequestRepository.save(request);
 
         return "Request declined";
+    }
+
+    @Override
+    public List<SupportRequestResponse> getSupportRequests(String staffEmail) {
+        return supportRequestRepository
+                .findAllWhereIsStaff(staffEmail).stream()
+                .map(r -> new SupportRequestResponse(
+                        r.getId(),
+                        r.getTeam().getName(),
+                        r.getHackathon().getId(),
+                        r.getMentor().getEmail(),
+                        r.getState().name(),
+                        r.getDate(),
+                        r.getTimeRange(),
+                        r.getCallLink()
+                )).toList();
     }
 
     private Staff getMentor(String mentorEmail) {
