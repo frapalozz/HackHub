@@ -12,7 +12,6 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import unicam.hackhub.application.hackathon.CreateHackathonHandler;
 import unicam.hackhub.application.hackathon.HackathonHandler;
 import unicam.hackhub.application.hackathon.HackathonViewHandler;
 import unicam.hackhub.application.submission.SubmissionHandler;
@@ -30,7 +29,6 @@ import unicam.hackhub.presentation.dto.request.*;
 @PreAuthorize("hasRole('STAFF')")
 public class StaffController {
 
-    private final CreateHackathonHandler createHackathonHandler;
     private final SubmissionHandler submissionHandler;
     private final HackathonHandler hackathonHandler;
     private final ReportHandler reportHandler;
@@ -45,7 +43,7 @@ public class StaffController {
     public ResponseEntity<Object> createHackathon(@Valid @RequestBody HackathonRequest request) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(createHackathonHandler
+                .body(hackathonHandler
                         .createHackathon(hackathonMapper.toCreateHackathonRequest(request, getEmail())));
     }
 
@@ -149,14 +147,14 @@ public class StaffController {
     public ResponseEntity<Object> getAllHackathons() {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(hackathonViewHandler.getAllHackathons());
+                .body(hackathonHandler.getAllHackathons());
     }
 
     @RequestMapping(value = "/hackathons/me", method = RequestMethod.GET)
     public ResponseEntity<Object> getAllHackathonsMe() {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(hackathonViewHandler.getAssignedHackathons(getEmail()));
+                .body(hackathonHandler.getAssignedHackathons(getEmail()));
     }
 
     @RequestMapping(value = "/hackathon/{hackathonId}/submissions", method = RequestMethod.GET)

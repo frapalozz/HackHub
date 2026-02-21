@@ -13,7 +13,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import unicam.hackhub.application.hackathon.HackathonViewHandler;
+import unicam.hackhub.application.hackathon.HackathonHandler;
 import unicam.hackhub.application.submission.SubmissionHandler;
 import unicam.hackhub.application.invitation.InvitationHandler;
 import unicam.hackhub.application.supportRequest.CalendarService;
@@ -36,7 +36,7 @@ public class TeamController {
     private final InvitationHandler invitationHandler;
     private final SubmissionHandler submissionHandler;
     private final RegisterTeamHandler registerTeamHandler;
-    private final HackathonViewHandler hackathonViewHandler;
+    private final HackathonHandler hackathonHandler;
     private final CalendarService calendarService;
 
     @RequestMapping(value = "/invite", method = RequestMethod.POST)
@@ -138,7 +138,7 @@ public class TeamController {
     public ResponseEntity<Object> getHackathons() {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(hackathonViewHandler.getParticipatingHackathons(getEmail()));
+                .body(hackathonHandler.getParticipatingHackathons(getEmail()));
     }
 
     private String getEmail() {
