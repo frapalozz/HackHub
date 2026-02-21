@@ -3,7 +3,7 @@ package unicam.hackhub.application.team;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
-import unicam.hackhub.application.invitation.InvitationService;
+import unicam.hackhub.application.invitation.InvitationHandler;
 import unicam.hackhub.domain.hackathon.model.Hackathon;
 import unicam.hackhub.domain.hackathon.repository.HackathonRepository;
 import unicam.hackhub.domain.team.model.Team;
@@ -23,7 +23,7 @@ public class TeamHandlerImpl implements TeamHandler {
     private final HackathonRepository hackathonRepository;
     private final UserRepository userRepository;
 
-    private final InvitationService invitationService;
+    private final InvitationHandler invitationHandler;
 
     @Override
     public String createTeam(String userId, String teamName, List<String> invitedUsers) {
@@ -39,7 +39,7 @@ public class TeamHandlerImpl implements TeamHandler {
         user.setRole(Role.TEAM_MEMBER);
         userRepository.save(user);
 
-        invitationService.createInvitations(teamSaved, invitedUsers);
+        invitationHandler.createInvitations(teamSaved, invitedUsers);
 
         return "Team Created";
     }

@@ -3,14 +3,14 @@ package unicam.hackhub.infrastructure.services.payment;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
-import unicam.hackhub.application.payment.PaymentService;
+import unicam.hackhub.application.payment.PaymentHandler;
 import unicam.hackhub.domain.team.model.Team;
 import unicam.hackhub.domain.team.repository.TeamRepository;
 
 @Service
 @Primary
 @AllArgsConstructor
-public class MockPaymentAdapter implements PaymentService {
+public class MockPaymentAdapter implements PaymentHandler {
 
     private final TeamRepository teamRepository;
 

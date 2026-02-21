@@ -8,7 +8,7 @@ import unicam.hackhub.application.dto.mapper.HackathonMapper;
 import unicam.hackhub.application.dto.request.CreateHackathonRequest;
 import unicam.hackhub.application.dto.response.AssignedHackathonResponse;
 import unicam.hackhub.application.dto.response.HackathonResponse;
-import unicam.hackhub.application.payment.PaymentService;
+import unicam.hackhub.application.payment.PaymentHandler;
 import unicam.hackhub.domain.hackathon.model.Hackathon;
 import unicam.hackhub.domain.hackathon.repository.HackathonRepository;
 import unicam.hackhub.domain.staff.model.Staff;
@@ -30,7 +30,7 @@ public class HackathonHandlerImpl implements HackathonHandler {
     private final HackathonRepository hackathonRepository;
     private final StaffRepository staffRepository;
     private final UserRepository userRepository;
-    private final PaymentService paymentService;
+    private final PaymentHandler paymentHandler;
 
     private final HackathonMapper hackathonMapper;
 
@@ -77,7 +77,7 @@ public class HackathonHandlerImpl implements HackathonHandler {
 
         hackathon.declareWinner(teamName);
 
-        paymentService.transferPrize(hackathon.getPrize(), teamName);
+        paymentHandler.transferPrize(hackathon.getPrize(), teamName);
 
         hackathonRepository.save(hackathon);
 

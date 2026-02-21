@@ -12,7 +12,6 @@ import unicam.hackhub.domain.staff.repository.StaffRepository;
 import unicam.hackhub.domain.user.model.User;
 import unicam.hackhub.domain.user.repository.UserRepository;
 import unicam.hackhub.domain.utils.Role;
-import unicam.hackhub.infrastructure.security.JwtTokenUtil;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -23,7 +22,7 @@ import java.util.Map;
 @AllArgsConstructor
 public class AuthHandlerImpl implements AuthHandler {
 
-    private final JwtTokenUtil jwtTokenUtil;
+    private final TokenProvider jwtTokenUtil;
     private final PasswordEncoder passwordEncoder;
 
     private final UserRepository userRepository;

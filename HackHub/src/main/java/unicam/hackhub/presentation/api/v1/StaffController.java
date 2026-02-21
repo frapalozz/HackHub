@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.*;
 import unicam.hackhub.application.hackathon.HackathonHandler;
 import unicam.hackhub.application.submission.SubmissionHandler;
 import unicam.hackhub.application.report.ReportHandler;
-import unicam.hackhub.application.supportRequest.CalendarService;
+import unicam.hackhub.application.supportRequest.CalendarHandler;
 import unicam.hackhub.presentation.dto.mapper.HackathonMapper;
 import unicam.hackhub.presentation.dto.mapper.ReportMapper;
 import unicam.hackhub.presentation.dto.mapper.SupportRequestMapper;
@@ -31,7 +31,7 @@ public class StaffController {
     private final SubmissionHandler submissionHandler;
     private final HackathonHandler hackathonHandler;
     private final ReportHandler reportHandler;
-    private final CalendarService calendarService;
+    private final CalendarHandler calendarHandler;
 
     private final HackathonMapper hackathonMapper;
     private final SupportRequestMapper supportRequestMapper;
@@ -131,14 +131,14 @@ public class StaffController {
                                                        @RequestBody AcceptSupportRequest request) {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(calendarService.acceptRequest(getEmail(), requestId, request.linkCall()));
+                .body(calendarHandler.acceptRequest(getEmail(), requestId, request.linkCall()));
     }
 
     @RequestMapping(value = "/support_request/{requestId}/decline", method = RequestMethod.PUT)
     public ResponseEntity<Object> declineSupportRequest(@PathVariable Long requestId) {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(calendarService.declineRequest(getEmail(), requestId));
+                .body(calendarHandler.declineRequest(getEmail(), requestId));
     }
 
     @RequestMapping(value = "/hackathons", method = RequestMethod.GET)
@@ -184,7 +184,7 @@ public class StaffController {
     public ResponseEntity<Object> getSupportRequests() {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(calendarService.getSupportRequests(getEmail())
+                .body(calendarHandler.getSupportRequests(getEmail())
                         .stream()
                         .map(supportRequestMapper::supportRequestToSupportRequestResponse));
     }

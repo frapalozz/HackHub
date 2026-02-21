@@ -10,7 +10,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import tools.jackson.databind.ObjectMapper;
-import unicam.hackhub.application.supportRequest.CalendarService;
+import unicam.hackhub.application.supportRequest.CalendarHandler;
 import unicam.hackhub.config.DataInitializer;
 import unicam.hackhub.domain.hackathon.model.Hackathon;
 import unicam.hackhub.domain.hackathon.model.state.HackathonStatus;
@@ -52,7 +52,7 @@ public class RequestSupportIntegrationTest {
     @Autowired
     HackathonRepository hackathonRepository;
     @Autowired
-    CalendarService calendarService;
+    CalendarHandler calendarHandler;
     @Autowired
     JwtTokenUtil jwtTokenUtil;
     @MockitoBean
@@ -88,7 +88,7 @@ public class RequestSupportIntegrationTest {
                 .andExpect(content().string("Request created"));
 
         // ASSERT
-        assertThat(calendarService
+        assertThat(calendarHandler
                 .getFreeSlots("mentor1@test.it", LocalDate.now().plusDays(1))
                 .stream()
                 .noneMatch(t -> t.getStartTime().equals(LocalTime.of(13, 0)) &&
@@ -121,7 +121,7 @@ public class RequestSupportIntegrationTest {
                 .andExpect(jsonPath("$.message").value("Team not in hackathon"));
 
         // ASSERT
-        assertThat(calendarService
+        assertThat(calendarHandler
                 .getFreeSlots("mentor1@test.it", LocalDate.now().plusDays(1))
                 .stream()
                 .noneMatch(t -> t.getStartTime().equals(LocalTime.of(13, 0)) &&
@@ -154,7 +154,7 @@ public class RequestSupportIntegrationTest {
                 .andExpect(jsonPath("$.message").value("Slot outside working hours"));
 
         // ASSERT
-        assertThat(calendarService
+        assertThat(calendarHandler
                 .getFreeSlots("mentor1@test.it", LocalDate.now().plusDays(1))
                 .stream()
                 .noneMatch(t -> t.getStartTime().equals(LocalTime.of(22, 0)) &&
@@ -187,7 +187,7 @@ public class RequestSupportIntegrationTest {
                 .andExpect(content().string("Request created"));
 
         // ASSERT
-        assertThat(calendarService
+        assertThat(calendarHandler
                 .getFreeSlots("mentor1@test.it", LocalDate.now().plusDays(1))
                 .stream()
                 .noneMatch(t -> t.getStartTime().equals(LocalTime.of(13, 0)) &&
@@ -202,7 +202,7 @@ public class RequestSupportIntegrationTest {
                 .andExpect(jsonPath("$.message").value("Slot already occupied"));
 
         // ASSERT
-        assertThat(calendarService
+        assertThat(calendarHandler
                 .getFreeSlots("mentor1@test.it", LocalDate.now().plusDays(1))
                 .stream()
                 .noneMatch(t -> t.getStartTime().equals(LocalTime.of(13, 0)) &&
@@ -235,7 +235,7 @@ public class RequestSupportIntegrationTest {
                 .andExpect(jsonPath("$.message").value("Mentor not found"));
 
         // ASSERT
-        assertThat(calendarService
+        assertThat(calendarHandler
                 .getFreeSlots("mentor1@test.it", LocalDate.now().plusDays(1))
                 .stream()
                 .noneMatch(t -> t.getStartTime().equals(LocalTime.of(13, 0)) &&
@@ -268,7 +268,7 @@ public class RequestSupportIntegrationTest {
                 .andExpect(jsonPath("$.message").value("Hackathon not in progress"));
 
         // ASSERT
-        assertThat(calendarService
+        assertThat(calendarHandler
                 .getFreeSlots("mentor1@test.it", LocalDate.now().plusDays(1))
                 .stream()
                 .noneMatch(t -> t.getStartTime().equals(LocalTime.of(13, 0)) &&

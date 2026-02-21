@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import unicam.hackhub.application.hackathon.HackathonHandler;
 import unicam.hackhub.application.submission.SubmissionHandler;
 import unicam.hackhub.application.invitation.InvitationHandler;
-import unicam.hackhub.application.supportRequest.CalendarService;
+import unicam.hackhub.application.supportRequest.CalendarHandler;
 import unicam.hackhub.application.team.TeamHandler;
 import unicam.hackhub.domain.hackathon.model.Submission;
 import unicam.hackhub.domain.utils.TimeRange;
@@ -37,7 +37,7 @@ public class TeamController {
     private final SubmissionHandler submissionHandler;
     private final TeamHandler teamHandler;
     private final HackathonHandler hackathonHandler;
-    private final CalendarService calendarService;
+    private final CalendarHandler calendarHandler;
 
     @RequestMapping(value = "/invite", method = RequestMethod.POST)
     public ResponseEntity<Object> inviteUser(
@@ -97,7 +97,7 @@ public class TeamController {
 
     @RequestMapping(value = "/mentor_availability", method = RequestMethod.GET)
     public ResponseEntity<Object> getMentorAvailability(@RequestBody MentorAvailabilityRequest request) {
-        List<TimeRange> slots = calendarService.getFreeSlots(request.mentorEmail(), request.date());
+        List<TimeRange> slots = calendarHandler.getFreeSlots(request.mentorEmail(), request.date());
 
         if(slots.isEmpty()) {
             return ResponseEntity
@@ -107,14 +107,14 @@ public class TeamController {
 
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(calendarService.getFreeSlots(request.mentorEmail(), request.date()));
+                .body(calendarHandler.getFreeSlots(request.mentorEmail(), request.date()));
     }
 
     @RequestMapping(value = "/support", method = RequestMethod.POST)
     public ResponseEntity<Object> requestSupport(@RequestBody SupportRequest request) {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
-                .body(calendarService.requestSupport(
+                .body(calendarHandler.requestSupport(
                         getEmail(),
                         request.hackathonId(),
                         request.mentorEmail(),

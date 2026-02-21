@@ -1,6 +1,6 @@
 package unicam.hackhub.application.payment;
 
-public interface PaymentService {
+public interface PaymentHandler {
 
     /**
      * Transfers a specified monetary prize to the team's designated account.

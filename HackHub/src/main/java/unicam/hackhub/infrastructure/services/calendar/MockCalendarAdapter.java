@@ -4,7 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
-import unicam.hackhub.application.supportRequest.CalendarService;
+import unicam.hackhub.application.supportRequest.CalendarHandler;
 import unicam.hackhub.domain.hackathon.model.Hackathon;
 import unicam.hackhub.domain.hackathon.repository.HackathonRepository;
 import unicam.hackhub.domain.staff.model.Staff;
@@ -25,7 +25,7 @@ import java.util.List;
 @Service
 @Primary
 @AllArgsConstructor
-public class MockCalendarAdapter implements CalendarService {
+public class MockCalendarAdapter implements CalendarHandler {
 
     private final StaffRepository staffRepository;
     private final HackathonRepository hackathonRepository;

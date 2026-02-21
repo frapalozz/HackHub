@@ -6,7 +6,7 @@ import unicam.hackhub.domain.utils.TimeRange;
 import java.time.LocalDate;
 import java.util.List;
 
-public interface CalendarService {
+public interface CalendarHandler {
 
     /**
      * Retrieves the available free time slots for a specific mentor on a given date.

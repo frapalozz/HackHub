@@ -95,6 +95,18 @@ public class InvitationHandlerImpl implements InvitationHandler {
                 ).collect(Collectors.toList());
     }
 
+    public void createInvitations(Team team, List<String> invitedUsers) {
+        if(invitedUsers == null || invitedUsers.isEmpty()) return;
+
+        List<User> users = userRepository.findAllById(invitedUsers);
+
+        List<Invitation> invitations = users.stream()
+                .map(user -> new Invitation(LocalDate.now(), team, user))
+                .collect(Collectors.toList());
+
+        invitationRepository.saveAll(invitations);
+    }
+
     private boolean validateEmail(String email) {
         Pattern pattern = Pattern.compile("^[a-zA-Z0-9_+&*-]+(?:\\.[a-zA-Z0-9_+&*-]+)*@"+"(?:[a-zA-Z0-9-]+\\.)+[a-zA-Z]{2,7}$");
         if(email == null || email.isEmpty()) return false;
