@@ -9,7 +9,6 @@ import org.springframework.http.MediaType;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
-import unicam.hackhub.application.team.RegisterTeamHandler;
 import unicam.hackhub.config.DataInitializer;
 import unicam.hackhub.domain.hackathon.model.Hackathon;
 import unicam.hackhub.domain.hackathon.model.Submission;

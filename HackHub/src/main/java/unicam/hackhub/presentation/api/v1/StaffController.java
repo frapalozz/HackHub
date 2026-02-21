@@ -13,7 +13,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import unicam.hackhub.application.hackathon.HackathonHandler;
-import unicam.hackhub.application.hackathon.HackathonViewHandler;
 import unicam.hackhub.application.submission.SubmissionHandler;
 import unicam.hackhub.application.report.ReportHandler;
 import unicam.hackhub.application.supportRequest.CalendarService;
@@ -32,7 +31,6 @@ public class StaffController {
     private final SubmissionHandler submissionHandler;
     private final HackathonHandler hackathonHandler;
     private final ReportHandler reportHandler;
-    private final HackathonViewHandler hackathonViewHandler;
     private final CalendarService calendarService;
 
     private final HackathonMapper hackathonMapper;
@@ -186,7 +184,7 @@ public class StaffController {
     public ResponseEntity<Object> getSupportRequests() {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(hackathonViewHandler.getSupportRequests(getEmail())
+                .body(calendarService.getSupportRequests(getEmail())
                         .stream()
                         .map(supportRequestMapper::supportRequestToSupportRequestResponse));
     }
@@ -195,7 +193,7 @@ public class StaffController {
     public ResponseEntity<Object> getReports() {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(hackathonViewHandler.getReports(getEmail())
+                .body(reportHandler.getReports(getEmail())
                         .stream().map(reportMapper::reportToReportResponse));
     }
 

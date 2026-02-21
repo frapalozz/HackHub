@@ -2,7 +2,7 @@ package unicam.hackhub.application.team;
 
 import java.util.List;
 
-public interface CreateTeamHandler {
+public interface TeamHandler {
 
     /**
      * Creates a new team with the specified name and creator.
@@ -17,4 +17,13 @@ public interface CreateTeamHandler {
      * @return a status message indicating success or failure
      */
     String createTeam(String userId, String teamName, List<String> invitedUsers);
+
+    /**
+     * Registers a team for participation in a specific hackathon.
+     *
+     * @param teamName    the name of the team to register
+     * @param hackathonId the unique identifier of the hackathon
+     * @return a status message indicating success or failure
+     */
+    String registerTeam(String teamName, Long hackathonId);
 }

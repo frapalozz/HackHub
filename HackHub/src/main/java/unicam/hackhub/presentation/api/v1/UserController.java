@@ -11,9 +11,8 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import unicam.hackhub.application.dto.response.InvitationResponse;
 import unicam.hackhub.application.invitation.InvitationHandler;
-import unicam.hackhub.application.team.CreateTeamHandler;
+import unicam.hackhub.application.team.TeamHandler;
 import unicam.hackhub.application.user.UserHandler;
 import unicam.hackhub.presentation.dto.mapper.InvitationMapper;
 import unicam.hackhub.presentation.dto.request.TeamRequest;
@@ -30,7 +29,7 @@ import java.util.List;
 @PreAuthorize("hasRole('USER')")
 public class UserController {
 
-    private final CreateTeamHandler createTeamHandler;
+    private final TeamHandler teamHandler;
     private final InvitationHandler invitationHandler;
     private final UserHandler userHandler;
     private final InvitationMapper invitationMapper;
@@ -39,7 +38,7 @@ public class UserController {
     public ResponseEntity<Object> createTeam(@Validated @RequestBody TeamRequest teamRequest) {
          return ResponseEntity
                  .status(HttpStatus.CREATED)
-                 .body(createTeamHandler.createTeam(getEmail(), teamRequest.teamName(), teamRequest.emails()));
+                 .body(teamHandler.createTeam(getEmail(), teamRequest.teamName(), teamRequest.emails()));
     }
 
     @RequestMapping(value = "/invitations", method = RequestMethod.GET)

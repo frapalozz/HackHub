@@ -122,6 +122,11 @@ public class MockCalendarAdapter implements CalendarService {
         return "Request declined";
     }
 
+    @Override
+    public List<SupportRequest> getSupportRequests(String staffEmail) {
+        return supportRequestRepository.findAllWhereIsStaff(staffEmail);
+    }
+
     private Staff getMentor(String mentorEmail) {
         Staff mentor = staffRepository.findById(mentorEmail).orElse(null);
 

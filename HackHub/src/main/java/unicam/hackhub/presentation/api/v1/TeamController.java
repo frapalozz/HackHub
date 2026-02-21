@@ -17,7 +17,7 @@ import unicam.hackhub.application.hackathon.HackathonHandler;
 import unicam.hackhub.application.submission.SubmissionHandler;
 import unicam.hackhub.application.invitation.InvitationHandler;
 import unicam.hackhub.application.supportRequest.CalendarService;
-import unicam.hackhub.application.team.RegisterTeamHandler;
+import unicam.hackhub.application.team.TeamHandler;
 import unicam.hackhub.domain.hackathon.model.Submission;
 import unicam.hackhub.domain.utils.TimeRange;
 import unicam.hackhub.presentation.dto.request.MentorAvailabilityRequest;
@@ -35,7 +35,7 @@ public class TeamController {
 
     private final InvitationHandler invitationHandler;
     private final SubmissionHandler submissionHandler;
-    private final RegisterTeamHandler registerTeamHandler;
+    private final TeamHandler teamHandler;
     private final HackathonHandler hackathonHandler;
     private final CalendarService calendarService;
 
@@ -66,7 +66,7 @@ public class TeamController {
     ) {
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(registerTeamHandler.registerTeam(getEmail(), hackathonId));
+                .body(teamHandler.registerTeam(getEmail(), hackathonId));
     }
 
     @RequestMapping(value = "/hackathon/{hackathonId}", method = RequestMethod.POST)

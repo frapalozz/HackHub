@@ -4,10 +4,13 @@ import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 import unicam.hackhub.domain.hackathon.model.Hackathon;
+import unicam.hackhub.domain.hackathon.model.Report;
 import unicam.hackhub.domain.hackathon.repository.HackathonRepository;
 import unicam.hackhub.domain.hackathon.repository.ReportRepository;
 import unicam.hackhub.domain.team.model.Team;
 import unicam.hackhub.domain.team.repository.TeamRepository;
+
+import java.util.List;
 
 @Service
 @Primary
@@ -29,5 +32,11 @@ public class ReportHandlerImpl implements ReportHandler {
         reportRepository.save(hackathon.buildReport(mentorEmail, team, description));
 
         return "Report generated";
+    }
+
+    @Override
+    public List<Report> getReports(String staffEmail) {
+
+        return reportRepository.findAllWhereIsStaff(staffEmail);
     }
 }

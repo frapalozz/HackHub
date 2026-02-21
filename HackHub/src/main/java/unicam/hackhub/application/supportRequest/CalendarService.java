@@ -1,5 +1,6 @@
 package unicam.hackhub.application.supportRequest;
 
+import unicam.hackhub.domain.support.model.SupportRequest;
 import unicam.hackhub.domain.utils.TimeRange;
 
 import java.time.LocalDate;
@@ -50,4 +51,12 @@ public interface CalendarService {
      *         or an error message if the request cannot be declined
      */
     String declineRequest(String mentorEmail, Long requestId);
+
+    /**
+     * Retrieves all support requests assigned to or relevant for a staff member.
+     *
+     * @param staffEmail the email address of the staff member
+     * @return a list of {@link SupportRequest} objects, possibly empty
+     */
+    List<SupportRequest> getSupportRequests(String staffEmail);
 }
