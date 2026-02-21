@@ -1,5 +1,6 @@
 package unicam.hackhub.application.supportRequest;
 
+import unicam.hackhub.application.dto.response.SupportRequestResponse;
 import unicam.hackhub.domain.support.model.SupportRequest;
 import unicam.hackhub.domain.utils.TimeRange;
 
@@ -58,5 +59,5 @@ public interface CalendarHandler {
      * @param staffEmail the email address of the staff member
      * @return a list of {@link SupportRequest} objects, possibly empty
      */
-    List<SupportRequest> getSupportRequests(String staffEmail);
+    List<SupportRequestResponse> getSupportRequests(String staffEmail);
 }

@@ -1,4 +1,4 @@
-package unicam.hackhub.presentation.dto.response;
+package unicam.hackhub.application.dto.response;
 
 import unicam.hackhub.domain.utils.TimeRange;
 
@@ -12,5 +12,6 @@ public record SupportRequestResponse(
         String state,
         LocalDate date,
         TimeRange slot,
-        String linkCall) {
+        String linkCall
+) {
 }

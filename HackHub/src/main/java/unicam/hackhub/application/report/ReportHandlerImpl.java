@@ -3,8 +3,8 @@ package unicam.hackhub.application.report;
 import lombok.AllArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
+import unicam.hackhub.application.dto.response.ReportResponse;
 import unicam.hackhub.domain.hackathon.model.Hackathon;
-import unicam.hackhub.domain.hackathon.model.Report;
 import unicam.hackhub.domain.hackathon.repository.HackathonRepository;
 import unicam.hackhub.domain.hackathon.repository.ReportRepository;
 import unicam.hackhub.domain.team.model.Team;
@@ -35,8 +35,16 @@ public class ReportHandlerImpl implements ReportHandler {
     }
 
     @Override
-    public List<Report> getReports(String staffEmail) {
+    public List<ReportResponse> getReports(String staffEmail) {
 
-        return reportRepository.findAllWhereIsStaff(staffEmail);
+        return reportRepository
+                .findAllWhereIsStaff(staffEmail).stream()
+                .map(r -> new ReportResponse(
+                        r.getId(),
+                        r.getTeam().getName(),
+                        r.getHackathon().getId(),
+                        r.getHackathon().getName(),
+                        r.getDescription()))
+                .toList();
     }
 }

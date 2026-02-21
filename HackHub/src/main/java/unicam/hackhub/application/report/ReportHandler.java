@@ -1,5 +1,6 @@
 package unicam.hackhub.application.report;
 
+import unicam.hackhub.application.dto.response.ReportResponse;
 import unicam.hackhub.domain.hackathon.model.Report;
 
 import java.util.List;
@@ -22,5 +23,5 @@ public interface ReportHandler {
      * @param staffEmail the email address of the staff member
      * @return a list of {@link Report} objects, possibly empty
      */
-    List<Report> getReports(String staffEmail);
+    List<ReportResponse> getReports(String staffEmail);
 }

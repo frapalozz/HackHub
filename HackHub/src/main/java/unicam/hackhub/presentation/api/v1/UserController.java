@@ -14,12 +14,8 @@ import org.springframework.web.bind.annotation.*;
 import unicam.hackhub.application.invitation.InvitationHandler;
 import unicam.hackhub.application.team.TeamHandler;
 import unicam.hackhub.application.user.UserHandler;
-import unicam.hackhub.presentation.dto.mapper.InvitationMapper;
 import unicam.hackhub.presentation.dto.request.TeamRequest;
 import unicam.hackhub.presentation.dto.request.UserRequest;
-import unicam.hackhub.presentation.dto.response.PresentationInvitationResponse;
-
-import java.util.List;
 
 @Slf4j
 @Validated
@@ -32,7 +28,6 @@ public class UserController {
     private final TeamHandler teamHandler;
     private final InvitationHandler invitationHandler;
     private final UserHandler userHandler;
-    private final InvitationMapper invitationMapper;
 
     @RequestMapping(value = "/team", method = RequestMethod.POST)
     public ResponseEntity<Object> createTeam(@Validated @RequestBody TeamRequest teamRequest) {
@@ -43,19 +38,9 @@ public class UserController {
 
     @RequestMapping(value = "/invitations", method = RequestMethod.GET)
     public ResponseEntity<Object> getInvitations() {
-        List<PresentationInvitationResponse> invitations = invitationHandler
-                .getInvitations(getEmail())
-                .stream()
-                .map(invitationMapper::applicationToPresentationInvitationResponse)
-                .toList();
-
-        if(invitations.isEmpty()) {
-            return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
-        }
-
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(invitations);
+                .body(invitationHandler.getInvitations(getEmail()));
     }
 
     @RequestMapping(value = "/invitation/{teamName}", method = RequestMethod.GET)

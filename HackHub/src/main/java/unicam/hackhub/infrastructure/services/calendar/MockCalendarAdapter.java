@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.NonNull;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
+import unicam.hackhub.application.dto.response.SupportRequestResponse;
 import unicam.hackhub.application.supportRequest.CalendarHandler;
 import unicam.hackhub.domain.hackathon.model.Hackathon;
 import unicam.hackhub.domain.hackathon.repository.HackathonRepository;
@@ -123,8 +124,19 @@ public class MockCalendarAdapter implements CalendarHandler {
     }
 
     @Override
-    public List<SupportRequest> getSupportRequests(String staffEmail) {
-        return supportRequestRepository.findAllWhereIsStaff(staffEmail);
+    public List<SupportRequestResponse> getSupportRequests(String staffEmail) {
+        return supportRequestRepository
+                .findAllWhereIsStaff(staffEmail).stream()
+                .map(r -> new SupportRequestResponse(
+                        r.getId(),
+                        r.getTeam().getName(),
+                        r.getHackathon().getId(),
+                        r.getMentor().getEmail(),
+                        r.getState().name(),
+                        r.getDate(),
+                        r.getTimeRange(),
+                        r.getCallLink()
+                )).toList();
     }
 
     private Staff getMentor(String mentorEmail) {

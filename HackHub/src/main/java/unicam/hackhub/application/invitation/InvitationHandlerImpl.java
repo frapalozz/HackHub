@@ -91,7 +91,7 @@ public class InvitationHandlerImpl implements InvitationHandler {
                 .map(i -> new InvitationResponse(
                         i.getDate(),
                         i.getId().getTeam().getName(),
-                        i.getId().getReceiver())
+                        i.getId().getReceiver().getEmail())
                 ).collect(Collectors.toList());
     }
 
