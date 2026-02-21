@@ -38,7 +38,7 @@ public class StaffController {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(hackathonHandler
-                        .createHackathon(hackathonMapper.toCreateHackathonRequest(request, getEmail())));
+                        .createHackathon(hackathonMapper.toCreateHackathonCommand(request, getEmail())));
     }
 
     @RequestMapping(value = "/hackathon/{hackathonId}", method = RequestMethod.POST)

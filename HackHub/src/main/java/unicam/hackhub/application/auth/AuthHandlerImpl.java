@@ -22,7 +22,7 @@ import java.util.Map;
 @AllArgsConstructor
 public class AuthHandlerImpl implements AuthHandler {
 
-    private final TokenProvider jwtTokenUtil;
+    private final TokenProvider tokenProvider;
     private final PasswordEncoder passwordEncoder;
 
     private final UserRepository userRepository;
@@ -97,8 +97,8 @@ public class AuthHandlerImpl implements AuthHandler {
         claims.put("email", email);
         claims.put("role", role.name());
 
-        String jwtToken = jwtTokenUtil.generateToken(claims, userDetails);
+        String jwtToken = tokenProvider.generateToken(claims, userDetails);
 
-        return new TokenResponse(jwtToken, "Bearer", String.valueOf(jwtTokenUtil.getExpirationTime()));
+        return new TokenResponse(jwtToken, "Bearer", String.valueOf(tokenProvider.getExpirationTime()));
     }
 }

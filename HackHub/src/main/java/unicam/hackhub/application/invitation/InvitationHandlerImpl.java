@@ -95,6 +95,7 @@ public class InvitationHandlerImpl implements InvitationHandler {
                 ).collect(Collectors.toList());
     }
 
+    @Override
     public void createInvitations(Team team, List<String> invitedUsers) {
         if(invitedUsers == null || invitedUsers.isEmpty()) return;
 

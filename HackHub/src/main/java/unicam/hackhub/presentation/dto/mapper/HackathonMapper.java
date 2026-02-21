@@ -8,7 +8,7 @@ import unicam.hackhub.presentation.dto.request.HackathonRequest;
 @Component
 public class HackathonMapper {
 
-    public CreateHackathonCommand toCreateHackathonRequest(HackathonRequest request, String organizerEmail) {
+    public CreateHackathonCommand toCreateHackathonCommand(HackathonRequest request, String organizerEmail) {
             return new CreateHackathonCommand(
                     request.name(),
                     request.location(),
