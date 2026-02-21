@@ -20,7 +20,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"email\": \"john@staff.com\",\r\n    \"password\": \"password\",\r\n    \"type\": \"staff\"\r\n}",
+              "raw": "{\r\n    \"email\": \"alex@user.com\",\r\n    \"password\": \"password\",\r\n    \"type\": \"user\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -108,7 +108,7 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://localhost:8888/api/v1/visitor/hackathons/{hackathonId}",
+              "raw": "http://localhost:8888/api/v1/visitor/hackathons/3",
               "protocol": "http",
               "host": [
                 "localhost"
@@ -119,7 +119,7 @@
                 "v1",
                 "visitor",
                 "hackathons",
-                "{hackathonId}"
+                "3"
               ]
             }
           },
@@ -138,7 +138,7 @@
               "bearer": [
                 {
                   "key": "token",
-                  "value": "",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsInJvbGVzIjpbeyJhdXRob3JpdHkiOiJST0xFX1VTRVIifV0sIm5hbWUiOiJqYW5lIiwiZW1haWwiOiJqYW5lQHVzZXIuY29tIiwic3ViIjoiamFuZUB1c2VyLmNvbSIsImlhdCI6MTc3MTY5MDE5NCwiZXhwIjoxNzgwMzMwMTk0fQ.c8kyHul0VfCqYMcs7GGnvYOvrS1ReccyXTw4ayfdZ-0",
                   "type": "string"
                 }
               ]
@@ -179,7 +179,7 @@
               "bearer": [
                 {
                   "key": "token",
-                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsInJvbGVzIjpbeyJhdXRob3JpdHkiOiJST0xFX1VTRVIifV0sIm5hbWUiOiJqYW5lIiwiZW1haWwiOiJqYW5lQHVzZXIuY29tIiwic3ViIjoiamFuZUB1c2VyLmNvbSIsImlhdCI6MTc3MTQyNTkyMiwiZXhwIjoxNzgwMDY1OTIyfQ.1BfSr6E2oK__HeCB4ha1Oy46EJaH-9-8EjCb7tYgGzM",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsInJvbGVzIjpbeyJhdXRob3JpdHkiOiJST0xFX1VTRVIifV0sIm5hbWUiOiJqb2huIiwiZW1haWwiOiJqb2huQHVzZXIuY29tIiwic3ViIjoiam9obkB1c2VyLmNvbSIsImlhdCI6MTc3MTY5MDIzOSwiZXhwIjoxNzgwMzMwMjM5fQ.GrP9k3qf3yMMlraRaeJIdP2gjUSd1oqMSXEMpv7n2c8",
                   "type": "string"
                 }
               ]
@@ -206,6 +206,16 @@
         {
           "name": "Accept Invitation",
           "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsInJvbGVzIjpbeyJhdXRob3JpdHkiOiJST0xFX1VTRVIifV0sIm5hbWUiOiJqb2huIiwiZW1haWwiOiJqb2huQHVzZXIuY29tIiwic3ViIjoiam9obkB1c2VyLmNvbSIsImlhdCI6MTc3MTY5MDIzOSwiZXhwIjoxNzgwMzMwMjM5fQ.GrP9k3qf3yMMlraRaeJIdP2gjUSd1oqMSXEMpv7n2c8",
+                  "type": "string"
+                }
+              ]
+            },
             "method": "GET",
             "header": [],
             "url": {
@@ -229,6 +239,16 @@
         {
           "name": "Decline Invitation",
           "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsInJvbGVzIjpbeyJhdXRob3JpdHkiOiJST0xFX1VTRVIifV0sIm5hbWUiOiJqb2huIiwiZW1haWwiOiJqb2huQHVzZXIuY29tIiwic3ViIjoiam9obkB1c2VyLmNvbSIsImlhdCI6MTc3MTY5MDIzOSwiZXhwIjoxNzgwMzMwMjM5fQ.GrP9k3qf3yMMlraRaeJIdP2gjUSd1oqMSXEMpv7n2c8",
+                  "type": "string"
+                }
+              ]
+            },
             "method": "DELETE",
             "header": [],
             "url": {
@@ -257,7 +277,7 @@
               "bearer": [
                 {
                   "key": "token",
-                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVEVBTV9NRU1CRVIiLCJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9URUFNX01FTUJFUiJ9XSwibmFtZSI6ImFsZXgiLCJlbWFpbCI6ImFsZXhAdXNlci5jb20iLCJzdWIiOiJhbGV4QHVzZXIuY29tIiwiaWF0IjoxNzcxNDIyODUwLCJleHAiOjE3ODAwNjI4NTB9.T3QJdFl33y_QREJziTYYbOX0x76eG2EH4TZ3j2LrLPM",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsInJvbGVzIjpbeyJhdXRob3JpdHkiOiJST0xFX1VTRVIifV0sIm5hbWUiOiJqb2huIiwiZW1haWwiOiJqb2huQHVzZXIuY29tIiwic3ViIjoiam9obkB1c2VyLmNvbSIsImlhdCI6MTc3MTY5MDIzOSwiZXhwIjoxNzgwMzMwMjM5fQ.GrP9k3qf3yMMlraRaeJIdP2gjUSd1oqMSXEMpv7n2c8",
                   "type": "string"
                 }
               ]
@@ -289,7 +309,7 @@
               "bearer": [
                 {
                   "key": "token",
-                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsInJvbGVzIjpbeyJhdXRob3JpdHkiOiJST0xFX1VTRVIifV0sIm5hbWUiOiJqYW5lIiwiZW1haWwiOiJqYW5lQHVzZXIuY29tIiwic3ViIjoiamFuZUB1c2VyLmNvbSIsImlhdCI6MTc3MTQyMjQ0NywiZXhwIjoxNzgwMDYyNDQ3fQ.5vjhq0A5evVKMHPHs5YUXWkZngdaApWYyw5PK7oE2u8",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVVNFUiIsInJvbGVzIjpbeyJhdXRob3JpdHkiOiJST0xFX1VTRVIifV0sIm5hbWUiOiJqb2huIiwiZW1haWwiOiJqb2huQHVzZXIuY29tIiwic3ViIjoiam9obkB1c2VyLmNvbSIsImlhdCI6MTc3MTY5MDIzOSwiZXhwIjoxNzgwMzMwMjM5fQ.GrP9k3qf3yMMlraRaeJIdP2gjUSd1oqMSXEMpv7n2c8",
                   "type": "string"
                 }
               ]
@@ -335,7 +355,7 @@
               "bearer": [
                 {
                   "key": "token",
-                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVEVBTV9NRU1CRVIiLCJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9URUFNX01FTUJFUiJ9XSwibmFtZSI6ImFsZXgiLCJlbWFpbCI6ImFsZXhAdXNlci5jb20iLCJzdWIiOiJhbGV4QHVzZXIuY29tIiwiaWF0IjoxNzcxNDI2MTM3LCJleHAiOjE3ODAwNjYxMzd9.-DhxOk4JqHfCY5jZWLjcVII9u037leco12MoxmpsKCE",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVEVBTV9NRU1CRVIiLCJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9URUFNX01FTUJFUiJ9XSwibmFtZSI6ImFsZXgiLCJlbWFpbCI6ImFsZXhAdXNlci5jb20iLCJzdWIiOiJhbGV4QHVzZXIuY29tIiwiaWF0IjoxNzcxNjkwMzM4LCJleHAiOjE3ODAzMzAzMzh9.K_NSKNvRC8l1Jw-_yTYD6OICIOMYPmOPF-Ms-8CGiAg",
                   "type": "string"
                 }
               ]
@@ -352,7 +372,7 @@
               }
             },
             "url": {
-              "raw": "http://localhost:8888/api/v1/team/invite?userEmail=jane@user.com",
+              "raw": "http://localhost:8888/api/v1/team/invite?userEmail=testUser@user.com",
               "protocol": "http",
               "host": [
                 "localhost"
@@ -367,7 +387,7 @@
               "query": [
                 {
                   "key": "userEmail",
-                  "value": "jane@user.com"
+                  "value": "testUser@user.com"
                 }
               ]
             }
@@ -382,7 +402,7 @@
               "bearer": [
                 {
                   "key": "token",
-                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVEVBTV9NRU1CRVIiLCJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9URUFNX01FTUJFUiJ9XSwibmFtZSI6ImFsZXgiLCJlbWFpbCI6ImFsZXhAdXNlci5jb20iLCJzdWIiOiJhbGV4QHVzZXIuY29tIiwiaWF0IjoxNzcxMjU2NjA4LCJleHAiOjE3Nzk4OTY2MDh9.FH9FZqfXCM8R-LcxtTIU7So6CEB0IWx4Klx8e1DlW8A",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVEVBTV9NRU1CRVIiLCJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9URUFNX01FTUJFUiJ9XSwibmFtZSI6ImFsZXgiLCJlbWFpbCI6ImFsZXhAdXNlci5jb20iLCJzdWIiOiJhbGV4QHVzZXIuY29tIiwiaWF0IjoxNzcxNjkwMzM4LCJleHAiOjE3ODAzMzAzMzh9.K_NSKNvRC8l1Jw-_yTYD6OICIOMYPmOPF-Ms-8CGiAg",
                   "type": "string"
                 }
               ]
@@ -399,7 +419,7 @@
               }
             },
             "url": {
-              "raw": "http://localhost:8888/api/v1/team/register/{hackathonId}",
+              "raw": "http://localhost:8888/api/v1/team/register/1",
               "protocol": "http",
               "host": [
                 "localhost"
@@ -410,7 +430,7 @@
                 "v1",
                 "team",
                 "register",
-                "{hackathonId}"
+                "1"
               ]
             }
           },
@@ -424,7 +444,7 @@
               "bearer": [
                 {
                   "key": "token",
-                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVEVBTV9NRU1CRVIiLCJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9URUFNX01FTUJFUiJ9XSwibmFtZSI6ImFsZXgiLCJlbWFpbCI6ImFsZXhAdXNlci5jb20iLCJzdWIiOiJhbGV4QHVzZXIuY29tIiwiaWF0IjoxNzcxMjU2NjA4LCJleHAiOjE3Nzk4OTY2MDh9.FH9FZqfXCM8R-LcxtTIU7So6CEB0IWx4Klx8e1DlW8A",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVEVBTV9NRU1CRVIiLCJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9URUFNX01FTUJFUiJ9XSwibmFtZSI6ImFsZXgiLCJlbWFpbCI6ImFsZXhAdXNlci5jb20iLCJzdWIiOiJhbGV4QHVzZXIuY29tIiwiaWF0IjoxNzcxNjkwMzM4LCJleHAiOjE3ODAzMzAzMzh9.K_NSKNvRC8l1Jw-_yTYD6OICIOMYPmOPF-Ms-8CGiAg",
                   "type": "string"
                 }
               ]
@@ -433,7 +453,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"url\": \"test.url\"\r\n}",
+              "raw": "{\r\n    \"url\": \"https://test.url\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -441,7 +461,7 @@
               }
             },
             "url": {
-              "raw": "http://localhost:8888/api/v1/team/hackathon/{hackathonId}",
+              "raw": "http://localhost:8888/api/v1/team/hackathon/2",
               "protocol": "http",
               "host": [
                 "localhost"
@@ -452,7 +472,7 @@
                 "v1",
                 "team",
                 "hackathon",
-                "{hackathonId}"
+                "2"
               ]
             }
           },
@@ -466,7 +486,7 @@
               "bearer": [
                 {
                   "key": "token",
-                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVEVBTV9NRU1CRVIiLCJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9URUFNX01FTUJFUiJ9XSwibmFtZSI6ImFsZXgiLCJlbWFpbCI6ImFsZXhAdXNlci5jb20iLCJzdWIiOiJhbGV4QHVzZXIuY29tIiwiaWF0IjoxNzcxMjU2NjA4LCJleHAiOjE3Nzk4OTY2MDh9.FH9FZqfXCM8R-LcxtTIU7So6CEB0IWx4Klx8e1DlW8A",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVEVBTV9NRU1CRVIiLCJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9URUFNX01FTUJFUiJ9XSwibmFtZSI6ImFsZXgiLCJlbWFpbCI6ImFsZXhAdXNlci5jb20iLCJzdWIiOiJhbGV4QHVzZXIuY29tIiwiaWF0IjoxNzcxNjkwMzM4LCJleHAiOjE3ODAzMzAzMzh9.K_NSKNvRC8l1Jw-_yTYD6OICIOMYPmOPF-Ms-8CGiAg",
                   "type": "string"
                 }
               ]
@@ -475,7 +495,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"url\": \"new.url\"\r\n}",
+              "raw": "{\r\n    \"url\": \"https://new.url\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -483,7 +503,7 @@
               }
             },
             "url": {
-              "raw": "http://localhost:8888/api/v1/team/hackathon/{hackathonId}",
+              "raw": "http://localhost:8888/api/v1/team/hackathon/2",
               "protocol": "http",
               "host": [
                 "localhost"
@@ -494,7 +514,7 @@
                 "v1",
                 "team",
                 "hackathon",
-                "{hackathonId}"
+                "2"
               ]
             }
           },
@@ -520,7 +540,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"mentorEmail\": \"alex@staff.com\",\r\n    \"date\": \"2026-02-16\"\r\n}",
+              "raw": "{\r\n    \"mentorEmail\": \"alex@staff.com\",\r\n    \"date\": \"2026-02-23\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -552,7 +572,7 @@
               "bearer": [
                 {
                   "key": "token",
-                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVEVBTV9NRU1CRVIiLCJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9URUFNX01FTUJFUiJ9XSwibmFtZSI6ImFsZXgiLCJlbWFpbCI6ImFsZXhAdXNlci5jb20iLCJzdWIiOiJhbGV4QHVzZXIuY29tIiwiaWF0IjoxNzcxNTAxMDY1LCJleHAiOjE3ODAxNDEwNjV9.INVYdgPtKOO0kzpDQKSlQQ1vey8hXCBnmmtmNTeNg78",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVEVBTV9NRU1CRVIiLCJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9URUFNX01FTUJFUiJ9XSwibmFtZSI6ImFsZXgiLCJlbWFpbCI6ImFsZXhAdXNlci5jb20iLCJzdWIiOiJhbGV4QHVzZXIuY29tIiwiaWF0IjoxNzcxNjAyNDE4LCJleHAiOjE3ODAyNDI0MTh9.8YjU6JZKETjStkdsc8kgj5fdL7xVuY_VGApEvgMX6DU",
                   "type": "string"
                 }
               ]
@@ -561,7 +581,7 @@
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"hackathonId\": 2,\r\n    \"mentorEmail\": \"alex@staff.com\",\r\n    \"slot\": {\r\n        \"startTime\": \"09:00\",\r\n        \"endTime\": \"10:00\"\r\n    },\r\n    \"date\": \"2026-02-16\"\r\n}",
+              "raw": "{\r\n    \"hackathonId\": 2,\r\n    \"mentorEmail\": \"alex@staff.com\",\r\n    \"slot\": {\r\n        \"startTime\": \"09:00\",\r\n        \"endTime\": \"10:00\"\r\n    },\r\n    \"date\": \"2026-02-23\"\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -588,10 +608,20 @@
         {
           "name": "Get Submission",
           "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVEVBTV9NRU1CRVIiLCJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9URUFNX01FTUJFUiJ9XSwibmFtZSI6ImFsZXgiLCJlbWFpbCI6ImFsZXhAdXNlci5jb20iLCJzdWIiOiJhbGV4QHVzZXIuY29tIiwiaWF0IjoxNzcxNjkwMzM4LCJleHAiOjE3ODAzMzAzMzh9.K_NSKNvRC8l1Jw-_yTYD6OICIOMYPmOPF-Ms-8CGiAg",
+                  "type": "string"
+                }
+              ]
+            },
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://localhost:8888/api/v1/team/hackathon/{hackathonId}",
+              "raw": "http://localhost:8888/api/v1/team/hackathon/2",
               "protocol": "http",
               "host": [
                 "localhost"
@@ -602,7 +632,7 @@
                 "v1",
                 "team",
                 "hackathon",
-                "{hackathonId}"
+                "2"
               ]
             }
           },
@@ -611,6 +641,16 @@
         {
           "name": "Get Participating Hackathons",
           "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiVEVBTV9NRU1CRVIiLCJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9URUFNX01FTUJFUiJ9XSwibmFtZSI6ImFsZXgiLCJlbWFpbCI6ImFsZXhAdXNlci5jb20iLCJzdWIiOiJhbGV4QHVzZXIuY29tIiwiaWF0IjoxNzcxNjkwMzM4LCJleHAiOjE3ODAzMzAzMzh9.K_NSKNvRC8l1Jw-_yTYD6OICIOMYPmOPF-Ms-8CGiAg",
+                  "type": "string"
+                }
+              ]
+            },
             "method": "GET",
             "header": [],
             "url": {
@@ -643,7 +683,7 @@
               "bearer": [
                 {
                   "key": "token",
-                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiU1RBRkYiLCJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9TVEFGRiJ9XSwibmFtZSI6ImFsZXgiLCJlbWFpbCI6ImFsZXhAc3RhZmYuY29tIiwic3ViIjoiYWxleEBzdGFmZi5jb20iLCJpYXQiOjE3NzEyNTY5MzUsImV4cCI6MTc3OTg5NjkzNX0.NSXViPvzYE80JVi9BgU-K4AzTtfiVXiaMs62JMyPl1s",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiU1RBRkYiLCJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9TVEFGRiJ9XSwibmFtZSI6ImFsZXgiLCJlbWFpbCI6ImFsZXhAc3RhZmYuY29tIiwic3ViIjoiYWxleEBzdGFmZi5jb20iLCJpYXQiOjE3NzE2OTA2MTEsImV4cCI6MTc4MDMzMDYxMX0.v5sdLNNjjJsFK79eIzBJIdtIqhdccWI1QDIacXe8mLI",
                   "type": "string"
                 }
               ]
@@ -684,7 +724,7 @@
               "bearer": [
                 {
                   "key": "token",
-                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiU1RBRkYiLCJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9TVEFGRiJ9XSwibmFtZSI6ImpvaG4iLCJlbWFpbCI6ImpvaG5Ac3RhZmYuY29tIiwic3ViIjoiam9obkBzdGFmZi5jb20iLCJpYXQiOjE3NzEyNTcxODIsImV4cCI6MTc3OTg5NzE4Mn0.67_nZ8oY_vZN3mU_s_UR7xYjT7zcMMShWh6utIvXwhk",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiU1RBRkYiLCJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9TVEFGRiJ9XSwibmFtZSI6ImpvaG4iLCJlbWFpbCI6ImpvaG5Ac3RhZmYuY29tIiwic3ViIjoiam9obkBzdGFmZi5jb20iLCJpYXQiOjE3NzE2OTA2ODksImV4cCI6MTc4MDMzMDY4OX0.AmpgvO8z4iWvOnNDYgsulJCv_5XQ4emzO3alnPItL9g",
                   "type": "string"
                 }
               ]
@@ -692,7 +732,7 @@
             "method": "POST",
             "header": [],
             "url": {
-              "raw": "http://localhost:8888/api/v1/staff/hackathon/{hackathonId}?teamName={teamName}",
+              "raw": "http://localhost:8888/api/v1/staff/hackathon/3?teamName=team",
               "protocol": "http",
               "host": [
                 "localhost"
@@ -703,12 +743,12 @@
                 "v1",
                 "staff",
                 "hackathon",
-                "{hackathonId}"
+                "3"
               ],
               "query": [
                 {
                   "key": "teamName",
-                  "value": "{teamName}"
+                  "value": "team"
                 }
               ]
             }
@@ -723,7 +763,7 @@
               "bearer": [
                 {
                   "key": "token",
-                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiU1RBRkYiLCJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9TVEFGRiJ9XSwibmFtZSI6ImphbmUiLCJlbWFpbCI6ImphbmVAc3RhZmYuY29tIiwic3ViIjoiamFuZUBzdGFmZi5jb20iLCJpYXQiOjE3NzEyNTcxNDMsImV4cCI6MTc3OTg5NzE0M30.esyPbtTDSWLi3rFtpIrp91cH3PqbWuVykdkaC-2Vjpc",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiU1RBRkYiLCJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9TVEFGRiJ9XSwibmFtZSI6ImphbmUiLCJlbWFpbCI6ImphbmVAc3RhZmYuY29tIiwic3ViIjoiamFuZUBzdGFmZi5jb20iLCJpYXQiOjE3NzE2OTA3MTIsImV4cCI6MTc4MDMzMDcxMn0.L2iI05NV3AQJcYK-sDLRkO3-DQSrnA-6nBncnacFfko",
                   "type": "string"
                 }
               ]
@@ -740,7 +780,7 @@
               }
             },
             "url": {
-              "raw": "http://localhost:8888/api/v1/staff/hackathon/{hackathonId}/{teamName}",
+              "raw": "http://localhost:8888/api/v1/staff/hackathon/3/team",
               "protocol": "http",
               "host": [
                 "localhost"
@@ -751,8 +791,8 @@
                 "v1",
                 "staff",
                 "hackathon",
-                "{hackathonId}",
-                "{teamName}"
+                "3",
+                "team"
               ]
             }
           },
@@ -835,11 +875,21 @@
         {
           "name": "add mentors",
           "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiU1RBRkYiLCJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9TVEFGRiJ9XSwibmFtZSI6ImpvaG4iLCJlbWFpbCI6ImpvaG5Ac3RhZmYuY29tIiwic3ViIjoiam9obkBzdGFmZi5jb20iLCJpYXQiOjE3NzE2OTA3ODcsImV4cCI6MTc4MDMzMDc4N30.sKchNZ-HGaJICEvrItQIyS_GL96TdWmYpLVDzzk0R2w",
+                  "type": "string"
+                }
+              ]
+            },
             "method": "PUT",
             "header": [],
             "body": {
               "mode": "raw",
-              "raw": "{\r\n    \"emailList\": [\r\n        \"email1@email.com\"\r\n    ]\r\n}",
+              "raw": "{\r\n    \"emailList\": [\r\n        \"testUser@staff.com\"\r\n    ]\r\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -847,7 +897,7 @@
               }
             },
             "url": {
-              "raw": "http://localhost:8888/api/v1/staff/hackathon/{hackathonId}/addMentors",
+              "raw": "http://localhost:8888/api/v1/staff/hackathon/2/addMentors",
               "protocol": "http",
               "host": [
                 "localhost"
@@ -858,7 +908,7 @@
                 "v1",
                 "staff",
                 "hackathon",
-                "{hackathonId}",
+                "2",
                 "addMentors"
               ]
             }
@@ -890,7 +940,7 @@
               }
             },
             "url": {
-              "raw": "http://localhost:8888/api/v1/staff/support_request/2/accept",
+              "raw": "http://localhost:8888/api/v1/staff/support_request/1/accept",
               "protocol": "http",
               "host": [
                 "localhost"
@@ -901,7 +951,7 @@
                 "v1",
                 "staff",
                 "support_request",
-                "2",
+                "1",
                 "accept"
               ]
             }
@@ -950,7 +1000,7 @@
               "bearer": [
                 {
                   "key": "token",
-                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiU1RBRkYiLCJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9TVEFGRiJ9XSwibmFtZSI6ImFsZXgiLCJlbWFpbCI6ImFsZXhAc3RhZmYuY29tIiwic3ViIjoiYWxleEBzdGFmZi5jb20iLCJpYXQiOjE3NzE0OTk4NDgsImV4cCI6MTc4MDEzOTg0OH0.9GSWKcZjZiZIHLZJlri269LcwEmSrtIzect47TA-sxY",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiU1RBRkYiLCJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9TVEFGRiJ9XSwibmFtZSI6InRlc3RVc2VyIiwiZW1haWwiOiJ0ZXN0VXNlckBzdGFmZi5jb20iLCJzdWIiOiJ0ZXN0VXNlckBzdGFmZi5jb20iLCJpYXQiOjE3NzE2ODE3NzIsImV4cCI6MTc4MDMyMTc3Mn0.cwsARw5sOzN5yy43OMwP9mOxi7bEU59hNL7YLQkdg6w",
                   "type": "string"
                 }
               ]
@@ -1015,7 +1065,7 @@
               "bearer": [
                 {
                   "key": "token",
-                  "value": "hackathonRepository.findAllWhereIsStaff(staffEmail)",
+                  "value": "eyJhbGciOiJIUzI1NiJ9.eyJyb2xlIjoiU1RBRkYiLCJyb2xlcyI6W3siYXV0aG9yaXR5IjoiUk9MRV9TVEFGRiJ9XSwibmFtZSI6ImFsZXgiLCJlbWFpbCI6ImFsZXhAc3RhZmYuY29tIiwic3ViIjoiYWxleEBzdGFmZi5jb20iLCJpYXQiOjE3NzE0OTk4NDgsImV4cCI6MTc4MDEzOTg0OH0.9GSWKcZjZiZIHLZJlri269LcwEmSrtIzect47TA-sxY",
                   "type": "string"
                 }
               ]
@@ -1023,7 +1073,7 @@
             "method": "GET",
             "header": [],
             "url": {
-              "raw": "http://localhost:8888/api/v1/staff/hackathon/4/submissions",
+              "raw": "http://localhost:8888/api/v1/staff/hackathon/3/submissions",
               "protocol": "http",
               "host": [
                 "localhost"
@@ -1034,7 +1084,7 @@
                 "v1",
                 "staff",
                 "hackathon",
-                "4",
+                "3",
                 "submissions"
               ]
             }
